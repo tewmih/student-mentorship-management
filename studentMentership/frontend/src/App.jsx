@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import LoginPopup from "./components/LoginPopUp.jsx";
 import Mentee from "./pages/Mentee.jsx";
 
+// App component that sets up the routes for the application
 function App() {
     return (
         <>
