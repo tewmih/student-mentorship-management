@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import LoginPopup from "./components/LoginPopUp.jsx";
 import Mentee from "./pages/Mentee.jsx";
-//this is the home page of the app
 
 // App component that sets up the routes for the application
 function App() {
