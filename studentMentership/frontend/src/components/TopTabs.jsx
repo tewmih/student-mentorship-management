@@ -7,7 +7,7 @@ import {Bell, Search, User} from "lucide-react";
 
 export default function TopTabs() {
    return (
-    <div className="flex items-center justify-between  pl-65 pr-15 py-4 bg-white shadow-md">
+    <div className="fixed top-0 right-0 left-3 flex items-center justify-between  pl-65 pr-15 py-4 bg-card shadow-md">
       
       <div className="flex items-center gap-2">
         <input
