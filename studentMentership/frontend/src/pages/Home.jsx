@@ -8,20 +8,23 @@ import { useState } from "react";
 import LoginPopup from "../components/LoginPopUp.jsx";
 
 const Home = () => {
-    const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
-    return (
-        <>
-            {showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : <> </>}
-            <div>
-                <ThemeToggle />
-                <Header setShowLogin={setShowLogin} />
-                <Stats />
-                <FeaturesSection />
-                <Footer />
-            </div>
-        </>
-    );
+  return (
+    <>
+      {showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : <> </>}
+      <div>
+        <ThemeToggle />
+        <Header setShowLogin={setShowLogin} />
+        <div className="h-[100vh]">
+          <Stats />
+          <FeaturesSection />
+        </div>
+
+        <Footer />
+      </div>
+    </>
+  );
 };
 
 export default Home;
