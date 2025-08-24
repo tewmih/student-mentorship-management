@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DepartmentChart from "../components/barGraph/Department-chart";
-import { StatsCard } from "../components/barGraph/stats-card";
+import StatsCard from "../components/barGraph/stats-card";
 import Sidebar from "../components/sidebar/Sidebar";
 import { Users } from "lucide-react";
 import PieChartComponent from "../ui/chart/PieChartComponent";

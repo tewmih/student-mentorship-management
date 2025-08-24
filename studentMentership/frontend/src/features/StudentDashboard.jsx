@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
-import { StatsCard } from "../components/barGraph/stats-card";
+import StatsCard from "../components/barGraph/stats-card";
 import { Users } from "lucide-react";
 import DonutChart from "../ui/chart/DonutChart";
 import LineChart from "../ui/chart/LineChart";

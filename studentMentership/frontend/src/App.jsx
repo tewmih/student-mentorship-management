@@ -31,19 +31,7 @@ function App() {
       </BrowserRouter>
     </>
   );
-    return (
-        <>
-            <BrowserRouter>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/mentee" element={<Mentee />} />
-                    <Route path="/login" element={<LoginPopup />} />
-                </Routes>
-                <Footer />
-            </BrowserRouter>
-        </>
-    );
+    
 }
 
 export default App;

@@ -26,17 +26,15 @@ export function StudentsTable({
   };
 
   return (
-    <Card className="bg-white rounded-lg border-[#e7e7e7]">
+    <Card className="bg-white border-[#e7e7e7]">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold text-start text-[#464255]">
+            <CardTitle className="text-lg font-semibold text-[#464255]">
               {title}
             </CardTitle>
             {subtitle && (
-              <p className="text-sm text-start  text-[#00b087] mt-1">
-                {subtitle}
-              </p>
+              <p className="text-sm text-[#00b087] mt-1">{subtitle}</p>
             )}
           </div>
 
@@ -68,22 +66,6 @@ export function StudentsTable({
           </div>
         </div>
       </CardHeader>
-      {/* Filter Dropdown */}
-      <div className="flex items-center gap-2 text-sm text-[#737373]">
-        <span>Filter by</span>
-        <select
-          className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255]"
-          value={'filterValue'}       // pass from parent StudentsTable state
-          onChange={(e) => onFilter?.(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="name">Name</option>
-          <option value="id">ID</option>
-        </select>
-      </div>
-    </div>
-  </div>
-</CardHeader>
 
       <CardContent>
         <div className="overflow-x-auto">
