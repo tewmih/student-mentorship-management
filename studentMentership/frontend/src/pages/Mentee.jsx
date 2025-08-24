@@ -5,7 +5,7 @@ import TopTabs from "../components/TopTabs.jsx";
 import MyMentor from "../components/MyMentor.jsx";
 import UpcomingSessions from "../components/UpcomingSessions.jsx";
 import Footer from "../components/Footer.jsx";
-import { StudentsTable } from "../components/students-table.jsx";
+import { StudentsTable } from "../components/mentee/students-table.jsx";
 
 const Mentee = () => {
   const [menu, setMenu] = useState([
