@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "StudentID": "STU1001",
+    "FullName": "John Doe",
+    "Email": "john.doe@example.com",
+    "Department": "Computer Science",
+    "Year": 1,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:00:00",
+    "UpdatedAt": "2025-08-06 12:00:00"
+  
+  },
+
+  {
+    "id": 2,
+    "StudentID": "STU1002",
+    "FullName": "Jane Smith",
+    "Email": "jane.smith@example.com",
+    "Department": "Information Technology",
+    "Year": 2,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:05:00",
+    "UpdatedAt": "2025-08-06 12:05:00"
+  },
+  {
+    "id": 3,
+    "StudentID": "STU1003",
+    "FullName": "Alice Johnson",
+    "Email": "alice.johnson@example.com",
+    "Department": "Software Engineering",
+    "Year": 3,
+    "Status": "inactive",
+    "CreatedAt": "2025-08-06 12:10:00",
+    "UpdatedAt": "2025-08-06 12:10:00"
+  },
+  {
+    "id": 4,
+    "StudentID": "STU1004",
+    "FullName": "Bob Williams",
+    "Email": "bob.williams@example.com",
+    "Department": "Computer Science",
+    "Year": 1,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:15:00",
+    "UpdatedAt": "2025-08-06 12:15:00"
+  },
+  {
+    "id": 5,
+    "StudentID": "STU1005",
+    "FullName": "Emily Davis",
+    "Email": "emily.davis@example.com",
+    "Department": "Information Technology",
+    "Year": 2,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:20:00",
+    "UpdatedAt": "2025-08-06 12:20:00"
+  },
+  {
+    "id": 6,
+    "StudentID": "STU1006",
+    "FullName": "Michael Brown",
+    "Email": "michael.brown@example.com",
+    "Department": "Software Engineering",
+    "Year": 4,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:25:00",
+    "UpdatedAt": "2025-08-06 12:25:00"
+  },
+  {
+    "id": 7,
+    "StudentID": "STU1007",
+    "FullName": "Sophia Wilson",
+    "Email": "sophia.wilson@example.com",
+    "Department": "Computer Science",
+    "Year": 3,
+    "Status": "inactive",
+    "CreatedAt": "2025-08-06 12:30:00",
+    "UpdatedAt": "2025-08-06 12:30:00"
+  },
+  {
+    "id": 8,
+    "StudentID": "STU1008",
+    "FullName": "Daniel Martinez",
+    "Email": "daniel.martinez@example.com",
+    "Department": "Information Technology",
+    "Year": 5,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:35:00",
+    "UpdatedAt": "2025-08-06 12:35:00"
+  },
+  {
+    "id": 9,
+    "StudentID": "STU1009",
+    "FullName": "Olivia Anderson",
+    "Email": "olivia.anderson@example.com",
+    "Department": "Software Engineering",
+    "Year": 2,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:40:00",
+    "UpdatedAt": "2025-08-06 12:40:00"
+  },
+  {
+    "id": 10,
+    "StudentID": "STU1010",
+    "FullName": "Liam Thomas",
+    "Email": "liam.thomas@example.com",
+    "Department": "Computer Science",
+    "Year": 4,
+    "Status": "active",
+    "CreatedAt": "2025-08-06 12:45:00",
+    "UpdatedAt": "2025-08-06 12:45:00"
+  }
+]

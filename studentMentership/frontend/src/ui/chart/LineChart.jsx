@@ -17,7 +17,7 @@ const CustomTooltip = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 rounded-lg shadow-lg border">
+      <div className="bg-white p-3 rounded-lg  ">
         <p className="text-sm font-semibold text-gray-800">{`${payload[0].value}% ${valueLabel}`}</p>
         {showDate && payload[0].payload.date && (
           <p className="text-xs text-gray-500">{payload[0].payload.date}</p>
@@ -38,7 +38,7 @@ function LineChart({
   valueLabel = "progress",
   showDate = true,
   className = "",
-  containerClassName = "w-full h-90  mx-auto p-8 bg-white shadow-sm",
+  containerClassName = "w-full h-90  mx-auto p-8 bg-white",
 }) {
   const defaultData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
@@ -68,13 +68,7 @@ function LineChart({
   }
 
   return (
-    <div
-      className={`${containerClassName} ${className}`}
-      style={{
-        boxShadow:
-          "0 1px 2px 0 rgb(0 0 0 / 0.05), -1px 0 2px 0 rgb(0 0 0 / 0.05), 1px 0 2px 0 rgb(0 0 0 / 0.05)",
-      }}
-    >
+    <div className={`${containerClassName} ${className}`}>
       <h2 className="text-2xl font-medium text-gray-800 mb-8">{title}</h2>
 
       <ResponsiveContainer width={width} height={height}>
