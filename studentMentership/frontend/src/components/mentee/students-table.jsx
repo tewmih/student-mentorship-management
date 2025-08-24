@@ -68,6 +68,22 @@ export function StudentsTable({
           </div>
         </div>
       </CardHeader>
+      {/* Filter Dropdown */}
+      <div className="flex items-center gap-2 text-sm text-[#737373]">
+        <span>Filter by</span>
+        <select
+          className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255]"
+          value={'filterValue'}       // pass from parent StudentsTable state
+          onChange={(e) => onFilter?.(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="name">Name</option>
+          <option value="id">ID</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</CardHeader>
 
       <CardContent>
         <div className="overflow-x-auto">

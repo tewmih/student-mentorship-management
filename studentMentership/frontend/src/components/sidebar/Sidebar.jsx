@@ -7,7 +7,7 @@ function Sidebar({
   setActivePage,
 }) {
   return (
-    <div className="w-64 bg-card shadow-md h-screen flex flex-col justify-between p-4">
+    <div className="w-40 bg-card shadow-md h-screen flex flex-col justify-between p-4">
       <div>
         <h2 className="text-xl font-bold mb-6">{title}</h2>
         <ul className="space-y-3">
