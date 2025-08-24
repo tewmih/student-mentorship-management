@@ -4,7 +4,7 @@ function DepartmentChart({ title, totalValue, data, maxValue }) {
   const calculatedMaxValue = maxValue || Math.max(...data.map((d) => d.value));
 
   return (
-    <Card className="bg-white lg:w-[50%] border-[#e7e7e7]">
+    <Card className="bg-white w-[100%] border-[#e7e7e7]">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-[#464255]">
           {title}
