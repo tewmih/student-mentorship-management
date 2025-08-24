@@ -8,7 +8,7 @@ const Header = ({ setShowLogin }) => {
 
   const handleGetStarted = () => {
     // Temporary: navigate directly to dashboard
-    navigate("/meteedashboard");
+    navigate("/login");
 
     // Later: use this instead for popup
     setShowLogin(true);
