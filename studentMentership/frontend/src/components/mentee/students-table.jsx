@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx"
-import { Button } from "./ui/button.jsx"
-import { Input } from "./ui/input.jsx"
-import { Badge } from "./ui/badge.jsx"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card.jsx"
+import { Button } from "../ui/button.jsx"
+import { Input } from "../ui/input.jsx"
+import { Badge } from "../ui/badge.jsx"
 import { Search, ChevronDown } from "lucide-react"
 
 export function StudentsTable({
@@ -89,6 +89,7 @@ export function StudentsTable({
             </tbody>
           </table>
         </div>
+
 
         <div className="flex items-center justify-between mt-6">
           <p className="text-sm text-[#737373]">
