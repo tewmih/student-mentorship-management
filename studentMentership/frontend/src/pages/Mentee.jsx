@@ -87,7 +87,7 @@ const Mentee = () => {
   return (
     <>
       {/* Pass BOTH menu and setMenu */}
-      <SideNavbar menu={menu} />
+      {/* <SideNavbar menu={menu} /> */}
       <TopTabs />
       <MyMentor />
       <UpcomingSessions />
