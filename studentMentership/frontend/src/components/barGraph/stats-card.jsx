@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../../ui/card.jsx"
+import { Card, CardContent } from "../../ui/card.jsx";
 
 export function StatsCard({
   title,
@@ -9,7 +9,7 @@ export function StatsCard({
   iconBgColor = "#00b087/10",
 }) {
   return (
-    <Card className="bg-white border-[#e7e7e7] rounded-lg shadow-sm w-30 h-14">
+    <Card className="bg-white  w-30 h-14">
       <CardContent className="p-3">
         <div className="flex items-center gap-2">
           <div
@@ -20,11 +20,15 @@ export function StatsCard({
           </div>
           <div>
             <p className="text-xs text-[#737373] leading-tight">{title}</p>
-            <p className="text-sm font-bold text-[#464255] leading-tight">{value.toLocaleString()}</p>
-            {subtitle && <p className="text-xs text-[#737373] leading-tight">{subtitle}</p>}
+            <p className="text-sm font-bold text-[#464255] leading-tight">
+              {value.toLocaleString()}
+            </p>
+            {subtitle && (
+              <p className="text-xs text-[#737373] leading-tight">{subtitle}</p>
+            )}
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
