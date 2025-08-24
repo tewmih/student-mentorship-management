@@ -91,7 +91,7 @@ function PieChartComponent({
       <h2 className="text-lg font-semibold text-gray-900 mb-6">{title}</h2>
 
       <div className="flex items-center flex-col sm:flex-row">
-        <div className="relative mb-10">
+        <div className="relative mb-10 ">
           <ResponsiveContainer height={height} width={width}>
             <PieChart>
               <Pie
@@ -116,7 +116,7 @@ function PieChartComponent({
             </PieChart>
           </ResponsiveContainer>
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="absolute  inset-0 flex flex-col items-center justify-center">
             <span className="text-xs text-gray-500">{centerLabel}</span>
             <span className="text-2xl font-bold text-gray-900">
               {totalValue}

@@ -127,7 +127,7 @@ const ChatComponent = ({
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
         {chat.avatar ? (
           <img
-            src="profile.jpg"
+            src="/profile.jpg"
             alt={chat.name}
             className="w-full h-full object-cover"
           />
@@ -188,7 +188,7 @@ const ChatComponent = ({
               >
                 {chat.avatar ? (
                   <img
-                    src="profile.jpg"
+                    src="/profile.jpg"
                     alt={chat.name}
                     className="w-full h-full object-cover"
                   />
@@ -210,7 +210,7 @@ const ChatComponent = ({
               >
                 {chat.avatar ? (
                   <img
-                    src="profile.jpg"
+                    src="/profile.jpg"
                     alt={chat.name}
                     className="w-full h-full object-cover"
                   />
@@ -299,7 +299,7 @@ const ChatComponent = ({
       <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center flex-shrink-0">
         {message.sender?.avatar ? (
           <img
-            src="profile.jpg"
+            src="/profile.jpg"
             alt={message.sender.name}
             className="w-full h-full object-cover"
           />
@@ -338,7 +338,9 @@ const ChatComponent = ({
   return (
     <div
       className={`
-      flex relative h-screen bg-white rounded-lg shadow-sm  w-full ${className}
+
+      flex relative h-[95%]  bg-white rounded-lg shadow-sm mx-10 mt-5 ${className}
+
     `}
     >
       {chatType === "group" && <Sidebar />}
@@ -350,7 +352,7 @@ const ChatComponent = ({
               <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                 {selectedChat.avatar ? (
                   <img
-                    src="profile.jpg"
+                    src="/profile.jpg"
                     alt={selectedChat.name}
                     className="w-full h-full object-cover"
                   />

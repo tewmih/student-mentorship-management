@@ -42,4 +42,3 @@ const dummyDepartmentData = [
   icon={Users}
 />
 ```
-
