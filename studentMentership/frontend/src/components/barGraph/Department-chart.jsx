@@ -4,12 +4,12 @@ function DepartmentChart({ title, totalValue, data, maxValue }) {
   const calculatedMaxValue = maxValue || Math.max(...data.map((d) => d.value));
 
   return (
-    <Card className="bg-white w-[100%] border-[#e7e7e7]">
+    <Card className="bg-white w-[100%] sm:w-[50%] border-[#e7e7e7]">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-[#464255]">
+        <CardTitle className="text-lg text-start font-semibold text-[#464255]">
           {title}
         </CardTitle>
-        <p className="text-2xl font-bold text-[#464255]">
+        <p className="text-2xl font-bold text-start text-[#464255]">
           {typeof totalValue === "number"
             ? totalValue.toLocaleString()
             : totalValue}
