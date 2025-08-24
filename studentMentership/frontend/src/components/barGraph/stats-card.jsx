@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../../ui/card.jsx"
+import { Card, CardContent } from "../../ui/card.jsx";
 
 export default function StatsCard({
   title,
@@ -20,11 +20,15 @@ export default function StatsCard({
           </div>
           <div>
             <p className="text-xs text-[#737373] leading-tight">{title}</p>
-            <p className="text-sm font-bold text-[#464255] leading-tight">{value.toLocaleString()}</p>
-            {subtitle && <p className="text-xs text-[#737373] leading-tight">{subtitle}</p>}
+            <p className="text-sm font-bold text-[#464255] leading-tight">
+              {value.toLocaleString()}
+            </p>
+            {subtitle && (
+              <p className="text-xs text-[#737373] leading-tight">{subtitle}</p>
+            )}
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
