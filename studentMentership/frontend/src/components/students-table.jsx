@@ -1,32 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
+import React, { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx"
+import { Button } from "./ui/button.jsx"
+import { Input } from "./ui/input.jsx"
+import { Badge } from "./ui/badge.jsx"
 import { Search, ChevronDown } from "lucide-react"
-
-interface Student {
-  name: string
-  id: string
-  department: string
-  email: string
-  country: string
-  status: "Active" | "Inactive"
-}
-
-interface StudentsTableProps {
-  title: string
-  subtitle?: string
-  students: Student[]
-  totalEntries?: number
-  currentPage?: number
-  totalPages?: number
-  onSearch?: (term: string) => void
-  onSort?: (field: string) => void
-  onPageChange?: (page: number) => void
-}
 
 export function StudentsTable({
   title,
@@ -38,10 +17,10 @@ export function StudentsTable({
   onSearch,
   onSort,
   onPageChange,
-}: StudentsTableProps) {
+}) {
   const [searchTerm, setSearchTerm] = useState("")
 
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = (value) => {
     setSearchTerm(value)
     onSearch?.(value)
   }
