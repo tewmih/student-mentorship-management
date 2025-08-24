@@ -338,7 +338,7 @@ const ChatComponent = ({
   return (
     <div
       className={`
-      flex relative h-screen bg-white rounded-lg shadow-sm m-10 ${className}
+      flex relative h-screen bg-white rounded-lg shadow-sm  w-full ${className}
     `}
     >
       {chatType === "group" && <Sidebar />}
