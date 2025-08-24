@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card.jsx"
-import { Button } from "../ui/button.jsx"
-import { Input } from "../ui/input.jsx"
-import { Badge } from "../ui/badge.jsx"
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card.jsx"
+import { Button } from "../../ui/button.jsx"
+import { Input } from "../../ui/input.jsx"
+import { Badge } from "../../ui/badge.jsx"
 import { Search, ChevronDown } from "lucide-react"
 
 export function StudentsTable({
@@ -28,30 +28,41 @@ export function StudentsTable({
   return (
     <Card className="bg-white border-[#e7e7e7]">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-[#464255]">{title}</CardTitle>
-            {subtitle && <p className="text-sm text-[#00b087] mt-1">{subtitle}</p>}
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#737373]" />
-              <Input
-                placeholder="search"
-                className="pl-10 w-64 border-[#e7e7e7]"
-                value={searchTerm}
-                onChange={(e) => handleSearchChange(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-2 text-sm text-[#737373]">
-              <span>Short by</span>
-              <Button variant="ghost" className="text-[#464255] font-medium" onClick={() => onSort?.("name")}>
-                Name <ChevronDown className="w-4 h-4 ml-1" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </CardHeader>
+  <div className="flex items-center justify-between">
+    <div>
+      <CardTitle className="text-lg font-semibold text-[#464255]">{title}</CardTitle>
+      {subtitle && <p className="text-sm text-[#00b087] mt-1">{subtitle}</p>}
+    </div>
+
+    <div className="flex items-center gap-4">
+      {/* Search Box */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#737373]" />
+        <Input
+          placeholder="Search by name or ID"
+          className="pl-10 w-64 border-[#e7e7e7]"
+          value={searchTerm}
+          onChange={(e) => handleSearchChange(e.target.value)}
+        />
+      </div>
+
+      {/* Filter Dropdown */}
+      <div className="flex items-center gap-2 text-sm text-[#737373]">
+        <span>Filter by</span>
+        <select
+          className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255]"
+          value={filterValue}       // pass from parent StudentsTable state
+          onChange={(e) => onFilter?.(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="name">Name</option>
+          <option value="id">ID</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</CardHeader>
+
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -89,6 +100,7 @@ export function StudentsTable({
             </tbody>
           </table>
         </div>
+
 
         <div className="flex items-center justify-between mt-6">
           <p className="text-sm text-[#737373]">
