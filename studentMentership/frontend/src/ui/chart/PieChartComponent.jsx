@@ -90,7 +90,7 @@ function PieChartComponent({
     <div className="bg-white p-6 rounded-lg ">
       <h2 className="text-lg font-semibold text-gray-900 mb-6">{title}</h2>
 
-      <div className="flex items-center">
+      <div className="flex items-center flex-col sm:flex-row">
         <div className="relative mr-auto">
           <ResponsiveContainer height={height} width={width}>
             <PieChart>
