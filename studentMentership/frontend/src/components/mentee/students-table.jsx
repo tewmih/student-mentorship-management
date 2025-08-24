@@ -51,7 +51,7 @@ export function StudentsTable({
         <span>Filter by</span>
         <select
           className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255]"
-          value={filterValue}       // pass from parent StudentsTable state
+          value={'filterValue'}       // pass from parent StudentsTable state
           onChange={(e) => onFilter?.(e.target.value)}
         >
           <option value="">All</option>

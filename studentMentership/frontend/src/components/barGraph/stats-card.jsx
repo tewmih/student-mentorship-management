@@ -1,6 +1,6 @@
 import { Card, CardContent } from "../../ui/card.jsx"
 
-export function StatsCard({
+export default function StatsCard({
   title,
   value,
   subtitle,
@@ -9,9 +9,9 @@ export function StatsCard({
   iconBgColor = "#00b087/10",
 }) {
   return (
-    <Card className="bg-white border-[#e7e7e7] rounded-lg shadow-sm w-30 h-14">
+    <Card className="bg-white border-[#e7e7e7] rounded-lg shadow-sm w-50   my-1 justify-around">
       <CardContent className="p-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <div
             className="w-6 h-6 rounded-full flex items-center justify-center"
             style={{ backgroundColor: iconBgColor }}
