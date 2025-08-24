@@ -9,7 +9,7 @@ export default function StatsCard({
   iconBgColor = "#00b087/10",
 }) {
   return (
-    <Card className="bg-white border-[#e7e7e7] rounded-lg shadow-sm w-50   my-1 justify-around">
+    <Card className="bg-white border-[#e7e7e7] rounded-lg  w-50   my-1 justify-around">
       <CardContent className="p-3">
         <div className="flex items-center gap-1">
           <div
