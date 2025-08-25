@@ -3,7 +3,8 @@ import Sidebar from "../components/sidebar/Sidebar.jsx";
 import MentorDashboard from "./mentor-subpages/MentorDashboard.jsx";
 import MenteeAnalysis from "./mentor-subpages/MenteeAnalysis";
 import Messages from "./mentor-subpages/Messages";
-import GiveTask from "./mentor-subpages/GiveTasks";
+import Task from "./mentor-subpages/GivenTask.jsx";
+import Schedule from "./mentor-subpages/Schedule.jsx";
 
 // Placeholder until you create real components
 const PlaceholderPage = ({ pageName }) => <div>{pageName} Page</div>;
@@ -12,9 +13,9 @@ const StudentDashboard = () => <div>Student Dashboard</div>;
 function MentorPage() {
   const navItems = [
     "Dashboard",
-    "Your-Mentees",
-    "Give-Tasks",
-    "Upcomming-Sessions",
+    "My Mentee",
+    "Task",
+    "Schedule",
     "Messages",
     "Settings",
   ];
@@ -25,12 +26,12 @@ function MentorPage() {
     switch (activePage) {
       case "Dashboard":
         return <MentorDashboard />;
-      case "Your-Mentees":
+      case "My Mentee":
         return <MenteeAnalysis />;
-      case "Give-Tasks":
-        return <GiveTask />;
-      case "Upcomming-Sessions": // fixed case
-        return <div>UpcomingSessions</div>;
+      case "Task":
+        return <Task />;
+      case "Schedule": // fixed case
+        return <Schedule />;
       case "Messages":
         return <Messages />;
       case "Settings":
@@ -43,17 +44,19 @@ function MentorPage() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 font-sans">
+    <div className="flex flex-1 pt-20">
       <Sidebar
-        title="Dashboard"
+        title="Mentor"
         navItems={navItems}
         activePage={activePage}
         setActivePage={setActivePage}
+        className=""
       />
-      <div className="flex-1 p-6">{renderContent()}</div>
+      <div className="flex-1  py-2 px-5 overflow-y-auto">
+        {renderContent(activePage)}
+      </div>
     </div>
   );
 }
 
 export default MentorPage;
-
