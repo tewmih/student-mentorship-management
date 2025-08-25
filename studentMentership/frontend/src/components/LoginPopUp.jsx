@@ -1,22 +1,40 @@
 import React, { useState } from "react";
 import { LogIn, X } from "lucide-react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginPopUp = ({ setShowLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Logging in:", { email, password });
-    //navigate to mentee page
-    Navigate("/menee");
+    setError("");
+
+    const trimmedEmail = String(email || "").trim();
+    const trimmedPassword = String(password || "").trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
+      setError("Email and password are required.");
+      return;
+    }
+
+    const isAASTUStudent = /@aastustudent\.edu\.et$/i.test(trimmedEmail);
+
+    // In this prototype, any valid submission redirects to mentee dashboard by default
+    // Additional role-based branching can be added here later if needed.
+    if (isAASTUStudent || true) {
+      navigate("/menteedashboard");
+      setShowLogin?.(false);
+      return;
+    }
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       {/* Popup Card */}
-      <div className="bg-card  text-foreground rounded-lg shadow-lg  md:w-200 md:p-20 relative border border-border">
+      <div className="bg-card text-foreground rounded-lg shadow-lg w-[320px] sm:w-[360px] md:w-[400px] p-6 md:p-8 relative border border-border">
         {/* Close Button */}
         <button
           onClick={() => setShowLogin(false)}
@@ -62,6 +80,13 @@ const LoginPopUp = ({ setShowLogin }) => {
             />
           </div>
 
+          {/* Error message */}
+          {error && (
+            <div className="text-sm text-red-600" role="alert">
+              {error}
+            </div>
+          )}
+
           {/* Password Reset */}
           <div className="text-right">
             <button
@@ -77,7 +102,6 @@ const LoginPopUp = ({ setShowLogin }) => {
           <button
             type="submit"
             className="cosmic-button w-full cursor-pointer text-center"
-            onClick={handleLogin}
           >
             Log In
           </button>
