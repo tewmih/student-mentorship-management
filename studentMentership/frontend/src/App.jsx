@@ -12,6 +12,7 @@ import AASTUStudent from "./features/AASTUStudent.jsx";
 import Mentor from "./features/Mentor.jsx";
 import Chat from "./features/Chat.jsx";
 import Task from "./features/mentor/Task.jsx";
+import StudentUnion from "./pages/StudentUnion/StudentUnion.jsx";
 
 function App() {
   return (
@@ -21,14 +22,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/menteedashboard" element={<Mentee />} />
           <Route path="/login" element={<LoginPopup />} />
-          <Route path="/studentunion">
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="aastustudent" element={<AASTUStudent />} />
-            <Route path="menteeatunion" element={<MenteeAtUnion />} />
-            <Route path="mentoratunion" element={<Mentor />} />
-            <Route path="chatatunion" element={<Chat />} />
-            <Route path="taskatunion" element={<Task />} />
-          </Route>
+          <Route path="/studentunion" element={<StudentUnion />} />
         </Routes>
       </BrowserRouter>
     </>
