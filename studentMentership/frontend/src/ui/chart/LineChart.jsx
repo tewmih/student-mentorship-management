@@ -69,12 +69,12 @@ function LineChart({
 
   return (
     <div className={`${containerClassName} ${className}`}>
-      <h2 className="text-2xl font-medium text-gray-800 ">{title}</h2>
+      {/* /  <h2 className="text-2xl font-medium text-gray-800 ">{title}</h2> */}
 
       <ResponsiveContainer width={width} height={height}>
         <AreaChart
           data={chartData}
-          margin={{ top: 40, right: 40, left: 20, bottom: 60 }}
+          margin={{ top: 40, right: 10, left: 70, bottom: 0 }}
         >
           <defs>
             <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -91,7 +91,6 @@ function LineChart({
             dy={10}
             interval={0}
             angle={-45}
-            textAnchor="end"
             height={80}
           />
           <YAxis hide />
@@ -119,6 +118,9 @@ function LineChart({
           />
         </AreaChart>
       </ResponsiveContainer>
+      <p className="pl-18 text-gray-400">
+        your mentorship dashboard is a visual journey of growth
+      </p>
     </div>
   );
 }
