@@ -84,6 +84,7 @@ const resetPassword = async (req, res) => {
 };
 
 async function login(req, res) {
+  console.log("End point hitted !");
   const { student_id, password } = req.body;
 
   // Validation

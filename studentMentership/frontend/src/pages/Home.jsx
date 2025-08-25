@@ -4,7 +4,7 @@ import ThemeToggle from "../components/ThemeToggle.jsx";
 import Stats from "../components/Stats.jsx";
 import FeaturesSection from "../components/FeaturesSection.jsx";
 import Footer from "../components/Footer.jsx";
-import LoginPopup from "../components/LoginPopUp.jsx";
+import LoginPopup from "./Login.jsx";
 
 
 const Home = () => {

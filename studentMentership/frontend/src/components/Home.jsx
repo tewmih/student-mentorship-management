@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
-import LoginPopUp from "./LoginPopUp";
+import LoginPopUp from "../pages/Login";
 
 const Header = ({ setShowLogin }) => {
   const navigate = useNavigate();
