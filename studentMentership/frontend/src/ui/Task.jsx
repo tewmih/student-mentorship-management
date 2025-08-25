@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 
-const Task = ({ tasks = [] }) => {
+const Task = ({ tasks = [], title, actionType }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("Name");
   const [page, setPage] = useState(1);
@@ -42,10 +42,10 @@ const Task = ({ tasks = [] }) => {
   );
 
   return (
-    <div className="bg-white rounded-2xl  p-6 w-full max-w-3xl mx-auto mt-8">
+    <div className="bg-white rounded-2xl  p-6 w-full max-w-3xl mx-auto">
       {/* Header with title, search, and sort controls */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-        <h2 className="font-bold text-xl">Task List</h2>
+        <h2 className="font-bold text-xl">{title}</h2>
         <div className="flex items-center gap-4">
           <div className="relative w-full sm:w-auto">
             <input
@@ -99,16 +99,16 @@ const Task = ({ tasks = [] }) => {
         <table className="min-w-full text-sm divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
                 Number
               </th>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
-                Task
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
+                {actionType}
               </th>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
                 Due Date
               </th>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
                 Status
               </th>
             </tr>
@@ -156,7 +156,7 @@ const Task = ({ tasks = [] }) => {
       {/* Pagination controls */}
       <div className="flex justify-between mt-4">
         <button className="text-start bg-blue-500 rounded-lg p-2">
-          Add Tasks
+          Add More
         </button>
         <nav className="flex items-center gap-1">
           {/* Previous page button */}
