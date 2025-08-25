@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card.jsx"
 import { Button } from "../../ui/button.jsx"
 import { Input } from "../../ui/input.jsx"
 import { Badge } from "../../ui/badge.jsx"
-import { Search } from "lucide-react"
+import { Search, ChevronUp, ChevronDown } from "lucide-react"
 
 export function StudentsTable({
   title,
@@ -21,6 +21,7 @@ export function StudentsTable({
 }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [localSort, setLocalSort] = useState("")
+  const [sortDirection, setSortDirection] = useState("asc") // 'asc' | 'desc'
 
   const effectiveSort = typeof sortKey === "string" ? sortKey : localSort
 
@@ -40,12 +41,12 @@ export function StudentsTable({
     sorted.sort((a, b) => {
       const aVal = String(a[effectiveSort] ?? "").toLowerCase()
       const bVal = String(b[effectiveSort] ?? "").toLowerCase()
-      if (aVal < bVal) return -1
-      if (aVal > bVal) return 1
+      if (aVal < bVal) return sortDirection === "asc" ? -1 : 1
+      if (aVal > bVal) return sortDirection === "asc" ? 1 : -1
       return 0
     })
     return sorted
-  }, [students, searchTerm, effectiveSort])
+  }, [students, searchTerm, effectiveSort, sortDirection])
 
   const handleSearchChange = (value) => {
     setSearchTerm(value)
@@ -76,20 +77,45 @@ export function StudentsTable({
       {/* Sort Dropdown */}
       <div className="flex items-center gap-2 text-sm text-[#737373]">
         <span>Sort by</span>
-        <select
-          className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255] outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
-          value={typeof sortKey === "string" ? sortKey : localSort}
-          onChange={(e) => {
-            const value = e.target.value
-            setLocalSort(value)
-            onSort?.(value)
-          }}
-        >
-          <option value="">None</option>
-          <option value="name">Name</option>
-          <option value="id">ID</option>
-          <option value="department">Department</option>
-        </select>
+        <div className="relative">
+          <select
+            className={`${effectiveSort ? "border-[#2d9cdb]" : "border-[#e7e7e7]"} appearance-none pr-8 rounded px-2 py-1 text-[#464255] outline-none focus:outline-none focus:ring-2 focus:ring-[#2d9cdb]`}
+            value={typeof sortKey === "string" ? sortKey : localSort}
+            onChange={(e) => {
+              const value = e.target.value
+              setLocalSort(value)
+              onSort?.(value)
+            }}
+          >
+            <option value="">None</option>
+            <option value="name">Name</option>
+            <option value="id">ID</option>
+            <option value="department">Department</option>
+          </select>
+          <ChevronDown className={`w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none ${effectiveSort ? "text-[#2d9cdb]" : "text-[#737373]"}`} />
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            className={`p-1 rounded border border-[#e7e7e7] text-[#464255] outline-none focus:outline-none ${
+              sortDirection === "asc" ? "bg-[#f3f2f7]" : "bg-white"
+            }`}
+            aria-label="Sort ascending"
+            onClick={() => setSortDirection("asc")}
+          >
+            <ChevronUp className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            className={`p-1 rounded border border-[#e7e7e7] text-[#464255] outline-none focus:outline-none ${
+              sortDirection === "desc" ? "bg-[#f3f2f7]" : "bg-white"
+            }`}
+            aria-label="Sort descending"
+            onClick={() => setSortDirection("desc")}
+          >
+            <ChevronDown className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   </div>
