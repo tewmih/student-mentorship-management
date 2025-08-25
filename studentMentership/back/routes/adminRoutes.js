@@ -1,12 +1,16 @@
-const express = require("express");
+import express from "express";
+import { AdminController } from "../controllers/AdminController.js";
+import authenticateJWT from "../middlewares/authMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleware.js";
 const router = express.Router();
-const AdminController = require("../controllers/AdminController");
-const authenticateJWT = require("../middlewares/authMiddleware");
-const roleMiddleware = require("../middlewares/roleMiddleware");
-
-router.use(authenticateJWT, roleMiddleware("admin"));
-
+router.use(authenticateJWT);
+router.get(
+  "/mentors",
+  roleMiddleware(["admin", "student_union"]),
+  AdminController.listMentors
+);
+router.use(roleMiddleware("admin"));
 router.get("/users", AdminController.listUsers);
 router.post("/assign-union/:id", AdminController.assignUnion);
 
-module.exports = router;
+export default router;

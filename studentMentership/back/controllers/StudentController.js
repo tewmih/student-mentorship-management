@@ -1,23 +1,18 @@
 import axios from "axios";
 import user from "../models/user.js";
 import Sequelize from "sequelize";
-
 // Fetch students from another Node API and upsert into DB
 async function fetchFromNode(req, res) {
   const nodeApiUrl = "http://localhost:3000/students";
-
   try {
     const response = await axios.get(nodeApiUrl);
-
     if (!response.data) {
       return res.status(500).json({
         success: false,
         message: "Failed to fetch students from Node API",
       });
     }
-
     const students = response.data;
-
     // Use a transaction for atomic upsert
     const sequelize = user.sequelize;
     await sequelize.transaction(async (t) => {
@@ -30,6 +25,7 @@ async function fetchFromNode(req, res) {
             department: row.Department,
             year: row.Year,
             status: row.Status,
+            region: row.Region,
           },
           { transaction: t }
         );

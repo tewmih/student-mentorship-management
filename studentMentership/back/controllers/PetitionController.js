@@ -2,16 +2,27 @@ import Petition from "../models/petition.js";
 import User from "../models/user.js";
 import { Op } from "sequelize";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
+import Mentee from "../models/mentee.js";
+import Mentor from "../models/mentor.js";
+
 // Submit a petition (mentee requests mentor change)
 async function submitPetition(req, res) {
+  const user = req.user;
+  // first i have to check mentee has mentor assigned ! from MentorMenteeAssignment
+  const assignment = await MentorMenteeAssignment.findOne({
+    where: { mentee_id: user.student_id },
+  });
+
+  if (!assignment) {
+    return res.status(404).json({ message: "No mentor assigned" });
+  }
+
   try {
-    const user = req.user;
     // finding current mentor id from  MentorMenteeAssignment table
     const findMentor = await MentorMenteeAssignment.findOne({
       where: { mentee_id: user.student_id },
     });
     const current_mentor_id = findMentor.mentor_id;
-    console.log("Current mentor ID:", current_mentor_id);
     if (!current_mentor_id) {
       return res.status(404).json({ message: "Current mentor not found" });
     }
@@ -25,7 +36,6 @@ async function submitPetition(req, res) {
       current_mentor_id,
       mentee_id: user.student_id,
     });
-    console.log("Submitting petition", req.body);
     return res
       .status(201)
       .json({ message: "Petition submitted successfully", petition });
@@ -35,10 +45,18 @@ async function submitPetition(req, res) {
   }
 }
 
-// List all petitions with status
 async function listPetitions(req, res) {
   try {
     const petitions = await Petition.findAll({
+      attributes: [
+        "id",
+        "title",
+        "reason",
+        "status",
+        "resolved_at",
+        "createdAt",
+        "updatedAt",
+      ],
       include: [
         {
           model: User,
@@ -51,21 +69,21 @@ async function listPetitions(req, res) {
           attributes: ["id", "student_id", "full_name"],
         },
       ],
+      order: [["createdAt", "DESC"]], // optional: newest petitions first
     });
 
-    return res.json({ petitions });
+    return res.json({ success: true, petitions });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    console.error("Error listing petitions:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 }
-
 // Resolve petition (approve/reject)
 async function resolvePetition(req, res) {
+  console.log("End point hitted !");
   try {
     const { id } = req.params;
     const { status, new_mentor_id } = req.body; // status: "approved" or "rejected"
-
     const petition = await Petition.findByPk(id);
 
     if (!petition) {

@@ -11,7 +11,13 @@ async function listApplications(req, res) {
     const applications = await MentorApplication.findAll({
       where: { status: "pending" },
     });
-    return res.json(applications);
+    // for each application there is mentor and for each mentor  we must find info from User table
+    const mentorIds = applications.map((app) => app.mentor_id);
+    const mentors = await User.findAll({
+      where: { student_id: { [Sequelize.Op.in]: mentorIds } },
+    });
+
+    return res.json({ applications, mentors });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
@@ -20,12 +26,12 @@ async function listApplications(req, res) {
 
 // List accepted mentors
 async function listAcceptedMentors(req, res) {
-  // for debugging
-  console.log("Fetching accepted mentors");
+  console.log("Listing accepted mentors");
   try {
     const mentors = await MentorApplication.findAll({
       where: { status: "approved" },
     });
+    console.log(mentors);
     return res.json(mentors);
   } catch (error) {
     console.error(error);
@@ -34,7 +40,6 @@ async function listAcceptedMentors(req, res) {
 }
 // Approve a mentor application
 async function approveApplication(req, res) {
-  console.log("Approving application:", req.params.id);
   try {
     const { id } = req.params;
     const application = await MentorApplication.findByPk(id);
@@ -72,55 +77,6 @@ async function rejectApplication(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
-
-// // Assign mentor to mentees
-// async function assignMentor(req, res) {
-//   // for debuggig purpose
-//   console.log("Assigning mentor:", req.body);
-//   try {
-//     const { mentor_id, mentee_ids } = req.body;
-
-//     if (!mentor_id || !Array.isArray(mentee_ids) || mentee_ids.length === 0) {
-//       return res
-//         .status(400)
-//         .json({ message: "mentor_id and mentee_ids are required" });
-//     }
-
-//     const mentorApp = await MentorApplication.findByPk(mentor_id);
-//     if (!mentorApp) {
-//       return res.status(404).json({ message: "Mentor application not found" });
-//     }
-
-//     const transaction = await MentorMenteeAssignment.sequelize.transaction();
-
-//     try {
-//       for (const menteeId of mentee_ids) {
-//         await MentorMenteeAssignment.upsert(
-//           {
-//             mentor_id,
-//             mentee_id: menteeId,
-//             assigned_at: new Date(),
-//           },
-//           { transaction }
-//         );
-//       }
-
-//       // Update mentor application status
-//       mentorApp.status = "assigned";
-//       await mentorApp.save({ transaction });
-
-//       await transaction.commit();
-//       return res.json({ message: "Mentor assigned successfully" });
-//     } catch (err) {
-//       await transaction.rollback();
-//       throw err;
-//     }
-//   } catch (error) {
-//     console.error("Error assigning mentor:", error);
-//     return res.status(500).json({ error: "Internal Server Error" });
-//   }
-// }
-
 // List all users
 async function listUsers(req, res) {
   try {
@@ -133,11 +89,8 @@ async function listUsers(req, res) {
 }
 
 async function assignMentor(req, res) {
-  console.log("Assigning mentor:", req.body);
-
   try {
     const { mentor_id, mentee_ids } = req.body;
-    console.log("Received mentor_id:", mentor_id);
 
     if (!mentor_id || !Array.isArray(mentee_ids) || mentee_ids.length === 0) {
       return res

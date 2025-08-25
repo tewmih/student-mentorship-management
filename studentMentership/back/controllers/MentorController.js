@@ -1,8 +1,8 @@
-import MentorApplication from "../models/mentorApplication.js";
-import session from "../models/session.js";
+import Session from "../models/session.js";
 import User from "../models/user.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import Mentor from "../models/mentor.js";
+import MentorApplication from "../models/mentorApplication.js";
 import { Op } from "sequelize";
 
 // List mentees assigned to the logged-in mentor
@@ -27,74 +27,51 @@ async function listMentees(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+//
 
-// Submit a mentor application
 async function submitApplication(req, res) {
-  try {
-    const user = req.user;
-    // for debugging purpose
-    console.log("User submitting application:", user);
-    const { motivation, department, full_name, email } = req.body;
+  // first check mentor hasn't assigned
+  const existingMentor = await Mentor.findOne({
+    where: { mentor_id: req.user.student_id, mentee_assigned: true },
+  });
+  if (existingMentor) {
+    return res.status(400).json({ message: "Mentor already assigned" });
+  }
 
-    if (!motivation || !department || !full_name || !email) {
-      return res.status(400).json({ message: "All fields are required" });
+  try {
+    const user = req.user; // extracted from JWT
+    const { motivation, experience, region } = req.body;
+
+    // Validation
+    if (!motivation || !region) {
+      return res
+        .status(400)
+        .json({ message: "Motivation and region are required" });
     }
     //  inserting into mentor table
     const mentor = await Mentor.create({
       mentor_id: user.student_id,
     });
-
+    // Create mentor application
     const application = await MentorApplication.create({
+      mentor_id: user.student_id, // get from JWT
       motivation,
-      department,
-      full_name,
-      email,
-      mentor_id: user.student_id,
-    });
-    // for debugging purpose
-    console.log("Submitting mentor application", {
-      user_id: User.id,
-      request_data: req.body,
+      experience: experience || null,
+      region,
     });
 
-    return res.status(201).json(application);
+    return res.status(201).json({
+      message: "Application submitted successfully",
+      application,
+    });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    console.error("Submit application error:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 }
-
-// Create a mentorship session
-async function createSession(req, res) {
-  try {
-    const { mentor_id, title, description, scheduled_at, session_type } =
-      req.body;
-
-    if (!mentor_id || !title || !scheduled_at || !session_type) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    if (!["group", "individual"].includes(session_type)) {
-      return res.status(400).json({ message: "Invalid session type" });
-    }
-
-    const session = await MentorshipSession.create({
-      mentor_id,
-      title,
-      description,
-      scheduled_at,
-      session_type,
-    });
-
-    return res.status(201).json(session);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
 export const MentorController = {
   listMentees,
   submitApplication,
-  createSession,
 };

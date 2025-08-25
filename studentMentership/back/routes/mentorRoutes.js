@@ -7,8 +7,8 @@ const router = express.Router();
 router.use(authenticateJWT, roleMiddleware("mentor"));
 router.post("/application", MentorController.submitApplication);
 router.get("/mentees", MentorController.listMentees);
-router.post("/sessions", SessionController.createSession);
-router.get("/sessions", SessionController.listSessions);
-router.post("/session/:id/resources", SessionController.uploadResource);
+router.post("/session/create", SessionController.createSession);
+router.get("/session", SessionController.listSessions);
+router.get("/session/my", SessionController.listSessionsForMentor);
 
 export default router;

@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 import User from "./user.js";
+import Mentor from "./mentor.js";
 
 const MentorshipSession = sequelize.define(
   "MentorshipSession",
@@ -43,6 +44,10 @@ const MentorshipSession = sequelize.define(
 );
 
 // Associations
-MentorshipSession.belongsTo(User, { as: "mentor", foreignKey: "mentor_id" });
+MentorshipSession.belongsTo(Mentor, {
+  as: "mentor",
+  foreignKey: "mentor_id",
+  targetKey: "mentor_id",
+});
 
 export default MentorshipSession;

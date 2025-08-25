@@ -29,17 +29,21 @@ const MentorApplication = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    full_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    experience: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
-    department: {
-      type: DataTypes.STRING,
+    region: {
+      type: DataTypes.ENUM(
+        "Tigray",
+        "Amhara",
+        "Oromia",
+        "SNNP",
+        "Afar",
+        "Somali"
+      ),
       allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: "Tigray",
     },
   },
   {
