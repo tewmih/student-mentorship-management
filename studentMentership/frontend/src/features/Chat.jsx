@@ -165,14 +165,14 @@ function Chat() {
             onTyping={(isTyping) => console.log("Typing:", isTyping)}
           />
         </div>
-        <div className="flex ml-5 flex-col shadow-sm rounded-lg space-y-40 justify-center items-center">
+        <div className="flex ml-5 flex-col  rounded-lg space-y-40 justify-center items-center">
           <ChatButton
-            title="Add session"
+            title="Group Chat"
             icon={<FaArrowAltCircleRight />}
             onClick={() => alert("Add session button clicked!")}
           />
           <ChatButton
-            title="Add task"
+            title="Individual Chat"
             icon={<FaArrowAltCircleRight />}
             onClick={() => alert("Add task button clicked!")}
           />

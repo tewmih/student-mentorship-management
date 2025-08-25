@@ -339,7 +339,7 @@ const ChatComponent = ({
     <div
       className={`
 
-      flex relative h-[95%]  bg-white rounded-lg shadow-sm mx-10 mt-5 ${className}
+      flex relative h-[95%]  bg-white rounded-lg mx-10  ${className}
 
     `}
     >
