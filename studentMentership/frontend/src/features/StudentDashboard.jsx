@@ -1,12 +1,8 @@
-import { useState } from "react";
-import Sidebar from "../components/sidebar/Sidebar";
 import StatsCard from "../components/barGraph/stats-card";
 import { Users } from "lucide-react";
 import DonutChart from "../ui/chart/DonutChart";
 import LineChart from "../ui/chart/LineChart";
 function StudentDashboard() {
-  const [activePage, setActivePage] = useState("Dashboard");
-
   const progressData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
     { label: "March", value: 18, date: "Mar 22nd, 2020" },
@@ -21,16 +17,8 @@ function StudentDashboard() {
     { label: "December", value: 41, date: "Dec 25th, 2020" },
   ];
 
-  // Define the data for the navigation items as an array of strings.
-  const navItems = ["Dashboard", "Analytics", "Settings", "Profile"];
   return (
     <div className="flex flex-row bg-gray-50">
-      <Sidebar
-        title="My App"
-        navItems={navItems}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
       <div className=" rounded-lg  px-5 w-full">
         <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
           <StatsCard

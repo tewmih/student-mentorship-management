@@ -1,6 +1,4 @@
-import Sidebar from "../components/sidebar/Sidebar";
 import ChatComponent from "../ui/chart/Chat";
-import { useState } from "react";
 
 const sampleMessages = [
   {
@@ -24,7 +22,6 @@ const sampleMessages = [
     },
   },
 ];
-const navItems = ["Dashboard", "Analytics", "Settings", "Profile"];
 
 const sampleChatList = [
   {
@@ -152,15 +149,8 @@ const sampleChatList = [
 const currentUser = { id: "jack", name: "Jack Raymonds" };
 
 function Chat() {
-  const [activePage, setActivePage] = useState("Dashboard");
   return (
     <div className="flex flex-row">
-      <Sidebar
-        title="My App"
-        navItems={navItems}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
       <div>
         <ChatComponent
           showSidebar={true}
