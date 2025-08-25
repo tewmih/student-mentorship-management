@@ -1,5 +1,5 @@
-import CalendarComponent from "../ui/Calendar";
-import Task from "../ui/Task";
+import CalendarComponent from "../../ui/Calendar";
+import Task from "../../ui/Task";
 
 const dummyTasks = [
   {

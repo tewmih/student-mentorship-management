@@ -72,9 +72,9 @@ const Header = () => {
               Hello, {user.name}
             </span>
             <img
-              src={user.profilePic}
+              src="/profile.jpg"
               alt={user.name}
-              className="h-10 w-10 cursor-pointer rounded-full object-cover shadow-sm"
+              className="h-10 w-10 cursor-pointer mr-5 rounded-full object-cover shadow-sm"
             />
           </div>
         </div>
