@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header.jsx";
+import Header from "../components/Home.jsx";
 import ThemeToggle from "../components/ThemeToggle.jsx";
 import Stats from "../components/Stats.jsx";
 import FeaturesSection from "../components/FeaturesSection.jsx";
@@ -21,7 +21,7 @@ const Home = () => {
           <Stats />
           <FeaturesSection />
         </div>        
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );

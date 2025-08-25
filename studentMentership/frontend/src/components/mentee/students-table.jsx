@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useMemo, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card.jsx"
@@ -6,6 +6,7 @@ import { Button } from "../../ui/button.jsx"
 import { Input } from "../../ui/input.jsx"
 import { Badge } from "../../ui/badge.jsx"
 import { Search, ChevronUp, ChevronDown } from "lucide-react"
+
 
 export function StudentsTable({
   title,
@@ -48,19 +49,24 @@ export function StudentsTable({
     return sorted
   }, [students, searchTerm, effectiveSort, sortDirection])
 
+
   const handleSearchChange = (value) => {
-    setSearchTerm(value)
-    onSearch?.(value)
-  }
+    setSearchTerm(value);
+    onSearch?.(value);
+  };
 
   return (
     <Card className="bg-white border-[#e7e7e7]">
       <CardHeader>
-  <div className="flex items-center justify-between">
-    <div>
-      <CardTitle className="text-lg font-semibold text-[#464255]">{title}</CardTitle>
-      {subtitle && <p className="text-sm text-[#00b087] mt-1">{subtitle}</p>}
-    </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-semibold text-[#464255]">
+              {title}
+            </CardTitle>
+            {subtitle && (
+              <p className="text-sm text-[#00b087] mt-1">{subtitle}</p>
+            )}
+          </div>
 
     <div className="flex items-center gap-4">
       {/* Search Box */}
@@ -126,22 +132,42 @@ export function StudentsTable({
           <table className="w-full min-w-[700px]">
             <thead>
               <tr className="border-b border-[#e7e7e7]">
-                <th className="text-left py-3 text-sm font-medium text-[#737373]">Student name</th>
-                <th className="text-left py-3 text-sm font-medium text-[#737373]">Id</th>
-                <th className="text-left py-3 text-sm font-medium text-[#737373]">department</th>
-                <th className="text-left py-3 text-sm font-medium text-[#737373]">Email</th>
-                <th className="text-left py-3 text-sm font-medium text-[#737373]">Country</th>
-                <th className="text-left py-3 text-sm font-medium text-[#737373]">Status</th>
+                <th className="text-left py-3 text-sm font-medium text-[#737373]">
+                  Student name
+                </th>
+                <th className="text-left py-3 text-sm font-medium text-[#737373]">
+                  Id
+                </th>
+                <th className="text-left py-3 text-sm font-medium text-[#737373]">
+                  department
+                </th>
+                <th className="text-left py-3 text-sm font-medium text-[#737373]">
+                  Email
+                </th>
+                <th className="text-left py-3 text-sm font-medium text-[#737373]">
+                  Country
+                </th>
+                <th className="text-left py-3 text-sm font-medium text-[#737373]">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody>
               {displayedStudents.map((student, index) => (
                 <tr key={index} className="border-b border-[#f3f2f7]">
-                  <td className="py-4 text-sm text-[#464255] font-medium">{student.name}</td>
+                  <td className="py-4 text-sm text-[#464255] font-medium">
+                    {student.name}
+                  </td>
                   <td className="py-4 text-sm text-[#737373]">{student.id}</td>
-                  <td className="py-4 text-sm text-[#737373]">{student.department}</td>
-                  <td className="py-4 text-sm text-[#737373]">{student.email}</td>
-                  <td className="py-4 text-sm text-[#737373]">{student.country}</td>
+                  <td className="py-4 text-sm text-[#737373]">
+                    {student.department}
+                  </td>
+                  <td className="py-4 text-sm text-[#737373]">
+                    {student.email}
+                  </td>
+                  <td className="py-4 text-sm text-[#737373]">
+                    {student.country}
+                  </td>
                   <td className="py-4">
                     <Badge
                       className={`${
@@ -159,10 +185,10 @@ export function StudentsTable({
           </table>
         </div>
 
-
         <div className="flex items-center justify-between mt-6">
           <p className="text-sm text-[#737373]">
-            Showing data 1 to {students.length} of {totalEntries.toLocaleString()} entries
+            Showing data 1 to {students.length} of{" "}
+            {totalEntries.toLocaleString()} entries
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -175,23 +201,32 @@ export function StudentsTable({
               ‹
             </Button>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = i + 1
+              const page = i + 1;
               return (
                 <Button
                   key={page}
                   variant="ghost"
                   size="sm"
-                  className={page === currentPage ? "bg-[#2d9cdb] text-white hover:bg-[#2d9cdb]/80" : "text-[#737373]"}
+                  className={
+                    page === currentPage
+                      ? "bg-[#2d9cdb] text-white hover:bg-[#2d9cdb]/80"
+                      : "text-[#737373]"
+                  }
                   onClick={() => onPageChange?.(page)}
                 >
                   {page}
                 </Button>
-              )
+              );
             })}
             {totalPages > 5 && (
               <>
                 <span className="text-[#737373]">...</span>
-                <Button variant="ghost" size="sm" className="text-[#737373]" onClick={() => onPageChange?.(totalPages)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-[#737373]"
+                  onClick={() => onPageChange?.(totalPages)}
+                >
                   {totalPages}
                 </Button>
               </>
@@ -209,5 +244,5 @@ export function StudentsTable({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
