@@ -1,52 +1,11 @@
+import { useState } from "react";
 import AASTUStudent from "../../features/AASTUStudent";
 import Chat from "../../features/Chat";
 import Mentee from "../../features/Mentee";
 import Mentor from "../../features/Mentor";
 import StudentDashboard from "../../features/StudentDashboard";
-import React, { useState } from "react";
-// import {
-//   Bell,
-//   Home,
-//   LogOut,
-//   MessageSquare,
-//   PersonStanding,
-//   Settings,
-//   User,
-//   ListTodo,
-//   CalendarDays,
-//   FileText,
-// } from "lucide-react";
-
-function Sidebar({
-  title = "Dashboard",
-  navItems = [],
-  activePage,
-  setActivePage,
-}) {
-  return (
-    <div className="max-w- bg-white shadow-md h-screen flex flex-col justify-between p-4 rounded-r-2xl">
-      <div>
-        <h2 className="text-xl font-bold mb-6 text-gray-800">{title}</h2>
-        <ul className="space-y-3">
-          {navItems.map((item) => (
-            <li
-              key={item}
-              onClick={() => setActivePage(item)}
-              className={`cursor-pointer p-2 rounded-md transition ${
-                activePage === item
-                  ? "bg-blue-600 text-white"
-                  : "hover:bg-gray-200 text-gray-700"
-              }`}
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <button className="mt-4 text-red-500 font-medium">Logout</button>
-    </div>
-  );
-}
+import Task from "../../features/GivenTask";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 function StudentUnion() {
   const navItems = [
@@ -76,7 +35,7 @@ function StudentUnion() {
       case "Messages":
         return <Chat />;
       case "Task":
-        return <PlaceholderPage pageName="Tasks" />;
+        return <Task />;
       case "Application":
         return <PlaceholderPage pageName="Application" />;
       case "Schedule":

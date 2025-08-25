@@ -2,6 +2,13 @@ import StatsCard from "../components/barGraph/stats-card";
 import { Users } from "lucide-react";
 import DonutChart from "../ui/chart/DonutChart";
 import LineChart from "../ui/chart/LineChart";
+import MenteeList from "../components/My-mentee";
+
+const menteesData = [
+  { id: "1", name: "Alice", avatar: "/avatars/alice.png" },
+  { id: "2", name: "Bob", avatar: "/avatars/bob.png" },
+  { id: "3", name: "Charlie", avatar: "/avatars/charlie.png" },
+];
 function StudentDashboard() {
   const progressData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
@@ -18,7 +25,7 @@ function StudentDashboard() {
   ];
 
   return (
-    <div className="flex flex-row bg-gray-50">
+    <div className="flex flex-col sm:flex-row w-[100%] bg-gray-50">
       <div className=" rounded-lg  px-5 w-full">
         <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
           <StatsCard
@@ -48,6 +55,9 @@ function StudentDashboard() {
             tooltipLabel="progress"
           />
         </div>
+      </div>
+      <div className="bg-white shadow-sm rounded-lg">
+        <MenteeList mentees={menteesData} />
       </div>
     </div>
   );
