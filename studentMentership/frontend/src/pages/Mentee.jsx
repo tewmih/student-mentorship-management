@@ -5,7 +5,7 @@ import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";
 import Message from "./mentee-subPages/message.jsx";
 import Schedule from "./mentee-subPages/schedule.jsx";
-import Task from "../ui/Task.jsx";
+import MenteeTask from "./mentee-subPages/task.jsx";
 import MentorSidebar from "../ui/mentee-right-sidebar/mentee-info.jsx";
 import ChatButtons from "../ui/mentee-right-sidebar/chatButtons.jsx";
 import DonutChart from "../ui/chart/DonutChart.jsx";
@@ -19,7 +19,7 @@ const Mentee = () => {
         {/* Sidebar (left) - takes full height */}
         <Sidebar
           title="Mentee"
-          navItems={["Analysis", "Message", "Schedule", "Tasks"]}
+          navItems={["Analysis", "Message", "Schedule", "MenteeTasks"]}
           activePage={activePage}
           setActivePage={(page) => setActivePage(page)}
         />
@@ -53,9 +53,9 @@ const Mentee = () => {
               {activePage === "Home" && <Analysis />}
               {activePage === "Message" && <Message />}
               {activePage === "Schedule" && <Schedule />}
-              {activePage === "Tasks" && <Task />}
+              {activePage === "MenteeTasks" && <MenteeTask />}
               {/* Default to Home if no match */}
-              {!["Home", "Message", "Schedule", "Tasks"].includes(
+              {!["Home", "Message", "Schedule", "MenteeTasks"].includes(
                 activePage
               ) && <Analysis />}
             </div>
@@ -64,7 +64,7 @@ const Mentee = () => {
               {activePage === "Analysis" && <MentorSidebar />}
               {activePage === "Message" && <ChatButtons />}
               {activePage === "Schedule" && <MentorSidebar />}
-              {activePage === "Tasks" && <DonutChart />}
+              {activePage === "MenteeTasks" && <DonutChart />}
             </div>
           </div>
         </div>

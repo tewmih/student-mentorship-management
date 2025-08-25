@@ -1,4 +1,4 @@
-import Task from "../../ui/Task";
+import Task from "../ui/Task";
 
 const dummyTasks = [
   {
@@ -38,7 +38,13 @@ const dummyTasks = [
     status: "pending",
   },
 ];
-function MenteeTask() {
-  return <Task tasks={dummyTasks} title={"Task List"} actionType={"Task"} />;
+function Schedule() {
+  return (
+    <Task
+      tasks={dummyTasks}
+      title={"Up Comming Session"}
+      actionType={"Session"}
+    />
+  );
 }
-export default MenteeTask;
+export default Schedule;
