@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card.jsx"
 import { Button } from "../../ui/button.jsx"
 import { Input } from "../../ui/input.jsx"
@@ -17,8 +17,29 @@ export function StudentsTable({
   onSearch,
   onSort,
   onPageChange,
+  onFilter,
+  filterValue = "",
 }) {
   const [searchTerm, setSearchTerm] = useState("")
+
+  const displayedStudents = useMemo(() => {
+    const normalizedQuery = searchTerm.trim().toLowerCase()
+    if (!normalizedQuery) return students
+
+    if (filterValue === "name") {
+      return students.filter((s) => String(s.name || "").toLowerCase().includes(normalizedQuery))
+    }
+
+    if (filterValue === "id") {
+      return students.filter((s) => String(s.id || "").toLowerCase().includes(normalizedQuery))
+    }
+
+    return students.filter(
+      (s) =>
+        String(s.name || "").toLowerCase().includes(normalizedQuery) ||
+        String(s.id || "").toLowerCase().includes(normalizedQuery)
+    )
+  }, [students, searchTerm, filterValue])
 
   const handleSearchChange = (value) => {
     setSearchTerm(value)
@@ -40,7 +61,7 @@ export function StudentsTable({
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#737373]" />
         <Input
           placeholder="Search by name or ID"
-          className="pl-10 w-64 border-[#e7e7e7]"
+          className="pl-10 w-64 border-[#e7e7e7] outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
           value={searchTerm}
           onChange={(e) => handleSearchChange(e.target.value)}
         />
@@ -77,7 +98,7 @@ export function StudentsTable({
               </tr>
             </thead>
             <tbody>
-              {students.map((student, index) => (
+              {displayedStudents.map((student, index) => (
                 <tr key={index} className="border-b border-[#f3f2f7]">
                   <td className="py-4 text-sm text-[#464255] font-medium">{student.name}</td>
                   <td className="py-4 text-sm text-[#737373]">{student.id}</td>
