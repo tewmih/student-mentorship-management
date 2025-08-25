@@ -61,7 +61,7 @@ const CustomLegend = ({ payload }) => {
 
 function PieChartComponent({
   data = [], // Added default empty array for data prop
-  title = "Pie Chart",
+  title = "Students percentage in batch",
   colors = DEFAULT_COLORS,
   width = 240,
   height = 240,
@@ -88,7 +88,7 @@ function PieChartComponent({
 
   return (
     <div className="bg-white p-6 rounded-lg ">
-      <h2 className="text-lg font-semibold text-gray-900 mb-6">{title}</h2>
+      <h2 className="text-start text-gray-900 mb-6">{title}</h2>
 
       <div className="flex items-center flex-col sm:flex-row">
         <div className="relative mb-10 ">

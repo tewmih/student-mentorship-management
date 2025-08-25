@@ -6,10 +6,8 @@ function DepartmentChart({ title, totalValue, data, maxValue }) {
   return (
     <Card className="bg-white w-[100%] sm:w-[50%] border-[#e7e7e7]">
       <CardHeader>
-        <CardTitle className="text-lg text-start font-semibold text-[#464255]">
-          {title}
-        </CardTitle>
-        <p className="text-2xl font-bold text-start text-[#464255]">
+        <CardTitle className=" text-start  text-[#464255]">{title}</CardTitle>
+        <p className=" text-start text-[#464255]">
           {typeof totalValue === "number"
             ? totalValue.toLocaleString()
             : totalValue}
