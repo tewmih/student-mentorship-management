@@ -1,5 +1,6 @@
 import ChatComponent from "../ui/chart/Chat";
-
+import { FaArrowAltCircleRight } from "react-icons/fa";
+import ChatButton from "../ui/Buttonn";
 const sampleMessages = [
   {
     id: 1,
@@ -150,18 +151,32 @@ const currentUser = { id: "jack", name: "Jack Raymonds" };
 
 function Chat() {
   return (
-    <div className="flex flex-row">
-      <div>
-        <ChatComponent
-          showSidebar={true}
-          chatType="group"
-          messages={sampleMessages}
-          chatList={sampleChatList}
-          pinnedChats={sampleChatList.slice(0, 2)}
-          currentUser={currentUser}
-          onSendMessage={(message) => console.log("Send message:", message)}
-          onTyping={(isTyping) => console.log("Typing:", isTyping)}
-        />
+    <div className=" w-[100%] bg-gray-50">
+      <div className="flex flex-col sm:flex-row rounded-lg overflow-y-scroll h-screen px-5 w-full">
+        <div className="w-full">
+          <ChatComponent
+            showSidebar={true}
+            chatType="group"
+            messages={sampleMessages}
+            chatList={sampleChatList}
+            pinnedChats={sampleChatList.slice(0, 2)}
+            currentUser={currentUser}
+            onSendMessage={(message) => console.log("Send message:", message)}
+            onTyping={(isTyping) => console.log("Typing:", isTyping)}
+          />
+        </div>
+        <div className="flex ml-5 flex-col shadow-sm rounded-lg space-y-40 justify-center items-center">
+          <ChatButton
+            title="Add session"
+            icon={<FaArrowAltCircleRight />}
+            onClick={() => alert("Add session button clicked!")}
+          />
+          <ChatButton
+            title="Add task"
+            icon={<FaArrowAltCircleRight />}
+            onClick={() => alert("Add task button clicked!")}
+          />
+        </div>
       </div>
     </div>
   );

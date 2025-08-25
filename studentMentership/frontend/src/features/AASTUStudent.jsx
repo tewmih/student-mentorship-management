@@ -55,37 +55,39 @@ const studentsData = [
 
 function AASTUStudent() {
   return (
-    <div className="flex flex-row  bg-gray-50">
+    <div className="flex flex-col sm:flex-row w-[100%] bg-gray-50">
       <div className=" rounded-lg overflow-y-scroll h-screen px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
-          <StatsCard
-            title="Students"
-            value={5423}
-            subtitle="2025"
-            icon={Users}
-          />
-          <StatsCard
-            title="Students"
-            value={5423}
-            subtitle="2025"
-            icon={Users}
-          />
-          <StatsCard
-            title="Students"
-            value={5423}
-            subtitle="2025"
-            icon={Users}
-          />
-        </div>
-        <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
-          <DepartmentChart
-            data={dummyDepartmentData}
-            title="AASTU STUDENT"
-            totalValue={207388}
-            maxValue={80000}
-          />
-          <div>
-            <PieChartComponent data={data1} />
+        <div className="h-screen">
+          <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
+            <StatsCard
+              title="Students"
+              value={5423}
+              subtitle="2025"
+              icon={Users}
+            />
+            <StatsCard
+              title="Students"
+              value={5423}
+              subtitle="2025"
+              icon={Users}
+            />
+            <StatsCard
+              title="Students"
+              value={5423}
+              subtitle="2025"
+              icon={Users}
+            />
+          </div>
+          <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
+            <DepartmentChart
+              data={dummyDepartmentData}
+              title="AASTU STUDENT"
+              totalValue={207388}
+              maxValue={80000}
+            />
+            <div>
+              <PieChartComponent data={data1} />
+            </div>
           </div>
         </div>
         <StudentsTable
