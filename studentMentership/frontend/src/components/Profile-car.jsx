@@ -1,6 +1,3 @@
-
-
-
 function ProfileCard({ name, avatar, className = "" }) {
   return (
     <div

@@ -38,7 +38,7 @@ function LineChart({
   valueLabel = "progress",
   showDate = true,
   className = "",
-  containerClassName = "w-full h-90  mx-auto p-8 bg-white",
+  containerClassName = "w-full h-90 text-start  mx-auto  bg-white",
 }) {
   const defaultData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
@@ -59,7 +59,7 @@ function LineChart({
   if (!chartData || chartData.length === 0) {
     return (
       <div className={containerClassName}>
-        <h2 className="text-2xl font-medium text-gray-800 mb-8">{title}</h2>
+        <h2 className=" font-medium text-gray-800 mb-8">{title}</h2>
         <div className="flex items-center justify-center h-64 text-gray-500">
           No data available
         </div>
@@ -69,7 +69,7 @@ function LineChart({
 
   return (
     <div className={`${containerClassName} ${className}`}>
-      <h2 className="text-2xl font-medium text-gray-800 mb-8">{title}</h2>
+      <h2 className="text-2xl font-medium text-gray-800 ">{title}</h2>
 
       <ResponsiveContainer width={width} height={height}>
         <AreaChart

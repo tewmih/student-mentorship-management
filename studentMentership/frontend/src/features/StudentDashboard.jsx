@@ -25,9 +25,9 @@ function StudentDashboard() {
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row w-[100%] bg-gray-50">
+    <div className="flex flex-col sm:flex-row w-[100%]  bg-gray-50">
       <div className=" rounded-lg  px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-white mb-5  w-auto">
+        <div className="flex flex-row justify-between h-20 bg-white  w-auto">
           <StatsCard
             title="Students"
             value={5423}
@@ -47,7 +47,7 @@ function StudentDashboard() {
             icon={Users}
           />
         </div>
-        <div className="flex flex-col bg-white sm:flex-row justify-center items-center">
+        <div className="flex flex-col bg-white mt-5 sm:flex-row justify-center items-center">
           <DonutChart />
           <LineChart
             data={progressData}
@@ -56,7 +56,7 @@ function StudentDashboard() {
           />
         </div>
       </div>
-      <div className="bg-white shadow-sm rounded-lg">
+      <div className="bg-white  rounded-lg">
         <MenteeList mentees={menteesData} />
       </div>
     </div>
