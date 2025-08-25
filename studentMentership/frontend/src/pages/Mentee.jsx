@@ -1,5 +1,5 @@
 import Sidebar from "../components/sidebar/Sidebar.jsx";
-import Footer from "../components/Footer.jsx";
+
 import StatsCard from "../components/barGraph/stats-card.jsx";
 import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";
@@ -69,8 +69,6 @@ const Mentee = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };
