@@ -81,7 +81,7 @@ function AASTUStudent() {
           <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
             <DepartmentChart
               data={dummyDepartmentData}
-              title="AASTU STUDENT"
+              title="Addis Ababa Science and Technology University Students"
               totalValue={207388}
               maxValue={80000}
             />
