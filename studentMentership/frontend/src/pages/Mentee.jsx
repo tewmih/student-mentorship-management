@@ -77,7 +77,8 @@ const Mentee = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+
+      <Footer />
     </>
   );
 };
