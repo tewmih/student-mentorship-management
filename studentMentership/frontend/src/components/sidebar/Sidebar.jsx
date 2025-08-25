@@ -15,7 +15,7 @@ function Sidebar({
             <li
               key={item}
               onClick={() => setActivePage(item)}
-              className={`cursor-pointer p-2 rounded-md transition ${
+              className={`cursor-pointer py-2 transition ${
                 activePage === item
                   ? "bg-primary text-white"
                   : "hover:bg-border"
