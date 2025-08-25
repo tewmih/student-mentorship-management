@@ -1,8 +1,9 @@
-import TasksTable from "../ui/TaskTable";
+import Task from "../ui/Task";
 import StatsCard from "../components/barGraph/stats-card";
 import { IoMdAddCircle } from "react-icons/io";
 import ChatButton from "../ui/Buttonn";
 import { Users } from "lucide-react";
+import DonutChart from "../ui/chart/DonutChart";
 function GiveTask() {
   const tasks = [
     {
@@ -43,9 +44,9 @@ function GiveTask() {
   ];
 
   return (
-    <div className="flex sm:flex-row w-[100%] bg-gray-50">
+    <div className="flex sm:flex-row w-[100%] bg-gray-50 mt-5">
       <div className=" rounded-lg overflow-y-scroll flex flex-col sm:flex-row h-screen w-full px-5 ">
-        <div className="flex flex-col w-full ">
+        <div className="flex flex-col w-full mr-5 ">
           <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
             <StatsCard
               title="Students"
@@ -67,20 +68,11 @@ function GiveTask() {
             />
           </div>
           <div>
-            <TasksTable tasks={tasks} />
+            <Task tasks={tasks} />
           </div>
         </div>
-        <div className="flex ml-5 flex-col shadow-sm rounded-lg space-y-40 justify-center items-center">
-          <ChatButton
-            title="Add session"
-            icon={IoMdAddCircle}
-            onClick={() => alert("Add session button clicked!")}
-          />
-          <ChatButton
-            title="Add task"
-            icon={IoMdAddCircle}
-            onClick={() => alert("Add task button clicked!")}
-          />
+        <div className="bg-white mt-5 flex justify-center items-center sm:mt-0">
+          <DonutChart />
         </div>
       </div>
     </div>
