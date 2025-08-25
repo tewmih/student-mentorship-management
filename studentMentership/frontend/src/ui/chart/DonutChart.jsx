@@ -2,7 +2,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const DonutChart = ({
   percentage = 0,
-  title = "Progress",
+  title = "keep up your progress",
   size = 200,
   strokeWidth = 20,
   activeColor = "#10b981", // emerald-500
@@ -36,47 +36,54 @@ const DonutChart = ({
   };
 
   return (
-    <div className={`flex flex-col items-center ${className}`}>
-      <div className="relative" style={{ width: size, height: size }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="50%"
-              innerRadius={size * 0.3}
-              outerRadius={size * 0.45}
-              startAngle={90}
-              endAngle={450}
-              dataKey="value"
-              stroke="none"
+    <div className="flex flex-col">
+      <div
+        className={`flex justify-center items-center  flex-col   h-80   ${className}`}
+      >
+        <div
+          className="relative flex justify-center items-center  h-full"
+          style={{ width: size, height: size }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={size * 0.3}
+                outerRadius={size * 0.45}
+                startAngle={90}
+                endAngle={450}
+                dataKey="value"
+                stroke="none"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              {showTooltip && <Tooltip content={<CustomTooltip />} />}
+            </PieChart>
+          </ResponsiveContainer>
+
+          {/* Center text */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span
+              className="text-2xl font-bold"
+              style={{ color: centerTextColor }}
             >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-            {showTooltip && <Tooltip content={<CustomTooltip />} />}
-          </PieChart>
-        </ResponsiveContainer>
-
-        {/* Center text */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className="text-2xl font-bold"
-            style={{ color: centerTextColor }}
-          >
-            {percentage}%
-          </span>
+              {percentage}%
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* Title */}
-      <h3
-        className="mt-4 text-sm font-medium text-center"
+        {/* Title */}
+      </div>
+      <p
+        className=" text-sm align-text-bottom h-10 font-medium text-center"
         style={{ color: titleColor }}
       >
         {title}
-      </h3>
+      </p>
     </div>
   );
 };
