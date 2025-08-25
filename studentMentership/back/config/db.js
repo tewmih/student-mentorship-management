@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize("mentorship-node", "root", "", {
+const sequelize = new Sequelize("Integrate", "root", "", {
   host: "localhost",
   dialect: "mysql",
   logging: false,

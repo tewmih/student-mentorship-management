@@ -1,8 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import user from "./user.js";
+import Mentee from "./mentee.js";
 import MentorshipSession from "./session.js";
-
 const SessionAttendance = sequelize.define(
   "SessionAttendance",
   {
@@ -21,11 +20,11 @@ const SessionAttendance = sequelize.define(
       onDelete: "CASCADE",
     },
     mentee_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: false,
       references: {
-        model: "users",
-        key: "id",
+        model: Mentee,
+        key: "mentee_id",
       },
       onDelete: "CASCADE",
     },
@@ -34,22 +33,21 @@ const SessionAttendance = sequelize.define(
       defaultValue: false,
       allowNull: false,
     },
-    feedback: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
   },
   {
     timestamps: true,
     tableName: "session_attendance",
   }
 );
-
 // Associations
 SessionAttendance.belongsTo(MentorshipSession, {
   as: "session",
   foreignKey: "session_id",
 });
-SessionAttendance.belongsTo(user, { as: "mentee", foreignKey: "mentee_id" });
+
+SessionAttendance.belongsTo(Mentee, {
+  as: "mentee",
+  foreignKey: "mentee_id",
+});
 
 export default SessionAttendance;

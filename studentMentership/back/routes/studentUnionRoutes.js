@@ -4,7 +4,7 @@ import { PetitionController } from "../controllers/PetitionController.js";
 import authenticateJWT from "../middlewares/authMiddleware.js";
 import roleMiddleware from "../middlewares/roleMiddleware.js";
 const router = express.Router();
-router.use(authenticateJWT, roleMiddleware("student_union"));
+router.use(authenticateJWT, roleMiddleware(["student_union", "admin"]));
 router.get("/mentor-applications", StudentUnionController.listApplications);
 router.get("/accepted-mentors", StudentUnionController.listAcceptedMentors);
 router.post(

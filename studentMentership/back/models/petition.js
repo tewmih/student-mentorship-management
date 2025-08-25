@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 import User from "./user.js";
+import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 const Petition = sequelize.define(
   "Petition",
   {
@@ -17,7 +18,7 @@ const Petition = sequelize.define(
       type: DataTypes.STRING(20),
       allowNull: false,
       references: {
-        model: "mentees",
+        model: MentorMenteeAssignment,
         key: "mentee_id",
       },
       onDelete: "CASCADE",
@@ -26,7 +27,7 @@ const Petition = sequelize.define(
       type: DataTypes.STRING(20),
       allowNull: false,
       references: {
-        model: "mentors",
+        model: MentorMenteeAssignment,
         key: "mentor_id",
       },
       onDelete: "CASCADE",
@@ -46,16 +47,20 @@ const Petition = sequelize.define(
     },
   },
   {
-    timestamps: true, // createdAt & updatedAt
-    tableName: "petitions",
+    timestamps: true,
   }
 );
 
 // Associations
-Petition.belongsTo(User, { as: "mentee", foreignKey: "mentee_id" });
+Petition.belongsTo(User, {
+  as: "mentee",
+  foreignKey: "mentee_id",
+  targetKey: "student_id",
+});
 Petition.belongsTo(User, {
   as: "current_mentor",
   foreignKey: "current_mentor_id",
+  targetKey: "student_id",
 });
 
 export default Petition;

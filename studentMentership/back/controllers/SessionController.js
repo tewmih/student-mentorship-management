@@ -1,20 +1,18 @@
 import MentorshipSession from "../models/session.js";
-import SessionAttendance from "./../models/SessionAttendance.js";
+import SessionAttendance from "./../models/sessionAttendance.js";
+import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import User from "../models/user.js";
 // Mentor schedules a new mentorship session
 async function createSession(req, res) {
   try {
     const { title, description, scheduled_at, session_type } = req.body;
-    const mentor_id = req.user.id; // JWT middleware
-
+    const mentor_id = req.user.student_id; // JWT middleware
     if (!title || !scheduled_at || !session_type) {
       return res.status(400).json({ message: "Missing required fields" });
     }
-
     if (!["group", "individual"].includes(session_type)) {
       return res.status(400).json({ message: "Invalid session type" });
     }
-
     const session = await MentorshipSession.create({
       mentor_id,
       title,
@@ -22,7 +20,6 @@ async function createSession(req, res) {
       scheduled_at,
       session_type,
     });
-
     return res.status(201).json(session);
   } catch (error) {
     console.error(error);
@@ -30,11 +27,35 @@ async function createSession(req, res) {
   }
 }
 
-// List sessions for logged-in mentor
+// List sessions assigned to logged-in mentee
+async function listMySessions(req, res) {
+  try {
+    const mentee_id = req.user.student_id; // From JWT middleware
+    // Find mentor for this mentee from MentorMenteeAssignment
+    const assignment = await MentorMenteeAssignment.findOne({
+      where: { mentee_id },
+    });
+
+    if (!assignment) {
+      return res.status(404).json({ message: "Mentor not found" });
+    }
+
+    const mentor_id = assignment.mentor_id;
+    // find all sessions created by this mentor
+    const sessions = await MentorshipSession.findAll({
+      where: { mentor_id },
+    });
+
+    return res.json({ sessions });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+// List sessions for logged-in
 async function listSessions(req, res) {
   try {
     const mentor_id = req.user.id;
-
     const sessions = await MentorshipSession.findAll({
       where: { mentor_id },
       include: [
@@ -51,64 +72,7 @@ async function listSessions(req, res) {
         },
       ],
     });
-
     return res.json({ sessions });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-// List sessions assigned to logged-in mentee
-async function listMySessions(req, res) {
-  try {
-    const mentee_id = req.user.id;
-
-    const attendances = await SessionAttendance.findAll({
-      where: { mentee_id },
-      include: [
-        {
-          model: MentorshipSession,
-          as: "session",
-          include: [
-            {
-              model: User,
-              as: "mentor",
-              attributes: ["id", "full_name", "student_id"],
-            },
-          ],
-        },
-      ],
-    });
-
-    return res.json({ attendances });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-// Upload resource (file) for a specific session
-async function uploadResource(req, res) {
-  try {
-    const session_id = req.params.id;
-    const { file_url } = req.body; // Assuming you store file URL in DB
-
-    if (!file_url) {
-      return res.status(400).json({ message: "File URL is required" });
-    }
-
-    const session = await MentorshipSession.findByPk(session_id);
-
-    if (!session) {
-      return res.status(404).json({ message: "Session not found" });
-    }
-
-    // Assuming you have a resources field or a separate Resource model
-    // Here we just log for simplicity
-    console.log(`Resource uploaded for session ${session_id}: ${file_url}`);
-
-    return res.json({ message: "Resource uploaded successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
@@ -144,10 +108,26 @@ async function submitFeedback(req, res) {
   }
 }
 
+// list all sessions created by a mentor
+const listSessionsForMentor = async (req, res) => {
+  try {
+    const mentor_id = req.user.student_id;
+    // find latest one
+    const sessions = await MentorshipSession.findAll({
+      where: { mentor_id },
+      order: [["createdAt", "DESC"]],
+    });
+    return res.json({ sessions });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const SessionController = {
   createSession,
   listSessions,
   listMySessions,
-  uploadResource,
+  listSessionsForMentor,
   submitFeedback,
 };

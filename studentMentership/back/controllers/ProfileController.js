@@ -39,9 +39,6 @@ export const showProfile = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  console.log("req.body:", req.body);
-  console.log("req.files:", req.files);
-
   try {
     const userId = req.user.id;
     const result = await user.findByPk(userId);

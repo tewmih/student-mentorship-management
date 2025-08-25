@@ -5,13 +5,10 @@ import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 async function viewAssignedMentor(req, res) {
   try {
     const menteeId = req.user.student_id;
-    // For debugging purpose
-    console.log("Fetching assigned mentor for mentee:", menteeId);
+
     const assignedMentor = await MentorMenteeAssignment.findOne({
       where: { mentee_id: menteeId },
     });
-    // for debugging purpose
-    console.log("Assigned mentor:", assignedMentor);
     if (!assignedMentor) {
       return res.status(404).json({ message: "No mentor assigned" });
     }
