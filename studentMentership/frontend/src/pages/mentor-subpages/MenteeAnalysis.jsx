@@ -26,7 +26,7 @@ function MenteeAnalysis() {
   return (
     <div className="flex flex-row  bg-gray-50">
       <div className=" rounded-lg overflow-y-scroll h-screen px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
+        <div className="flex flex-row justify-between h-20 bg-white mb-5  w-auto">
           <StatsCard
             title="Students"
             value={5423}
