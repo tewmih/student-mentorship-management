@@ -47,7 +47,7 @@ function GiveTask() {
     <div className="flex sm:flex-row w-[100%] bg-gray-50 mt-5">
       <div className=" rounded-lg overflow-y-scroll flex flex-col sm:flex-row h-screen w-full px-5 ">
         <div className="flex flex-col w-full mr-5 ">
-          <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
+          <div className="flex flex-row justify-between h-20 bg-white mb-5 w-auto">
             <StatsCard
               title="Students"
               value={5423}

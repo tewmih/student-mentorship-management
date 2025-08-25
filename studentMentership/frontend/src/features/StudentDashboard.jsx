@@ -27,7 +27,7 @@ function StudentDashboard() {
   return (
     <div className="flex flex-col sm:flex-row w-[100%] bg-gray-50">
       <div className=" rounded-lg  px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
+        <div className="flex flex-row justify-between h-20 bg-white mb-5  w-auto">
           <StatsCard
             title="Students"
             value={5423}
