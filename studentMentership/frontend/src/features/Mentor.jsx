@@ -1,7 +1,6 @@
-import { useState } from "react";
 import DepartmentChart from "../components/barGraph/Department-chart";
 import StatsCard from "../components/barGraph/stats-card";
-import Sidebar from "../components/sidebar/Sidebar";
+
 import { Users } from "lucide-react";
 import PieChartComponent from "../ui/chart/PieChartComponent";
 import { StudentsTable } from "../components/mentee/students-table";
@@ -54,17 +53,9 @@ const studentsData = [
   },
 ];
 
-const navItems = ["Dashboard", "Analytics", "Settings", "Profile"];
 function Mentor() {
-  const [activePage, setActivePage] = useState("Dashboard");
   return (
     <div className="flex flex-row  bg-gray-50">
-      <Sidebar
-        title="My App"
-        navItems={navItems}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
       <div className=" rounded-lg overflow-y-scroll h-screen px-5 w-full">
         <div className="flex flex-row justify-between h-20 bg-white mb-5 shadow-sm w-auto">
           <StatsCard
