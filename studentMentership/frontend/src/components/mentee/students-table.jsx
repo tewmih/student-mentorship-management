@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card.jsx"
 import { Button } from "../../ui/button.jsx"
 import { Input } from "../../ui/input.jsx"
 import { Badge } from "../../ui/badge.jsx"
-import { Search, ChevronDown } from "lucide-react"
+import { Search } from "lucide-react"
 
 export function StudentsTable({
   title,
@@ -17,29 +17,35 @@ export function StudentsTable({
   onSearch,
   onSort,
   onPageChange,
-  onFilter,
-  filterValue = "",
+  sortKey,
 }) {
   const [searchTerm, setSearchTerm] = useState("")
+  const [localSort, setLocalSort] = useState("")
+
+  const effectiveSort = typeof sortKey === "string" ? sortKey : localSort
 
   const displayedStudents = useMemo(() => {
     const normalizedQuery = searchTerm.trim().toLowerCase()
-    if (!normalizedQuery) return students
-
-    if (filterValue === "name") {
-      return students.filter((s) => String(s.name || "").toLowerCase().includes(normalizedQuery))
-    }
-
-    if (filterValue === "id") {
-      return students.filter((s) => String(s.id || "").toLowerCase().includes(normalizedQuery))
-    }
-
-    return students.filter(
+    const filtered = !normalizedQuery
+      ? students
+      : students.filter(
       (s) =>
         String(s.name || "").toLowerCase().includes(normalizedQuery) ||
         String(s.id || "").toLowerCase().includes(normalizedQuery)
-    )
-  }, [students, searchTerm, filterValue])
+      )
+
+    if (!effectiveSort) return filtered
+
+    const sorted = [...filtered]
+    sorted.sort((a, b) => {
+      const aVal = String(a[effectiveSort] ?? "").toLowerCase()
+      const bVal = String(b[effectiveSort] ?? "").toLowerCase()
+      if (aVal < bVal) return -1
+      if (aVal > bVal) return 1
+      return 0
+    })
+    return sorted
+  }, [students, searchTerm, effectiveSort])
 
   const handleSearchChange = (value) => {
     setSearchTerm(value)
@@ -67,17 +73,22 @@ export function StudentsTable({
         />
       </div>
 
-      {/* Filter Dropdown */}
+      {/* Sort Dropdown */}
       <div className="flex items-center gap-2 text-sm text-[#737373]">
-        <span>Filter by</span>
+        <span>Sort by</span>
         <select
-          className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255]"
-          value={filterValue}       // pass from parent StudentsTable state
-          onChange={(e) => onFilter?.(e.target.value)}
+          className="border-[#e7e7e7] rounded px-2 py-1 text-[#464255] outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+          value={typeof sortKey === "string" ? sortKey : localSort}
+          onChange={(e) => {
+            const value = e.target.value
+            setLocalSort(value)
+            onSort?.(value)
+          }}
         >
-          <option value="">All</option>
+          <option value="">None</option>
           <option value="name">Name</option>
           <option value="id">ID</option>
+          <option value="department">Department</option>
         </select>
       </div>
     </div>
@@ -86,7 +97,7 @@ export function StudentsTable({
 
       <CardContent>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[700px]">
             <thead>
               <tr className="border-b border-[#e7e7e7]">
                 <th className="text-left py-3 text-sm font-medium text-[#737373]">Student name</th>
