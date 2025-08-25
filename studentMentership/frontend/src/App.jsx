@@ -12,6 +12,12 @@ import AASTUStudent from "./features/AASTUStudent.jsx";
 import Mentor from "./features/Mentor.jsx";
 import Chat from "./features/Chat.jsx";
 import Task from "./features/mentor/Task.jsx";
+import MentorDashboard from "./pages/mentor-subpages/MentorDashboard.jsx";
+import GiveTask from "./pages/mentor-subpages/GiveTasks.jsx";
+import Messages from "./pages/mentor-subpages/Messages.jsx";
+import MenteeAnalysis from "./pages/mentor-subpages/MenteeAnalysis.jsx";
+import MentorPage from "./pages/MentorPage.jsx";
+
 
 function App() {
   return (
@@ -29,6 +35,12 @@ function App() {
             <Route path="chatatunion" element={<Chat />} />
             <Route path="taskatunion" element={<Task />} />
           </Route>
+          {/* <Route path="/mentordashboard" element={<MentorDashboard />}  />
+          <Route path="/mentorgivetask" element={<GiveTask />}  />
+          <Route path="/mentormessages" element={<Messages />}  /> 
+          <Route path="/mentormentee" element = {<Mentee/>} />  
+          <Route path="/mentormenteeanaylsis" element = {<MenteeAnalysis/>} />     */}
+          <Route path="/mentordashboard" element={<MentorPage />}  />
         </Routes>
       </BrowserRouter>
     </>
