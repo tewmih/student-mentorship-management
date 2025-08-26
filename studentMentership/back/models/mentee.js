@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import User from "./user.js";
-
+import Student from "./student.js";
+import Mentor from "./mentor.js";
 const Mentee = sequelize.define(
   "Mentee",
   {
@@ -10,7 +10,15 @@ const Mentee = sequelize.define(
       type: DataTypes.STRING(20),
       allowNull: false,
       unique: true,
-      references: { model: User, key: "student_id" },
+      references: { model: Student, key: "student_id" },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    },
+    // when mentor deleted it must be deleted !
+    mentor_id: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      references: { model: Mentor, key: "mentor_id" },
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
@@ -19,6 +27,6 @@ const Mentee = sequelize.define(
   { timestamps: true, tableName: "mentees" }
 );
 
-Mentee.belongsTo(User, { foreignKey: "mentee_id", targetKey: "student_id" });
+Mentee.belongsTo(Student, { foreignKey: "mentee_id", targetKey: "student_id" });
 
 export default Mentee;

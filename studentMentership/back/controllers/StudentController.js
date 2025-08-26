@@ -1,5 +1,5 @@
 import axios from "axios";
-import user from "../models/user.js";
+import Student from "../models/student.js";
 import Sequelize from "sequelize";
 // Fetch students from another Node API and upsert into DB
 async function fetchFromNode(req, res) {
@@ -14,10 +14,10 @@ async function fetchFromNode(req, res) {
     }
     const students = response.data;
     // Use a transaction for atomic upsert
-    const sequelize = user.sequelize;
+    const sequelize = Student.sequelize;
     await sequelize.transaction(async (t) => {
       for (const row of students) {
-        await user.upsert(
+        await Student.upsert(
           {
             student_id: row.StudentID,
             full_name: row.FullName,
@@ -25,7 +25,7 @@ async function fetchFromNode(req, res) {
             department: row.Department,
             year: row.Year,
             status: row.Status,
-            region: row.Region,
+            username: row.StudentID,
           },
           { transaction: t }
         );

@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import User from "./user.js";
+import Student from "./student.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 const Petition = sequelize.define(
   "Petition",
@@ -52,12 +52,12 @@ const Petition = sequelize.define(
 );
 
 // Associations
-Petition.belongsTo(User, {
+Petition.belongsTo(Student, {
   as: "mentee",
   foreignKey: "mentee_id",
   targetKey: "student_id",
 });
-Petition.belongsTo(User, {
+Petition.belongsTo(Student, {
   as: "current_mentor",
   foreignKey: "current_mentor_id",
   targetKey: "student_id",

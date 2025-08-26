@@ -1,5 +1,5 @@
 import Session from "../models/session.js";
-import User from "../models/user.js";
+import Student from "../models/student.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import Mentor from "../models/mentor.js";
 import MentorApplication from "../models/mentorApplication.js";
@@ -17,7 +17,7 @@ async function listMentees(req, res) {
     // extract mentee IDs
     const menteeIds = assignments.map((a) => a.mentee_id);
 
-    const mentees = await User.findAll({
+    const mentees = await Student.findAll({
       where: { student_id: { [Op.in]: menteeIds } },
     });
 
@@ -39,7 +39,7 @@ async function submitApplication(req, res) {
   }
 
   try {
-    const user = req.user; // extracted from JWT
+    const student = req.user; // extracted from JWT
     const { motivation, experience, region } = req.body;
 
     // Validation
@@ -50,11 +50,11 @@ async function submitApplication(req, res) {
     }
     //  inserting into mentor table
     const mentor = await Mentor.create({
-      mentor_id: user.student_id,
+      mentor_id: student.student_id,
     });
     // Create mentor application
     const application = await MentorApplication.create({
-      mentor_id: user.student_id, // get from JWT
+      mentor_id: student.student_id, // get from JWT
       motivation,
       experience: experience || null,
       region,

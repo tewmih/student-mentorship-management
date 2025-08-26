@@ -1,8 +1,9 @@
-import User from "../models/user.js";
+import Student from "../models/student.js";
 import MentorApplication from "../models/mentorApplication.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 
 async function viewAssignedMentor(req, res) {
+  console.log("Viewing assigned mentor for mentee:", req.user.student_id);
   try {
     const menteeId = req.user.student_id;
 
@@ -12,16 +13,16 @@ async function viewAssignedMentor(req, res) {
     if (!assignedMentor) {
       return res.status(404).json({ message: "No mentor assigned" });
     }
+    console.log("Assigned mentor found:", assignedMentor);
 
-    // Get mentor user info
-    const mentorUser = await User.findOne({
+    // Get mentor student info
+    const mentor = await Student.findOne({
       where: { student_id: assignedMentor.mentor_id },
     });
 
     return res.json({
       assignedMentor,
-      mentorUser,
-      mentorUser,
+      mentor,
     });
   } catch (error) {
     console.error(error);

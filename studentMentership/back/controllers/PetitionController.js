@@ -1,49 +1,9 @@
 import Petition from "../models/petition.js";
-import User from "../models/user.js";
+import Student from "../models/student.js";
 import { Op } from "sequelize";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import Mentee from "../models/mentee.js";
 import Mentor from "../models/mentor.js";
-
-// Submit a petition (mentee requests mentor change)
-async function submitPetition(req, res) {
-  const user = req.user;
-  // first i have to check mentee has mentor assigned ! from MentorMenteeAssignment
-  const assignment = await MentorMenteeAssignment.findOne({
-    where: { mentee_id: user.student_id },
-  });
-
-  if (!assignment) {
-    return res.status(404).json({ message: "No mentor assigned" });
-  }
-
-  try {
-    // finding current mentor id from  MentorMenteeAssignment table
-    const findMentor = await MentorMenteeAssignment.findOne({
-      where: { mentee_id: user.student_id },
-    });
-    const current_mentor_id = findMentor.mentor_id;
-    if (!current_mentor_id) {
-      return res.status(404).json({ message: "Current mentor not found" });
-    }
-    const { title, reason } = req.body;
-    if (!title || !reason || !current_mentor_id) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-    const petition = await Petition.create({
-      title,
-      reason,
-      current_mentor_id,
-      mentee_id: user.student_id,
-    });
-    return res
-      .status(201)
-      .json({ message: "Petition submitted successfully", petition });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
 
 async function listPetitions(req, res) {
   try {
@@ -59,12 +19,12 @@ async function listPetitions(req, res) {
       ],
       include: [
         {
-          model: User,
+          model: Student,
           as: "mentee",
           attributes: ["id", "student_id", "full_name"],
         },
         {
-          model: User,
+          model: Student,
           as: "current_mentor",
           attributes: ["id", "student_id", "full_name"],
         },
@@ -106,6 +66,36 @@ async function resolvePetition(req, res) {
     await petition.save();
 
     return res.json({ message: `Petition ${status} successfully`, petition });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+// Submit a petition (mentee requests mentor change)
+async function submitPetition(req, res) {
+  const { title, reason } = req.body;
+  try {
+    const student = req.user;
+
+    // Check if mentee has a mentor assigned
+    const assignment = await Mentee.findOne({
+      where: { mentee_id: student.student_id },
+    });
+
+    if (!assignment || !assignment.mentor_id) {
+      console.log("No mentor assigned--->");
+      return res.status(404).json({ message: "No mentor assigned" });
+    }
+
+    const petition = await Petition.create({
+      title,
+      reason,
+      current_mentor_id: assignment.mentor_id,
+      mentee_id: student.student_id,
+    });
+    return res
+      .status(201)
+      .json({ message: "Petition submitted successfully", petition });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });

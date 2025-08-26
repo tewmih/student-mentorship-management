@@ -1,46 +1,35 @@
-import User from "../models/user.js";
-// Assign Student Union Role to a user by User ID
-async function assignUnion(req, res) {
+import Student from "../models/student.js";
+import Mentor from "../models/mentor.js";
+// Change role of a user by User ID
+async function changeRole(req, res) {
   const { id } = req.params;
   const { role } = req.body;
-
+  // for debugging purpose
+  console.log(`Changing role of user ${id} to ${role}`);
   try {
-    const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    const student = await Student.findByPk(id);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
     }
-    user.role = role;
-    await user.save();
+    student.role = role;
+    await student.save();
     return res.json({ message: "Role updated successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 }
-// List all users
-async function listUsers(req, res) {
+// List all students
+async function listStudents(req, res) {
   try {
-    const users = await User.findAll();
-    return res.json(users);
+    const students = await Student.findAll();
+    return res.json(students);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 }
-
-// list of all mentors
-async function listMentors(req, res) {
-  try {
-    const mentors = await User.findAll({ where: { role: "mentor" } });
-    return res.json(mentors);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
 export const AdminController = {
-  listUsers,
-  assignUnion,
-  listMentors,
+  listStudents,
+  changeRole,
 };

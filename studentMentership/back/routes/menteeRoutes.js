@@ -10,6 +10,6 @@ router.use(authenticateJWT, roleMiddleware("mentee"));
 router.get("/mentor", MenteeController.viewAssignedMentor);
 router.get("/sessions", SessionController.listMySessions);
 router.post("/petition", PetitionController.submitPetition);
-router.post("/session/:id/feedback", SessionController.submitFeedback);
+// router.post("/session/:id/feedback", SessionController.submitFeedback);
 
 export default router;

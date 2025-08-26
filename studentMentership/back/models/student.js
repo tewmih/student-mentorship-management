@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
-const User = sequelize.define(
-  "User",
+const Student = sequelize.define(
+  "Student",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     student_id: { type: DataTypes.STRING(20), allowNull: false, unique: true },
@@ -15,13 +15,13 @@ const User = sequelize.define(
     },
 
     full_name: { type: DataTypes.STRING(100), allowNull: false },
+    username: { type: DataTypes.STRING(50), allowNull: false, unique: true }, // new
     email: { type: DataTypes.STRING(100), allowNull: false, unique: true },
 
     role: {
       type: DataTypes.ENUM("admin", "student_union", "mentor", "mentee"),
       defaultValue: "mentee",
     },
-
     department: { type: DataTypes.STRING(100), allowNull: false },
     year: { type: DataTypes.INTEGER, allowNull: false },
 
@@ -30,15 +30,23 @@ const User = sequelize.define(
       defaultValue: "active",
     },
 
-    // Region (students come from different regions)
+    // Region (Ethiopia's federal states & chartered cities)
     region: {
       type: DataTypes.ENUM(
         "Tigray",
+        "Afar",
         "Amhara",
         "Oromia",
-        "SNNP",
-        "Afar",
-        "Somali"
+        "Somali",
+        "Benishangul-Gumuz",
+        "Gambela",
+        "Harari",
+        "Sidama",
+        "South West Ethiopia Peoples’ Region",
+        "Central Ethiopia Region",
+        "South Ethiopia Region",
+        "Addis Ababa",
+        "Dire Dawa"
       ),
       allowNull: false,
       defaultValue: "Tigray",
@@ -53,11 +61,17 @@ const User = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+
+    // New fields
+    contact_link: { type: DataTypes.STRING(255), allowNull: true },
+    bio: { type: DataTypes.STRING(500), allowNull: true },
+    experience: { type: DataTypes.TEXT, allowNull: true },
+    about: { type: DataTypes.TEXT, allowNull: true },
   },
   {
     timestamps: true,
-    tableName: "users",
+    tableName: "students",
   }
 );
 
-export default User;
+export default Student;

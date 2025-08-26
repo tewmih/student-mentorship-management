@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import User from "./user.js";
+import Student from "./student.js";
 import mentor from "./mentor.js";
 
 const MentorApplication = sequelize.define(

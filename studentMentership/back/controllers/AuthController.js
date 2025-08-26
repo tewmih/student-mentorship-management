@@ -1,5 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
-import User from "../models/user.js";
+import Student from "../models/student.js";
 import { ValidationError } from "sequelize";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
@@ -21,13 +21,17 @@ const forgotPassword = async (req, res) => {
     const { email } = req.body;
     // const email = req.body.email?.trim().toLowerCase();
     console.log(email);
-    const user = await User.findOne({
+    const student = await Student.findOne({
       where: { email },
     });
-    if (!user) return res.status(400).json({ message: "User not found" });
-    const token = jsonwebtoken.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "15m",
-    });
+    if (!student) return res.status(400).json({ message: "Student not found" });
+    const token = jsonwebtoken.sign(
+      { id: student.id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
     const resetLink = `http://localhost:5173/reset-password/${token}`;
 
     await transporter.sendMail({
@@ -50,25 +54,25 @@ const resetPassword = async (req, res) => {
     const { password } = req.body;
     // Verify JWT
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
-    // Find user
-    const user = await User.findByPk(decoded.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    // Find student
+    const student = await Student.findByPk(decoded.id);
+    if (!student) return res.status(404).json({ message: "Student not found" });
 
     // Check if new password is same as old password
-    if (password === user.password) {
+    if (password === student.password) {
       return res.status(400).json({
         message: "New password cannot be the same as the old password",
       });
     }
 
     // Save plain password (⚠️ for dev only!)
-    user.password = password;
-    await user.save();
+    student.password = password;
+    await student.save();
 
     // Send confirmation email
     await transporter.sendMail({
       from: "iinventme26@gmail.com",
-      to: user.email,
+      to: student.email,
       subject: "Password Reset Successful",
       html: `<p>Your password has been reset successfully.</p>`,
     });
@@ -84,9 +88,7 @@ const resetPassword = async (req, res) => {
 };
 
 async function login(req, res) {
-  console.log("End point hitted !");
   const { student_id, password } = req.body;
-
   // Validation
   if (!student_id || typeof student_id !== "string") {
     return res.status(400).json({ student_id: ["Student ID is required."] });
@@ -94,39 +96,38 @@ async function login(req, res) {
   if (!password || typeof password !== "string") {
     return res.status(400).json({ password: ["Password is required."] });
   }
-
   try {
-    let foundUser = await User.findOne({ where: { student_id } });
-
-    if (!foundUser) {
-      return res.status(404).json({ message: "User not found." });
+    let foundStudent = await Student.findOne({ where: { student_id } });
+    // console.log(foundStudent);
+    if (!foundStudent) {
+      return res.status(404).json({ message: "Student not found." });
     }
-
     // // Compare password with hashed password
     // const isMatch = await bcrypt.compare(password, foundUser.password);
     // if (!isMatch) {
     //   return res.status(401).json({ message: "Invalid credentials." });
     // }
     // just compare password without hashing -this will be next level
-    if (password !== foundUser.password) {
+
+    if (password !== foundStudent.password) {
       return res.status(401).json({ message: "Invalid credentials." });
     }
-
+    console.log(foundStudent.role);
     // Create JWT token
     const token = jsonwebtoken.sign(
       {
-        id: foundUser.id,
-        role: foundUser.role,
-        student_id: foundUser.student_id,
+        id: foundStudent.id,
+        student_id: foundStudent.student_id,
+        role: foundStudent.role,
       },
       JWT_SECRET,
       { expiresIn: "7d" }
     );
-
     return res.json({
       token,
-      user: foundUser,
-      role: foundUser.role,
+      student_id: foundStudent.student_id,
+      role: foundStudent.role,
+      id: foundStudent.id,
     });
   } catch (error) {
     console.error(error);
@@ -137,12 +138,12 @@ async function login(req, res) {
 const changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
-    const userId = req.user.id; // assuming you set user in middleware from JWT
-    // Find user
-    const user = await User.findByPk(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const studentId = req.user.id; // assuming you set user in middleware from JWT
+    // Find student
+    const student = await Student.findByPk(studentId);
+    if (!student) return res.status(404).json({ message: "Student not found" });
     // Check old password matches
-    if (user.password !== oldPassword) {
+    if (student.password !== oldPassword) {
       return res.status(400).json({ message: "Old password is incorrect" });
     }
     // Prevent same password
@@ -152,12 +153,12 @@ const changePassword = async (req, res) => {
         .json({ message: "New password must be different from old password" });
     }
     // Update and save
-    user.password = newPassword; // plain (dev only)
-    await user.save();
+    student.password = newPassword; // plain (dev only)
+    await student.save();
     // send to email
     await transporter.sendMail({
       from: "iinventme26@gmail.com",
-      to: user.email,
+      to: student.email,
       subject: "Password Change Successful",
       html: `<p>Your password has been changed successfully.</p>`,
     });

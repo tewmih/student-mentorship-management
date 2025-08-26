@@ -3,15 +3,15 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { validationResult } from "express-validator";
-import user from "../models/user.js";
+import Student from "../models/student.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Show profile
 export const showProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const result = await user.findByPk(userId);
+    const studentId = req.user.id;
+    const result = await Student.findByPk(studentId);
     if (!result) return res.status(404).json({ message: "Student not found" });
     return res.json({
       email: result.email,
@@ -40,8 +40,8 @@ export const showProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const result = await user.findByPk(userId);
+    const studentId = req.user.id;
+    const result = await Student.findByPk(studentId);
     if (!result) return res.status(404).json({ message: "Student not found" });
 
     // Validate request

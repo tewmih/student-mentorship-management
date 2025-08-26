@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import User from "./user.js";
+import Student from "./student.js";
 
 const Mentor = sequelize.define(
   "Mentor",
@@ -10,7 +10,7 @@ const Mentor = sequelize.define(
       type: DataTypes.STRING(20),
       allowNull: false,
       unique: true,
-      references: { model: User, key: "student_id" }, // Must be UNIQUE in User
+      references: { model: Student, key: "student_id" }, // Must be UNIQUE in Student
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
@@ -19,6 +19,6 @@ const Mentor = sequelize.define(
   { timestamps: true, tableName: "mentors" }
 );
 
-Mentor.belongsTo(User, { foreignKey: "mentor_id", targetKey: "student_id" });
+Mentor.belongsTo(Student, { foreignKey: "mentor_id", targetKey: "student_id" });
 
 export default Mentor;
