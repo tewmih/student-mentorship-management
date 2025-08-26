@@ -1,11 +1,11 @@
-import DepartmentChart from "../components/barGraph/Department-chart";
-import StatsCard from "../components/barGraph/stats-card";
+import DepartmentChart from "../../components/barGraph/Department-chart";
+import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../services/SIMS";
+import { fetchStudentData } from "../../services/SIMS";
 import { Users } from "lucide-react";
-import PieChartComponent from "../ui/chart/PieChartComponent";
-import { StudentsTable } from "../components/mentee/students-table";
-import Spinner from "../ui/Spinner";
+import PieChartComponent from "../../ui/chart/PieChartComponent";
+import { StudentsTable } from "../../components/mentee/students-table";
+import Spinner from "../../ui/Spinner";
 // const dummyDepartmentData = [
 //   { name: "ECE", value: 58635, color: "#1aa367" },
 //   { name: "Civil", value: 74779, color: "#1aa367" },
@@ -55,9 +55,9 @@ const studentsData = [
   },
 ];
 
-function AASTUStudent() {
+function Mentor() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["studentData"],
+    queryKey: ["mentor"],
     queryFn: fetchStudentData,
   });
   if (isLoading) return <Spinner />;
@@ -66,7 +66,7 @@ function AASTUStudent() {
     <div className="flex flex-col sm:flex-row w-[100%] bg-gray-50">
       <div className=" rounded-lg overflow-y-scroll h-screen px-5 w-full">
         <div className="h-screen">
-          <div className="flex flex-row justify-between h-20 bg-white mb-5 w-auto">
+          <div className="flex flex-row justify-between h-20 bg-white mb-5  w-auto">
             <StatsCard
               title="Students"
               value={5423}
@@ -89,7 +89,7 @@ function AASTUStudent() {
           <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
             <DepartmentChart
               data={data}
-              title="Addis Ababa Science and Technology University Students"
+              title="AASTU Mentor"
               totalValue={207388}
               maxValue={80000}
             />
@@ -99,7 +99,7 @@ function AASTUStudent() {
           </div>
         </div>
         <StudentsTable
-          title="AASTU Students List"
+          title="AASTU Students Mentor List"
           subtitle="Active students"
           students={studentsData}
           totalEntries={256000}
@@ -114,4 +114,4 @@ function AASTUStudent() {
   );
 }
 
-export default AASTUStudent;
+export default Mentor;

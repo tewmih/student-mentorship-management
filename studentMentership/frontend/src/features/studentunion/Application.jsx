@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { submitApplication } from "../services/SIMS";
+import { submitApplication } from "../../services/SIMS";
 import { useMutation } from "@tanstack/react-query";
 
 function MentorApplicationForm() {

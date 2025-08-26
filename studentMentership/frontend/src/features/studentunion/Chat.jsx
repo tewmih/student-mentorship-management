@@ -1,6 +1,6 @@
-import ChatComponent from "../ui/chart/Chat";
+import ChatComponent from "../../ui/chart/Chat";
 import { FaArrowAltCircleRight } from "react-icons/fa";
-import ChatButton from "../ui/Buttonn";
+import ChatButton from "../../ui/Buttonn";
 // const sampleMessages = [
 //   {
 //     id: 1,

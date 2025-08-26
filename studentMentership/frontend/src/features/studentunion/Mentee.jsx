@@ -1,11 +1,11 @@
-import DepartmentChart from "../components/barGraph/Department-chart";
-import StatsCard from "../components/barGraph/stats-card";
+import DepartmentChart from "../../components/barGraph/Department-chart";
+import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../services/SIMS";
+import { fetchStudentData } from "../../services/SIMS";
 import { Users } from "lucide-react";
-import PieChartComponent from "../ui/chart/PieChartComponent";
-import { StudentsTable } from "../components/mentee/students-table";
-import Spinner from "../ui/Spinner";
+import PieChartComponent from "../../ui/chart/PieChartComponent";
+import { StudentsTable } from "../../components/mentee/students-table";
+import Spinner from "../../ui/Spinner";
 // const dummyDepartmentData = [
 //   { name: "ECE", value: 58635, color: "#1aa367" },
 //   { name: "Civil", value: 74779, color: "#1aa367" },

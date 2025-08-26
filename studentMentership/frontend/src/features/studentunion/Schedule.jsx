@@ -1,8 +1,8 @@
-import CalendarComponent from "../ui/Calendar";
-import Task from "../ui/Task";
-import { fetchSessions } from "../services/SIMS";
+import CalendarComponent from "../../ui/Calendar";
+import Task from "../../ui/Task";
+import { fetchSessions } from "../../services/SIMS";
 import { useQuery } from "@tanstack/react-query";
-import Spinner from "../ui/Spinner";
+import Spinner from "../../ui/Spinner";
 
 function schedule() {
   const { data, isLoading, error } = useQuery({
