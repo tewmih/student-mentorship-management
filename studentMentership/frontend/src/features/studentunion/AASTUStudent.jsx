@@ -113,6 +113,17 @@ const processPieChartData = (students) => {
   return finalData;
 };
 
+// This function filters and formats student data for the table.
+const filterAndFormatStudents = (students) => {
+  return students.map((student) => ({
+    name: student.full_name,
+    id: student.student_id,
+    department: student.department,
+    email: student.email,
+    status: student.status === "active" ? "Active" : "Inactive",
+  }));
+};
+
 function AASTUStudent() {
   const {
     data: studentsData,
@@ -130,6 +141,9 @@ function AASTUStudent() {
   const processedChartData = processStudentDataForChart(studentsData);
   const dynamicPieChartData = processPieChartData(studentsData);
   const totalStudents = studentsData.length;
+
+  // Format the student data for the table
+  const formattedStudents = filterAndFormatStudents(studentsData);
 
   // Calculate a suitable maxValue for the chart based on the data
   const maxDepartmentCount = Math.max(
@@ -176,7 +190,7 @@ function AASTUStudent() {
         <StudentsTable
           title="AASTU Students List"
           subtitle="Active students"
-          students={studentsData}
+          students={formattedStudents}
           totalEntries={totalStudents}
           currentPage={1}
           totalPages={Math.ceil(totalStudents / 10)}
