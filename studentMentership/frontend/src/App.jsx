@@ -9,10 +9,10 @@ import StudentUnion from "./pages/StudentUnion/StudentUnion.jsx";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.jsx";
 
-
-import ResetPassword from "./pages/ResetPassword.jsx";
+// import ResetPassword from "./pages/ResetPassword.jsx";
 
 import Forgot from "./components/Forgot.jsx";
+import Admin from "./pages/Admin/Admin.jsx";
 
 function App() {
   return (
@@ -26,8 +26,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/mentor" element={<MentorPage />} />
           <Route path="/studentunion" element={<StudentUnion />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/forget" element={<Forgot />} />
-
         </Routes>
         <Footer />
       </BrowserRouter>
