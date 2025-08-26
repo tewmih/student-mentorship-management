@@ -21,3 +21,13 @@ export const fetchSessions = async () => {
 export const submitApplication = async (data) => {
   await axios.post(API_APPLICATIONS_URL, data);
 };
+
+export const fetchApplication = async () => {
+  const { data } = await axios.get(API_APPLICATIONS_URL);
+  return data;
+};
+
+export const fetchApplicationDetails = async () => {
+  const { data } = await axios.get(API_APPLICATIONS_URL);
+  return data;
+};
