@@ -1,13 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card.jsx";
 
 function DepartmentChart({ data, title }) {
-  // Check if data is not an array or is an empty array to prevent errors.
   if (!Array.isArray(data) || data.length === 0) {
-    return null; // or return a placeholder message, like <div>No data to display</div>
+    return null;
   }
 
   const totalValue = data.reduce((accumulator, currentValue) => {
-    // Add a check here to ensure currentValue.value is a number
     const value =
       typeof currentValue.value === "number" ? currentValue.value : 0;
     return accumulator + value;
@@ -15,7 +13,6 @@ function DepartmentChart({ data, title }) {
 
   const calculatedMaxValue = totalValue === 0 ? 1 : totalValue;
 
-  // Function to format the labels dynamically
   const formatLabel = (value) => {
     if (value >= 1000) {
       return `${Math.round(value / 1000)}K`;
@@ -52,7 +49,6 @@ function DepartmentChart({ data, title }) {
       <CardContent>
         <div className="space-y-4">
           {data.map((dept, index) => {
-            // Check if dept.value is a valid number before rendering
             const departmentValue =
               typeof dept.value === "number" ? dept.value : 0;
 
