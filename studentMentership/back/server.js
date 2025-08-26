@@ -13,9 +13,8 @@ import setupSocket from "./socket.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import attendanceRoutes from "./routes/attendenceRoutes.js";
 import path from "path";
-import taskRoutes from "./routes/taskRoutes.js";
+// import taskRoutes from "./routes/taskRoutes.js";
 const app = express();
-
 // Middleware
 app.use(
   cors({
@@ -24,10 +23,8 @@ app.use(
   })
 );
 app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Routes
 app.get("/", (req, res) => {
   res.send("Welcome to the API");
@@ -41,7 +38,7 @@ app.use("/api/student-union", studentUnionRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/attendance", attendanceRoutes);
-app.use("/api/task", taskRoutes);
+// app.use("/api/task", taskRoutes);
 
 // Create HTTP server for Socket.IO
 const server = http.createServer(app);

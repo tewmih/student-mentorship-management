@@ -1,7 +1,7 @@
 import DepartmentChart from "../../components/barGraph/Department-chart";
 import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../../services/SIMS";
+import { fetchMentees } from "../../services/SIMS";
 import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 import Spinner from "../../ui/Spinner";
@@ -17,7 +17,7 @@ const data1 = [
 function MenteeAnalysis() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["studentData"],
-    queryFn: fetchStudentData,
+    queryFn: fetchMentees,
   });
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;

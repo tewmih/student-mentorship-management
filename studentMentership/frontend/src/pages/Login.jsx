@@ -15,11 +15,12 @@ function Login() {
         password: password,
       });
 
-      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("role", data.role);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("id", data.user.id);
+      localStorage.setItem("id", data.id);
+
 alert("sucesss !")
-      navigate("/menteedashboard");
+      navigate("/mentee");
     } catch (err) {
       alert(err.response?.data?.message || err.message || "Login failed");
     }

@@ -1,7 +1,7 @@
 import DepartmentChart from "../../components/barGraph/Department-chart";
 import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../../services/SIMS";
+import { fetchMentees } from "../../services/SIMS";
 import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 import { StudentsTable } from "../../components/mentee/students-table";
@@ -128,21 +128,22 @@ function Mentee() {
     error,
   } = useQuery({
     queryKey: ["studentData"],
-    queryFn: fetchStudentData,
+    queryFn: fetchMentees,
   });
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
-
+  const {mentees}=studentsData;
+console.log(mentees);
   // Filter the fetched student data for mentees only once.
-  const menteeData = studentsData.filter(
-    (student) => student.role === "mentee"
-  );
+  // const menteeData = studentsData.filter(
+  //   (student) => student.role === "mentee"
+  // );
 
-  const processedChartData = processMenteeDataForChart(menteeData);
-  const formattedMentees = filterAndFormatMentees(menteeData);
-  const totalMentees = menteeData.length;
-  const pieChartData = processPieChartData(menteeData);
+  const processedChartData = processMenteeDataForChart(mentees);
+  const formattedMentees = filterAndFormatMentees(mentees);
+  const totalMentees = mentees.length;
+  const pieChartData = processPieChartData(mentees);
 
   return (
     <div className="flex flex-col sm:flex-row overflow-y-scroll h-screen w-[100%] bg-gray-50">
@@ -157,13 +158,13 @@ function Mentee() {
             />
             <StatsCard
               title="Active Mentees"
-              value={menteeData.filter((m) => m.status === "active").length}
+              value={mentees.filter((m) => m.status === "active").length}
               subtitle="2025"
               icon={Users}
             />
             <StatsCard
               title="Inactive Mentees"
-              value={menteeData.filter((m) => m.status === "inactive").length}
+              value={mentees.filter((m) => m.status === "inactive").length}
               subtitle="2025"
               icon={Users}
             />

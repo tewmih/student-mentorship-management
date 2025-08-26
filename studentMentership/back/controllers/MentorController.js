@@ -31,6 +31,7 @@ async function listMentees(req, res) {
 
 async function submitApplication(req, res) {
   // first check mentor hasn't assigned
+  console.log("whgvvdjscjscdvcjsdvc");
   const existingMentor = await Mentor.findOne({
     where: { mentor_id: req.user.student_id, mentee_assigned: true },
   });
@@ -52,6 +53,7 @@ async function submitApplication(req, res) {
     const mentor = await Mentor.create({
       mentor_id: student.student_id,
     });
+    console.log("Mentor created:", mentor);
     // Create mentor application
     const application = await MentorApplication.create({
       mentor_id: student.student_id, // get from JWT

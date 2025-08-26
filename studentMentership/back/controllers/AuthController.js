@@ -20,7 +20,7 @@ const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
     // const email = req.body.email?.trim().toLowerCase();
-    console.log(email);
+    console.log(email, "end point hittted !");
     const student = await Student.findOne({
       where: { email },
     });
@@ -33,13 +33,23 @@ const forgotPassword = async (req, res) => {
       }
     );
     const resetLink = `http://localhost:5173/reset-password/${token}`;
+    console.log(resetLink, "reset link generated");
 
-    await transporter.sendMail({
-      from: "iinventme26@gmail.com",
-      to: email,
-      subject: "Password Reset",
-      html: `<p>Click this link to reset your password: <a href="${resetLink}">${resetLink}</a></p>`,
-    });
+    await transporter.sendMail(
+      {
+        from: "iinventme26@gmail.com",
+        to: email,
+        subject: "Password Reset",
+        html: `<p>Click this link to reset your password: <a href="${resetLink}">${resetLink}</a></p>`,
+      },
+      (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent:", info.response);
+        }
+      }
+    );
 
     res.json({ message: "Password reset email sent" });
   } catch (err) {

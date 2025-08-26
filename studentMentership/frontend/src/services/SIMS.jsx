@@ -5,8 +5,15 @@ const VITE_API_TASKS_URL = import.meta.env.VITE_API_TASKS_URL;
 const API_SESSIONS_URL = import.meta.env.VITE_API_SESSIONS_URL;
 const API_APPLICATIONS_URL = import.meta.env.VITE_API_APPLICATIONS_URL;
 
+const STUDENT_UNION_APPLICATIONS_URL = import.meta.env.VITE_API_STUDENT_UNION_APPLICATIONS_URL;
+const MENTEES_URL = import.meta.env.VITE_API_MENTEES_URL;
+
 export const fetchStudentData = async () => {
-  const { data } = await axios.get(API_DEPARTMENTS_URL);
+  const { data } = await axios.get(API_DEPARTMENTS_URL,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+  });
   return data;
 };
 export const fetchTasks = async () => {
@@ -19,15 +26,32 @@ export const fetchSessions = async () => {
 };
 
 export const submitApplication = async (data) => {
-  await axios.post(API_APPLICATIONS_URL, data);
+  await axios.post(API_APPLICATIONS_URL, data,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 };
 
 export const fetchApplication = async () => {
-  const { data } = await axios.get(API_APPLICATIONS_URL);
+  const { data } = await axios.get(STUDENT_UNION_APPLICATIONS_URL,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 };
 
 export const fetchApplicationDetails = async () => {
   const { data } = await axios.get(API_APPLICATIONS_URL);
+  return data;
+};
+
+export const fetchMentees = async () => {
+  const { data } = await axios.get(MENTEES_URL,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 };
