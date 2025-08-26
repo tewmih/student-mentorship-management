@@ -1,13 +1,13 @@
 import { useState } from "react";
-import AASTUStudent from "../../features/AASTUStudent";
-import Chat from "../../features/Chat";
-import Mentee from "../../features/Mentee";
-import Mentor from "../../features/Mentor";
-import StudentDashboard from "../../features/StudentDashboard";
-import Task from "../../features/GivenTask";
+import AASTUStudent from "../../features/Studentunion/AASTUStudent";
+import Chat from "../../features/Studentunion/Chat";
+import Mentee from "../../features/Studentunion/Mentee";
+import Mentor from "../../features/Studentunion/Mentor";
+import StudentDashboard from "../../features/Studentunion/StudentDashboard";
+import Task from "../../features/Studentunion/GivenTask";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Schedule from "../../features/Schedule";
-import MentorApplicationForm from "../../features/Application";
+import Schedule from "../../features/Studentunion/Schedule";
+import MentorApplicationForm from "../../features/Studentunion/Application";
 
 function StudentUnion() {
   const navItems = [

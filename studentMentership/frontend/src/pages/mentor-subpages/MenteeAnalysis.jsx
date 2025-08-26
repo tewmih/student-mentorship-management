@@ -5,6 +5,8 @@ import { fetchStudentData } from "../../services/SIMS";
 import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 
+import Spinner from "../../ui/Spinner";
+
 // const dummyDepartmentData = [
 //   { name: "ECE", value: 58635, color: "#1aa367" },
 //   { name: "Civil", value: 74779, color: "#1aa367" },
@@ -25,7 +27,7 @@ function MenteeAnalysis() {
     queryKey: ["studentData"],
     queryFn: fetchStudentData,
   });
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
   return (
     <div className="flex flex-row  bg-gray-50">

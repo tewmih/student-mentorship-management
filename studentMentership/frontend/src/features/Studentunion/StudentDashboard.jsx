@@ -1,8 +1,8 @@
-import StatsCard from "../components/barGraph/stats-card";
+import StatsCard from "../../components/barGraph/stats-card";
 import { Users } from "lucide-react";
-import DonutChart from "../ui/chart/DonutChart";
-import LineChart from "../ui/chart/LineChart";
-import MenteeList from "../components/My-mentee";
+import DonutChart from "../../ui/chart/DonutChart";
+import LineChart from "../../ui/chart/LineChart";
+import MenteeList from "../../components/My-mentee";
 
 const menteesData = [
   { id: "1", name: "Alice", avatar: "/avatars/alice.png" },
