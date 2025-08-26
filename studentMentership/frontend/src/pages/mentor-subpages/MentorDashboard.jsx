@@ -1,5 +1,3 @@
-import { useState } from "react";
-import Sidebar from "../../components/sidebar/Sidebar";
 import StatsCard from "../../components/barGraph/stats-card";
 import { Users } from "lucide-react";
 import DonutChart from "../../ui/chart/DonutChart";
@@ -12,7 +10,6 @@ const MentorDashboard = () => {
     { id: "2", name: "Bob", avatar: "/avatars/bob.png" },
     { id: "3", name: "Charlie", avatar: "/avatars/charlie.png" },
   ];
-  const [activePage, setActivePage] = useState("Dashboard");
 
   const progressData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
@@ -28,14 +25,6 @@ const MentorDashboard = () => {
     { label: "December", value: 41, date: "Dec 25th, 2020" },
   ];
 
-  // Define the data for the navigation items as an array of strings.
-  const navItems = [
-    "Dashboard",
-    "Give Tasks",
-    "Schedule",
-    "Settings",
-    "Profile",
-  ];
   return (
     <div className="flex flex-row bg-gray-50">
       <div className=" rounded-lg  px-5 w-full">

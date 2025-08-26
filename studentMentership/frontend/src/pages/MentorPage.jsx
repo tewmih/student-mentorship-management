@@ -5,6 +5,7 @@ import MenteeAnalysis from "./mentor-subpages/MenteeAnalysis";
 import Messages from "./mentor-subpages/Messages";
 import Task from "./mentor-subpages/GivenTask.jsx";
 import Schedule from "./mentor-subpages/Schedule.jsx";
+import MentorApplicationForm from "../features/Studentunion/Application.jsx";
 
 // Placeholder until you create real components
 const PlaceholderPage = ({ pageName }) => <div>{pageName} Page</div>;
@@ -16,6 +17,7 @@ function MentorPage() {
     "My Mentee",
     "Task",
     "Schedule",
+    "Application",
     "Messages",
     "Settings",
   ];
@@ -32,6 +34,8 @@ function MentorPage() {
         return <Task />;
       case "Schedule": // fixed case
         return <Schedule />;
+      case "Application": // fixed case
+        return <MentorApplicationForm />;
       case "Messages":
         return <Messages />;
       case "Settings":

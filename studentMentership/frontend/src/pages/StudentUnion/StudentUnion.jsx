@@ -7,7 +7,8 @@ import StudentDashboard from "../../features/Studentunion/StudentDashboard";
 import Task from "../../features/Studentunion/GivenTask";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Schedule from "../../features/Studentunion/Schedule";
-import MentorApplicationForm from "../../features/Studentunion/Application";
+
+import ApplicationList from "../../features/studentunion/ApplicationList";
 
 function StudentUnion() {
   const navItems = [
@@ -39,7 +40,7 @@ function StudentUnion() {
       case "Task":
         return <Task />;
       case "Application":
-        return <MentorApplicationForm />;
+        return <ApplicationList />;
       case "Schedule":
         return <Schedule />;
       case "Settings":

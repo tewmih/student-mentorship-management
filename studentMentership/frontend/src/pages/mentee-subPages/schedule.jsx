@@ -1,53 +1,21 @@
 import CalendarComponent from "../../ui/Calendar";
 import Task from "../../ui/Task";
+import Spinner from "../../ui/Spinner";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSessions } from "../../services/SIMS";
 
-const dummyTasks = [
-  {
-    number: "01",
-    task: "Psychology Homework",
-    dueDate: "20/12/2025",
-    status: "completed",
-  },
-  {
-    number: "02",
-    task: "Math Assignment",
-    dueDate: "25/12/2025",
-    status: "in-progress",
-  },
-  {
-    number: "03",
-    task: "History Essay",
-    dueDate: "15/12/2025",
-    status: "pending",
-  },
-  {
-    number: "04",
-    task: "Biology Project",
-    dueDate: "05/01/2026",
-    status: "in-progress",
-  },
-  {
-    number: "05",
-    task: "Physics Lab Report",
-    dueDate: "28/12/2025",
-    status: "completed",
-  },
-  {
-    number: "06",
-    task: "Chemistry Study Guide",
-    dueDate: "10/01/2026",
-    status: "pending",
-  },
-];
 function schedule() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["session"],
+    queryFn: fetchSessions,
+  });
+  console.log(data);
+  if (isLoading) return <Spinner />;
+  if (error) return <p>Failed to load student information</p>;
   return (
     <div className="flex flex-col space-x-4 mx-3 sm:flex-row">
       <CalendarComponent />
-      <Task
-        tasks={dummyTasks}
-        title={"Up Comming Session"}
-        actionType={"Session"}
-      />
+      <Task tasks={data} title={"Up Comming Session"} actionType={"Session"} />
     </div>
   );
 }
