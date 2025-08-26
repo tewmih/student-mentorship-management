@@ -1,12 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
+
 import Login from "./components/Login.jsx";
+
 import Mentee from "./pages/Mentee.jsx";
 import MentorPage from "./pages/MentorPage.jsx";
 import StudentUnion from "./pages/StudentUnion/StudentUnion.jsx";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.jsx";
+
+
+import ResetPassword from "./pages/ResetPassword.jsx";
+
 import Forgot from "./components/Forgot.jsx";
+
 function App() {
   return (
     <>
@@ -14,11 +21,13 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/mentee" element={<Mentee />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mentor" element={<MentorPage />} />
           <Route path="/studentunion" element={<StudentUnion />} />
           <Route path="/forget" element={<Forgot />} />
+
         </Routes>
         <Footer />
       </BrowserRouter>
