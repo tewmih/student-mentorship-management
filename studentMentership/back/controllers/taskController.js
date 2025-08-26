@@ -22,6 +22,7 @@ export const createTask = async (req, res) => {
 
 // Get all tasks
 export const getTasks = async (req, res) => {
+  console.log("Fetching all tasks");
   try {
     const tasks = await Task.findAll();
     res.status(200).json(tasks);

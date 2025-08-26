@@ -16,13 +16,13 @@ function Login() {
     mutationFn: login,
     onSuccess: (data) => {
       // Store user data in local storage
-      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("role", data.role);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("id", data.user.id);
-      console.log(data.user.role);
+      localStorage.setItem("id", data.id);
+      console.log(data.role);
 
       // Navigate based on the user's role
-      switch (data.user.role) {
+      switch (data.role) {
         case "mentor":
           navigate("/mentor");
           break;
@@ -32,7 +32,7 @@ function Login() {
         case "admin":
           navigate("/admin");
           break;
-        case "studentunion":
+        case "student_union":
           navigate("/studentunion");
           break;
         default:

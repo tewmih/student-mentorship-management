@@ -62,7 +62,7 @@ function MentorApplicationForm() {
           </label>
           <input
             type="text"
-            {...register("mentor_id", { required: "Mentor ID is required" })}
+            {...register("mentor_id", {  })}
             className="w-full border px-3 py-2 focus:outline-none rounded-md mt-1"
           />
           {errors.mentor_id && (
@@ -77,7 +77,7 @@ function MentorApplicationForm() {
           </label>
           <input
             type="text"
-            {...register("name", { required: "Name is required" })}
+            {...register("name", {  })}
             className="w-full border px-3 py-2 focus:outline-none rounded-md mt-1"
           />
           {errors.name && (

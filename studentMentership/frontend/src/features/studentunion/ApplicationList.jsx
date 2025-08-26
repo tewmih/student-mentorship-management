@@ -15,6 +15,9 @@ function ApplicationList() {
     queryKey: ["studentData"],
     queryFn: fetchApplication,
   });
+  // for debugging purpose
+  console.log(data)
+  const { applications, mentors } = data || {};
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
@@ -28,11 +31,11 @@ function ApplicationList() {
   }
 
   // Filtering based on search term
-  const filteredData = data.filter(
+  const filteredData = mentors.filter(
     (item) =>
-      String(item.name)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      String(item.id)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      String(item.status)?.toLowerCase().includes(searchTerm.toLowerCase())
+      String(item.full_name)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      String(item.id)?.toLowerCase().includes(searchTerm.toLowerCase())
+      // String(item.status)?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Sorting
