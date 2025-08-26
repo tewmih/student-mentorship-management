@@ -14,7 +14,7 @@ function Chat() {
   const [replyTo, setReplyTo] = useState(null);
   const [chatHistory, setChatHistory] = useState({});
   const [loggedInUser, setLoggedInUser] = useState({});
-  const inputRef = useRef(null);
+  const inputRef = useRef(null); // ✅ added ref for input
   const navigate = useNavigate();
   const userId = parseInt(localStorage.getItem("id"), 10);
   const token = localStorage.getItem("token");
@@ -50,11 +50,9 @@ function Chat() {
     const socketIo = io("http://localhost:4000", { auth: { token } });
     setSocket(socketIo);
 
-    socketIo.on("update_user_status", ({ uId, status }) => {
+    socketIo.on("update_user_status", ({  uId, status }) => {
       setUsers((prev) =>
-        prev.map((user) =>
-          user.student_id === uId ? { ...user, status } : user
-        )
+        prev.map((user) => (user.student_id === uId ? { ...user, status } : user))
       );
     });
 
@@ -214,8 +212,8 @@ function Chat() {
                   {msg.replyTo && (
                     <p className="text-sm text-gray-600 border-l-2 border-gray-400 pl-2 mb-1">
                       Replying to:{" "}
-                      {displayedMessages.find((m) => m.id === msg.replyTo)
-                        ?.content || "deleted message"}
+                      {displayedMessages.find((m) => m.id === msg.replyTo)?.content ||
+                        "deleted message"}
                     </p>
                   )}
                   <p className="font-semibold">
@@ -227,12 +225,10 @@ function Chat() {
                   <button
                     onClick={() => {
                       setReplyTo(msg);
-                      inputRef.current?.focus();
+                      inputRef.current?.focus(); 
                     }}
                     className={`text-xs mt-1 ${
-                      msg.sender_id === userId
-                        ? "text-white/90"
-                        : "text-blue-500"
+                      msg.sender_id === userId ? "text-white/90" : "text-blue-500"
                     }`}
                   >
                     Reply

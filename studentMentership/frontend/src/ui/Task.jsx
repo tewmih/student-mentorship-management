@@ -10,8 +10,10 @@ const Task = ({ tasks = [], title, actionType }) => {
   // preventing unnecessary re-calculations on every render
   const filteredAndSortedTasks = useMemo(() => {
     // 1. Filter tasks based on the search term
-    let filtered = tasks.filter((t) =>
-      t.task.toLowerCase().includes(search.toLowerCase())
+    let filtered = tasks.filter(
+      (t) =>
+        // Add a check to ensure t.task exists before calling toLowerCase()
+        t.task && t.task.toLowerCase().includes(search.toLowerCase())
     );
 
     // 2. Sort the filtered tasks based on the selected sort option
@@ -42,7 +44,7 @@ const Task = ({ tasks = [], title, actionType }) => {
   );
 
   return (
-    <div className="bg-white rounded-2xl  p-6 w-full max-w-3xl mx-auto">
+    <div className="bg-white rounded-2xl p-6 w-full max-w-3xl mx-auto">
       {/* Header with title, search, and sort controls */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
         <h2 className="">{title}</h2>
@@ -117,9 +119,9 @@ const Task = ({ tasks = [], title, actionType }) => {
             {paginatedTasks.length > 0 ? (
               paginatedTasks.map((task, idx) => (
                 <tr key={idx} className="hover:bg-gray-50 transition">
-                  <td className="py-3 px-4  text-gray-700">{task.number}</td>
+                  <td className="py-3 px-4 text-gray-700">{task.number}</td>
                   <td className="py-3 px-4">
-                    <span className="  text-gray-800 px-2 py-1 rounded-lg">
+                    <span className="text-gray-800 px-2 py-1 rounded-lg">
                       {task.task}
                     </span>
                   </td>
@@ -127,13 +129,13 @@ const Task = ({ tasks = [], title, actionType }) => {
                   <td className="py-3 px-4 capitalize">
                     <span
                       className={`
-                      px-2 py-1 rounded-full text-xs 
-                      ${
-                        task.status === "completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }
-                    `}
+                        px-2 py-1 rounded-full text-xs 
+                        ${
+                          task.status === "completed"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }
+                      `}
                     >
                       {task.status}
                     </span>

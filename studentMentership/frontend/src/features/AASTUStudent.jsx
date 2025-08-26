@@ -1,16 +1,18 @@
 import DepartmentChart from "../components/barGraph/Department-chart";
 import StatsCard from "../components/barGraph/stats-card";
-
+import { useQuery } from "@tanstack/react-query";
+import { fetchStudentData } from "../services/SIMS";
 import { Users } from "lucide-react";
 import PieChartComponent from "../ui/chart/PieChartComponent";
 import { StudentsTable } from "../components/mentee/students-table";
-const dummyDepartmentData = [
-  { name: "ECE", value: 58635, color: "#1aa367" },
-  { name: "Civil", value: 74779, color: "#1aa367" },
-  { name: "Software", value: 19027, color: "#1aa367" },
-  { name: "Mechanical", value: 43887, color: "#1aa367" },
-  { name: "Food Science", value: 9142, color: "#1aa367" },
-];
+import Spinner from "../ui/Spinner";
+// const dummyDepartmentData = [
+//   { name: "ECE", value: 58635, color: "#1aa367" },
+//   { name: "Civil", value: 74779, color: "#1aa367" },
+//   { name: "Software", value: 19027, color: "#1aa367" },
+//   { name: "Mechanical", value: 43887, color: "#1aa367" },
+//   { name: "Food Science", value: 9142, color: "#1aa367" },
+// ];
 const data1 = [
   { label: "1st year", value: 7, percentage: 75 },
   { label: "2nd year", value: 4, percentage: 42 },
@@ -54,6 +56,12 @@ const studentsData = [
 ];
 
 function AASTUStudent() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["studentData"],
+    queryFn: fetchStudentData,
+  });
+  if (isLoading) return <Spinner />;
+  if (error) return <p>Failed to load student information</p>;
   return (
     <div className="flex flex-col sm:flex-row w-[100%] bg-gray-50">
       <div className=" rounded-lg overflow-y-scroll h-screen px-5 w-full">
@@ -80,7 +88,7 @@ function AASTUStudent() {
           </div>
           <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
             <DepartmentChart
-              data={dummyDepartmentData}
+              data={data}
               title="Addis Ababa Science and Technology University Students"
               totalValue={207388}
               maxValue={80000}
