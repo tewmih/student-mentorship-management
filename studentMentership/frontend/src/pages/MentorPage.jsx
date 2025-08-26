@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar.jsx";
 import MentorDashboard from "./mentor-subpages/MentorDashboard.jsx";
-import MenteeAnalysis from "./mentor-subpages/MenteeAnalysis";
+import Mentee from "./mentor-subpages/Mentee";
 import Messages from "./mentor-subpages/Messages";
 import Task from "./mentor-subpages/GivenTask.jsx";
 import Schedule from "./mentor-subpages/Schedule.jsx";
@@ -29,7 +29,7 @@ function MentorPage() {
       case "Dashboard":
         return <MentorDashboard />;
       case "My Mentee":
-        return <MenteeAnalysis />;
+        return <Mentee />;
       case "Task":
         return <Task />;
       case "Schedule": // fixed case
