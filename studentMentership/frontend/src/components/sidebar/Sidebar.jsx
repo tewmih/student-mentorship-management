@@ -7,7 +7,7 @@ function Sidebar({
   setActivePage,
 }) {
   return (
-    <div className="w-40 bg-card shadow-md h-screen flex flex-col justify-between p-4">
+    <div className="w-40  bg-card h-screen flex flex-col justify-between pt-10">
       <div>
         <h2 className="text-xl font-bold mb-6">{title}</h2>
         <ul className="space-y-3">
@@ -15,7 +15,7 @@ function Sidebar({
             <li
               key={item}
               onClick={() => setActivePage(item)}
-              className={`cursor-pointer p-2 rounded-md transition ${
+              className={`cursor-pointer py-2 transition ${
                 activePage === item
                   ? "bg-primary text-white"
                   : "hover:bg-border"

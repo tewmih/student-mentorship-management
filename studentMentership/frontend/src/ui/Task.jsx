@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 
-const Task = ({ tasks = [] }) => {
+const Task = ({ tasks = [], title, actionType }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("Name");
   const [page, setPage] = useState(1);
@@ -10,8 +10,10 @@ const Task = ({ tasks = [] }) => {
   // preventing unnecessary re-calculations on every render
   const filteredAndSortedTasks = useMemo(() => {
     // 1. Filter tasks based on the search term
-    let filtered = tasks.filter((t) =>
-      t.task.toLowerCase().includes(search.toLowerCase())
+    let filtered = tasks.filter(
+      (t) =>
+        // Add a check to ensure t.task exists before calling toLowerCase()
+        t.task && t.task.toLowerCase().includes(search.toLowerCase())
     );
 
     // 2. Sort the filtered tasks based on the selected sort option
@@ -42,10 +44,10 @@ const Task = ({ tasks = [] }) => {
   );
 
   return (
-    <div className="bg-white rounded-2xl  p-6 w-full max-w-3xl mx-auto mt-8">
+    <div className="bg-white rounded-2xl p-6 w-full max-w-3xl mx-auto">
       {/* Header with title, search, and sort controls */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-        <h2 className="font-bold text-xl">Task List</h2>
+        <h2 className="">{title}</h2>
         <div className="flex items-center gap-4">
           <div className="relative w-full sm:w-auto">
             <input
@@ -99,16 +101,16 @@ const Task = ({ tasks = [] }) => {
         <table className="min-w-full text-sm divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
                 Number
               </th>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
-                Task
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
+                {actionType}
               </th>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
                 Due Date
               </th>
-              <th className="py-3 px-4 text-left font-medium text-gray-500">
+              <th className="py-3 px-4 text-center font-medium text-gray-500">
                 Status
               </th>
             </tr>
@@ -117,11 +119,9 @@ const Task = ({ tasks = [] }) => {
             {paginatedTasks.length > 0 ? (
               paginatedTasks.map((task, idx) => (
                 <tr key={idx} className="hover:bg-gray-50 transition">
-                  <td className="py-3 px-4 font-semibold text-gray-700">
-                    {task.number}
-                  </td>
+                  <td className="py-3 px-4 text-gray-700">{task.number}</td>
                   <td className="py-3 px-4">
-                    <span className="font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded-lg">
+                    <span className="text-gray-800 px-2 py-1 rounded-lg">
                       {task.task}
                     </span>
                   </td>
@@ -129,13 +129,13 @@ const Task = ({ tasks = [] }) => {
                   <td className="py-3 px-4 capitalize">
                     <span
                       className={`
-                      px-2 py-1 rounded-full text-xs font-semibold
-                      ${
-                        task.status === "completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }
-                    `}
+                        px-2 py-1 rounded-full text-xs 
+                        ${
+                          task.status === "completed"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }
+                      `}
                     >
                       {task.status}
                     </span>
@@ -156,7 +156,7 @@ const Task = ({ tasks = [] }) => {
       {/* Pagination controls */}
       <div className="flex justify-between mt-4">
         <button className="text-start bg-blue-500 rounded-lg p-2">
-          Add Tasks
+          Add More
         </button>
         <nav className="flex items-center gap-1">
           {/* Previous page button */}

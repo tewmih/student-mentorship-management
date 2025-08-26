@@ -1,11 +1,11 @@
 import Sidebar from "../components/sidebar/Sidebar.jsx";
-import Footer from "../components/Footer.jsx";
+
 import StatsCard from "../components/barGraph/stats-card.jsx";
 import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";
 import Message from "./mentee-subPages/message.jsx";
 import Schedule from "./mentee-subPages/schedule.jsx";
-import Task from "../ui/Task.jsx";
+import MenteeTask from "./mentee-subPages/task.jsx";
 import MentorSidebar from "../ui/mentee-right-sidebar/mentee-info.jsx";
 import ChatButtons from "../ui/mentee-right-sidebar/chatButtons.jsx";
 import DonutChart from "../ui/chart/DonutChart.jsx";
@@ -15,16 +15,16 @@ const Mentee = () => {
   const [activePage, setActivePage] = useState("Analysis");
   return (
     <>
-      <div className="flex w-full min-h-screen">
+      <div className="flex w-full pt-20">
         {/* Sidebar (left) - takes full height */}
         <Sidebar
           title="Mentee"
-          navItems={["Analysis", "Message", "Schedule", "Tasks"]}
+          navItems={["Analysis", "Message", "Schedule", "MenteeTasks"]}
           activePage={activePage}
           setActivePage={(page) => setActivePage(page)}
         />
         {/* Main content area (right of sidebar, full height) */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col m-5">
           {/* StatsCard row - takes full width except sidebar */}
           <div className="flex flex-row w-full justify-around bg-white">
             <StatsCard
@@ -53,24 +53,22 @@ const Mentee = () => {
               {activePage === "Home" && <Analysis />}
               {activePage === "Message" && <Message />}
               {activePage === "Schedule" && <Schedule />}
-              {activePage === "Tasks" && <Task />}
+              {activePage === "MenteeTasks" && <MenteeTask />}
               {/* Default to Home if no match */}
-              {!["Home", "Message", "Schedule", "Tasks"].includes(
+              {!["Home", "Message", "Schedule", "MenteeTasks"].includes(
                 activePage
               ) && <Analysis />}
             </div>
             {/* Right Sidebar (smaller) */}
-            <div className="w-[200px] min-w-[120px] max-w-[300px] border-l border-border flex flex-col p-4">
+            <div className="w-[200px] min-w-[120px] max-w-[300px]   flex flex-col p-4">
               {activePage === "Analysis" && <MentorSidebar />}
               {activePage === "Message" && <ChatButtons />}
               {activePage === "Schedule" && <MentorSidebar />}
-              {activePage === "Tasks" && <DonutChart />}
+              {activePage === "MenteeTasks" && <DonutChart />}
             </div>
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };
