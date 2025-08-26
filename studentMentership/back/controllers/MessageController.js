@@ -1,6 +1,6 @@
 // controllers/messageController.js
 import Message from "../models/Message.js";
-import User from "../models/user.js";
+import Student from "../models/student.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import { Op } from "sequelize";
 
@@ -44,12 +44,12 @@ export const findMenteesForMentor = async (req, res) => {
         where: { mentor_id: mentorId },
       });
       const mentees = assignments.map((a) => a.mentee_id);
-      // for each mentee find user info using student_id=mentee_id
-      const menteeDetails = await User.findAll({
+      // for each mentee find student info using student_id=mentee_id
+      const menteeDetails = await Student.findAll({
         where: { student_id: mentees },
       });
-      // for mentor find user info using student_id=mentorId
-      const mentorDetails = await User.findOne({
+      // for mentor find student info using student_id=mentorId
+      const mentorDetails = await Student.findOne({
         where: { student_id: mentorId },
       });
       return res.json({ mentees: menteeDetails, mentor: mentorDetails });
@@ -69,14 +69,14 @@ export const findMenteesForMentor = async (req, res) => {
       const mentees = await MentorMenteeAssignment.findAll({
         where: { mentor_id: mentorId },
       });
-      const menteeDetails = await User.findAll({
+      const menteeDetails = await Student.findAll({
         where: { student_id: mentees.map((a) => a.mentee_id) },
       });
-      const mentorDetails = await User.findOne({
+      const mentorDetails = await Student.findOne({
         where: { student_id: mentorId },
       });
       // adding mentorDetails to  menteeDetails
-      // menteeDetails.push(mentorDetails);
+      menteeDetails.push(mentorDetails);
       return res.json({
         mentor: mentorDetails,
         mentees: menteeDetails,
@@ -89,16 +89,16 @@ export const findMenteesForMentor = async (req, res) => {
 };
 
 export const getAllMessages = async (req, res) => {
-  const { roomId, user1, user2 } = req.query;
+  const { roomId, student1, student2 } = req.query;
   try {
     let where = {};
     if (roomId) {
       where = { roomId };
-    } else if (user1 && user2) {
+    } else if (student1 && student2) {
       where = {
         [Op.or]: [
-          { sender_id: user1, receiver_id: user2 },
-          { sender_id: user2, receiver_id: user1 },
+          { sender_id: student1, receiver_id: student2 },
+          { sender_id: student2, receiver_id: student1 },
         ],
       };
     }

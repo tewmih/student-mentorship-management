@@ -1,7 +1,7 @@
 import MentorshipSession from "../models/session.js";
 import SessionAttendance from "./../models/sessionAttendance.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
-import User from "../models/user.js";
+import Student from "../models/student.js";
 // Mentor schedules a new mentorship session
 async function createSession(req, res) {
   try {
@@ -35,49 +35,34 @@ async function listMySessions(req, res) {
     const assignment = await MentorMenteeAssignment.findOne({
       where: { mentee_id },
     });
-
     if (!assignment) {
       return res.status(404).json({ message: "Mentor not found" });
     }
-
     const mentor_id = assignment.mentor_id;
     // find all sessions created by this mentor
     const sessions = await MentorshipSession.findAll({
       where: { mentor_id },
     });
-
     return res.json({ sessions });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 }
-// List sessions for logged-in
-async function listSessions(req, res) {
-  try {
-    const mentor_id = req.user.id;
-    const sessions = await MentorshipSession.findAll({
-      where: { mentor_id },
-      include: [
-        {
-          model: SessionAttendance,
-          as: "attendees",
-          include: [
-            {
-              model: User,
-              as: "mentee",
-              attributes: ["id", "full_name", "student_id"],
-            },
-          ],
-        },
-      ],
-    });
-    return res.json({ sessions });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
+// List sessions for logged-in mentor
+// async function listSessions(req, res) {
+//   try {
+//     const mentor_id = req.user.student_id;
+//     const sessions = await MentorshipSession.findAll({
+//       where: { mentor_id },
+//       order: [["createdAt", "DESC"]],
+//     });
+//     return res.json({ sessions });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// }
 
 // Mentee submits feedback for a session
 async function submitFeedback(req, res) {
@@ -107,7 +92,6 @@ async function submitFeedback(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
-
 // list all sessions created by a mentor
 const listSessionsForMentor = async (req, res) => {
   try {
@@ -126,7 +110,7 @@ const listSessionsForMentor = async (req, res) => {
 
 export const SessionController = {
   createSession,
-  listSessions,
+  // listSessions,
   listMySessions,
   listSessionsForMentor,
   submitFeedback,

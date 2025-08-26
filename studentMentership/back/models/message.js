@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import User from "./user.js"; // User model
+import Student from "./student.js";
 const Message = sequelize.define(
   "Message",
   {
@@ -12,13 +12,13 @@ const Message = sequelize.define(
     sender_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "users", key: "id" },
+      references: { model: "students", key: "id" },
       onDelete: "CASCADE",
     },
     receiver_id: {
       type: DataTypes.INTEGER,
       allowNull: true, // null for group chat
-      references: { model: "users", key: "id" },
+      references: { model: "students", key: "id" },
       onDelete: "CASCADE",
     },
     roomId: {
@@ -42,8 +42,8 @@ const Message = sequelize.define(
   }
 );
 // Associations
-Message.belongsTo(User, { as: "sender", foreignKey: "sender_id" });
-Message.belongsTo(User, { as: "receiver", foreignKey: "receiver_id" });
+Message.belongsTo(Student, { as: "sender", foreignKey: "sender_id" });
+Message.belongsTo(Student, { as: "receiver", foreignKey: "receiver_id" });
 Message.belongsTo(Message, { as: "reply", foreignKey: "replyTo" });
 
 export default Message;

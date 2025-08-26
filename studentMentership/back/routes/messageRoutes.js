@@ -6,6 +6,5 @@ const authenticateJWT = require("../middlewares/authMiddleware");
 router.use(authenticateJWT);
 
 router.post("/send", MessageController.sendMessage);
-router.get("/", MessageController.getMessages);
-
+// router.get("/", MessageController.getMessages);
 module.exports = router;
