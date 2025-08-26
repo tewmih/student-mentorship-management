@@ -15,10 +15,36 @@ function DepartmentChart({ data, title }) {
 
   const calculatedMaxValue = totalValue === 0 ? 1 : totalValue;
 
+  // Function to format the labels dynamically
+  const formatLabel = (value) => {
+    if (value >= 1000) {
+      return `${Math.round(value / 1000)}K`;
+    }
+    return value.toLocaleString();
+  };
+
+  const labels = [
+    0,
+    parseFloat((calculatedMaxValue * 0.25).toFixed(1)),
+    parseFloat((calculatedMaxValue * 0.5).toFixed(1)),
+    parseFloat((calculatedMaxValue * 0.75).toFixed(1)),
+    calculatedMaxValue,
+  ];
+
+  const uniqueLabels = [];
+  labels.forEach((label) => {
+    if (
+      uniqueLabels.length === 0 ||
+      uniqueLabels[uniqueLabels.length - 1] !== label
+    ) {
+      uniqueLabels.push(label);
+    }
+  });
+
   return (
     <Card className="bg-white w-[100%] sm:w-[50%] border-[#e7e7e7]">
       <CardHeader>
-        <CardTitle className=" text-start  text-[#464255]">{title}</CardTitle>
+        <CardTitle className=" text-start  text-[#464255]">{title}</CardTitle>
         <p className=" text-start text-[#464255]">
           {totalValue.toLocaleString()}
         </p>
@@ -56,12 +82,10 @@ function DepartmentChart({ data, title }) {
             );
           })}
         </div>
-        <div className="flex justify-between text-xs text-[#737373] mt-4">
-          <span>0</span>
-          <span>{Math.round((calculatedMaxValue * 0.25) / 1000)}K</span>
-          <span>{Math.round((calculatedMaxValue * 0.5) / 1000)}K</span>
-          <span>{Math.round((calculatedMaxValue * 0.75) / 1000)}K</span>
-          <span>{Math.round(calculatedMaxValue / 1000)}K</span>
+        <div className="flex justify-between text-xs text-[#737373] sm:ml-23 mt-4">
+          {uniqueLabels.map((label, index) => (
+            <span key={index}>{formatLabel(label)}</span>
+          ))}
         </div>
       </CardContent>
     </Card>
