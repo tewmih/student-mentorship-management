@@ -4,7 +4,7 @@ import Login from "./components/Login.jsx";
 import Mentee from "./pages/Mentee.jsx";
 import MentorPage from "./pages/MentorPage.jsx";
 import StudentUnion from "./pages/StudentUnion/StudentUnion.jsx";
-import Header from "./components/Header.tsx";
+import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
