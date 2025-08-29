@@ -47,7 +47,14 @@ const Header = () => {
           </div>
 
           {/* Message icon with badge */}
-          <div className="relative">
+          <div className="relative cursor-pointer"
+          onClick={() => {
+            navigate("/mentee", { 
+              state: { currentPage: "Message" },
+              replace: true // This replaces the current history entry
+            });
+          }}
+          >
             {/* Replaced react-icons with inline SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"

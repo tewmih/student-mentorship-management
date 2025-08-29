@@ -1,5 +1,4 @@
 import Sidebar from "../components/sidebar/Sidebar.jsx";
-
 import StatsCard from "../components/barGraph/stats-card.jsx";
 import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";
@@ -9,10 +8,19 @@ import MenteeTask from "./mentee-subPages/task.jsx";
 import MentorSidebar from "../ui/mentee-right-sidebar/mentee-info.jsx";
 import ChatButtons from "../ui/mentee-right-sidebar/chatButtons.jsx";
 import DonutChart from "../ui/chart/DonutChart.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Mentee = () => {
+  const location = useLocation();
   const [activePage, setActivePage] = useState("Analysis");
+
+  // Check for navigation state when component mounts
+  useEffect(() => {
+    if (location.state?.currentPage) {
+      setActivePage(location.state.currentPage);
+    }
+  }, [location.state]);
   return (
     <>
       <div className="flex w-full pt-20">
