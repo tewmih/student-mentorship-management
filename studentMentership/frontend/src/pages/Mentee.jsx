@@ -26,7 +26,7 @@ const Mentee = () => {
         {/* Main content area (right of sidebar, full height) */}
         <div className="flex-1 flex flex-col m-5">
           {/* StatsCard row - takes full width except sidebar */}
-          <div className="flex flex-row w-full justify-around bg-white">
+          <div className="flex flex-row w-full justify-around bg-background text-foreground">
             <StatsCard
               title="This month sessions"
               value={23}
@@ -49,7 +49,7 @@ const Mentee = () => {
           {/* Main and right sidebar below stats cards */}
           <div className="flex flex-row flex-1 w-full">
             {/* Main Page (middle) */}
-            <div className="flex-1 flex flex-col bg-white-500 m-1">
+              <div className="flex-1 flex flex-col bg-background text-foreground m-1">
               {activePage === "Home" && <Analysis />}
               {activePage === "Message" && <Message />}
               {activePage === "Schedule" && <Schedule />}

@@ -12,11 +12,11 @@ const DEFAULT_COLORS = [
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
-        <p className="text-sm font-bold text-gray-900 mb-1">
+      <div className="bg-background text-foreground p-4 rounded-lg shadow-xl border border-gray-200">
+        <p className="text-sm font-bold text-foreground mb-1">
           {payload[0].name}
         </p>
-        <p className="text-sm text-gray-700">{`Value: ${payload[0].value}`}</p>
+        <p className="text-sm text-foreground/60">{`Value: ${payload[0].value}`}</p>
         <p
           className="text-sm font-semibold"
           style={{ color: payload[0].color }}
@@ -32,7 +32,7 @@ const CustomTooltip = ({ active, payload }) => {
 const CustomLegend = ({ payload }) => {
   return (
     <div className="flex flex-col space-y-2 ml-8">
-      <div className="grid grid-cols-3 gap-4 text-xs font-medium text-gray-600 mb-2">
+      <div className="grid grid-cols-3 gap-4 text-xs font-medium text-foreground/60 mb-2">
         <span>batch</span>
         <span>Value</span>
         <span>%</span>
@@ -47,12 +47,12 @@ const CustomLegend = ({ payload }) => {
               className="w-3 h-3 rounded-full mr-2"
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-gray-700">{entry.value}</span>
+            <span className="text-foreground/60">{entry.value}</span>
           </div>
-          <span className="text-gray-900 font-medium">
+          <span className="text-foreground font-medium">
             {entry.payload.value}
           </span>
-          <span className="text-gray-600">{entry.payload.percentage}%</span>
+          <span className="text-foreground/60">{entry.payload.percentage}%</span>
         </div>
       ))}
     </div>

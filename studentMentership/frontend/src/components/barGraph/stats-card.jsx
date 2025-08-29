@@ -9,7 +9,7 @@ export default function StatsCard({
   iconBgColor = "#00b087/10",
 }) {
   return (
-    <Card className="bg-white border-[#e7e7e7] rounded-lg  w-50   my-1 justify-around">
+    <Card className="bg-background text-foreground border-border rounded-lg  w-50   my-1 justify-around border">
       <CardContent className="p-3">
         <div className="flex items-center gap-1">
           <div
@@ -19,8 +19,8 @@ export default function StatsCard({
             <Icon className="w-3 h-3" style={{ color: iconColor }} />
           </div>
           <div>
-            <p className="text-xs text-[#737373] leading-tight">{title}</p>
-            <p className="text-sm font-bold text-[#464255] leading-tight">
+            <p className="text-xs text-foreground/60 leading-tight">{title}</p>
+            <p className="text-sm font-bold text-foreground leading-tight">
               {value.toLocaleString()}
             </p>
             {subtitle && (

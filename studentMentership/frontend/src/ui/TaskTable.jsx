@@ -19,25 +19,25 @@ const statusStyles = {
  */
 const TasksTable = ({ tasks }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-background text-foreground border border-border rounded-lg">
       {/* Table header section */}
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Your Tasks</h2>
+      <div className="p-6 border-b border-foreground/20">
+        <h2 className="text-lg font-semibold text-foreground">Your Tasks</h2>
       </div>
 
       {/* Main table content, wrapped for horizontal scrolling on smaller screens */}
       <div className="overflow-x-auto">
         <table className="w-full">
           {/* Table head */}
-          <thead className="bg-gray-50 ">
+          <thead className="bg-background text-foreground border border-border">
             <tr>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-center text-xs font-medium text-foreground/60 uppercase">
                 Number
               </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-center text-xs font-medium text-foreground/60 uppercase">
                 Task
               </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-center text-xs font-medium text-foreground/60 uppercase">
                 Due Date
               </th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">

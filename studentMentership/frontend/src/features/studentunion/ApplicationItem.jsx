@@ -8,13 +8,13 @@ function ApplicationItem({ item }) {
 
   return (
     <NavLink to={`/applicationlist/${item.id}`} className="w-full">
-      <li className="flex w-full items-center px-6 py-4 hover:bg-gray-100 border-b-2 transition-colors">
-        <div className="w-1/6 text-gray-500">{item.id}</div>
-        <div className="w-1/6 text-gray-900 font-medium">{item.full_name}</div>
+        <li className="flex w-full items-center px-6 py-4 hover:bg-background text-foreground border border-border transition-colors">
+        <div className="w-1/6 text-foreground/60">{item.id}</div>
+        <div className="w-1/6 text-foreground font-medium">{item.full_name}</div>
         <div className="w-1/6 flex justify-end">
           <span
             className={`text-xs font-semibold px-2 py-1 rounded-full ${statusClasses}`}
-          >
+          > 
             {item.status}
           </span>
         </div>

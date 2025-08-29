@@ -153,7 +153,7 @@ const currentUser = { id: "jack", name: "Jack Raymonds" };
 function Chat() {
   const [activePage, setActivePage] = useState("Dashboard");
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row bg-background text-foreground border border-border rounded-lg">
       <div>
         <ChatComponent
           showSidebar={true}

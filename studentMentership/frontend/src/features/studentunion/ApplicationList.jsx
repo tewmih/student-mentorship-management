@@ -79,7 +79,7 @@ function ApplicationList() {
         <div className="relative w-1/3">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search"  
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -124,7 +124,7 @@ function ApplicationList() {
               Id
             </div>
             <div
-              className="w-1/6 cursor-pointer"
+              class Name="w-1/6 cursor-pointer"
               onClick={() => handleSort("name")}
             >
               Student name

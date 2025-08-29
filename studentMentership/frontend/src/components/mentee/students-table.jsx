@@ -76,7 +76,7 @@ export function StudentsTable({ title, subtitle, students }) {
   };
 
   return (
-    <Card className="bg-white border-[#e7e7e7] rounded-xl ">
+    <Card className="bg-background text-foreground border border-border rounded-xl ">
       <CardHeader>
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
@@ -99,7 +99,7 @@ export function StudentsTable({ title, subtitle, students }) {
               />
             </div>
 
-            <div className="flex items-center gap-2 text-sm text-[#737373]">
+            <div className="flex items-center gap-2 text-sm text-foreground/60">
               <span>Sort by</span>
               <div className="relative">
                 <select
@@ -151,14 +151,14 @@ export function StudentsTable({ title, subtitle, students }) {
         <div className="overflow-x-auto min-h-[500px]">
           <table className="w-full min-w-[700px] border-collapse">
             <thead>
-              <tr className="border-b border-[#e7e7e7]">
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#737373]">
+              <tr className="border-b border-foreground/20">
+                <th className="text-left py-3 px-4 text-sm font-medium text-foreground/60">
                   Student name
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#737373]">
+                <th className="text-left py-3 px-4 text-sm font-medium text-foreground/60">
                   Id
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#737373]">
+                <th className="text-left py-3 px-4 text-sm font-medium text-foreground/60">
                   Department
                 </th>
                 <th className="text-left py-3 px-4 text-sm font-medium text-[#737373]">
@@ -260,8 +260,8 @@ export function StudentsTable({ title, subtitle, students }) {
                   size="sm"
                   className={
                     isCurrentPage
-                      ? "bg-[#2d9cdb] text-white hover:bg-[#2d9cdb]/80 shadow-md"
-                      : "text-[#737373] hover:bg-[#f3f2f7] transition-colors"
+                      ? "bg-[#2d9cdb] text-foreground hover:bg-[#2d9cdb]/80 shadow-md"
+                      : "text-foreground/60 hover:bg-[#f3f2f7] transition-colors"
                   }
                   onClick={() => handlePageChange(page)}
                 >
@@ -272,7 +272,7 @@ export function StudentsTable({ title, subtitle, students }) {
             <Button
               variant="ghost"
               size="sm"
-              className="text-[#737373] hover:bg-[#f3f2f7] transition-colors"
+              className="text-foreground/60 hover:bg-[#f3f2f7] transition-colors"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}
             >
@@ -425,7 +425,7 @@ function AASTUStudent() {
     <div className="flex flex-col sm:flex-row overflow-y-scroll h-screen w-[100%] bg-gray-50">
       <div className=" rounded-lg px-5 w-full">
         <div className="min-h-screen">
-          <div className="flex flex-row justify-between h-20 bg-white mb-5 w-auto">
+          <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5 w-auto">
             <StatsCard
               title="Total Students"
               value={totalStudents}
@@ -455,7 +455,7 @@ function AASTUStudent() {
             <div>
               <PieChartComponent data={dynamicPieChartData} />
             </div>
-          </div>
+          </div>  
         </div>
         <StudentsTable
           title="AASTU Students List"

@@ -146,10 +146,10 @@ console.log(mentees);
   const pieChartData = processPieChartData(mentees);
 
   return (
-    <div className="flex flex-col sm:flex-row overflow-y-scroll h-screen w-[100%] bg-gray-50">
+    <div className="flex flex-col sm:flex-row overflow-y-scroll h-screen w-[100%] bg-background text-foreground border border-border rounded-lg">
       <div className=" rounded-lg px-5 w-full">
         <div className="min-h-screen">
-          <div className="flex flex-row justify-between h-20 bg-white mb-5 w-auto">
+          <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5 w-auto">
             <StatsCard
               title="Mentees"
               value={totalMentees}

@@ -27,8 +27,8 @@ const DonutChart = ({
       payload[0].payload.name === "completed"
     ) {
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
-          <p className="text-sm font-semibold text-gray-800">{`${payload[0].value}% ${title}`}</p>
+        <div className="bg-background text-foreground p-3 rounded-lg shadow-lg border border-gray-200">
+          <p className="text-sm font-semibold text-foreground">{`${payload[0].value}% ${title}`}</p>
         </div>
       );
     }
@@ -36,7 +36,7 @@ const DonutChart = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-background text-foreground">
       <div
         className={`flex justify-center items-center  flex-col   h-80   ${className}`}
       >

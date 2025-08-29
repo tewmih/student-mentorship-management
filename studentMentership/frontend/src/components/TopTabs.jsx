@@ -10,7 +10,7 @@ const tabs = [
 
 export default function TopTabs() {
   return (
-    <div className="border fixed w-full  bg-card  flex h-15 ">
+    <div className="border fixed w-full  bg-background text-foreground border border-border flex h-15 ">
       {tabs.map((tab, i) => (
         <button
           key={i}
