@@ -16,7 +16,40 @@ const Header = () => {
   };
   return (
     <div className="fixed w-full z-50 bg-background text-foreground font-sans pb-4 antialiased mx-auto mb-2">
-      <nav className="flex items-center justify-end bg-background text-foreground py-4 shadow-md max-w-7xl border border-border rounded-lg">
+      <nav className="flex items-center justify-between bg-background text-foreground py-4 shadow-md max-w-7xl border border-border rounded-lg px-6">
+        {/* Left section: Logo and navigation links */}
+        <div className="flex items-center space-x-8">
+          {/* Logo */}
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/")}>
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">S</span>
+            </div>
+            <span className="text-xl font-bold text-foreground">StudentMentorship</span>
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-6">
+            <button 
+              onClick={() => navigate("/mentee")}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => navigate("/mentor")}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
+            >
+              Mentor
+            </button>
+            <button 
+              onClick={() => navigate("/studentunion")}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
+            >
+            Union
+            </button>
+          </div>
+        </div>
+        
         {/* Right section: icons and user info */}
         <div className="flex items-center space-x-6">
           {/* Theme toggle icon to the left, separated with more space */}
