@@ -11,7 +11,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 
 import Forgot from "./components/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
-import Profile from "./pages/profile/profile.jsx";
+import Profile from "./pages/Profile.jsx";
 
 function App() {
   return (

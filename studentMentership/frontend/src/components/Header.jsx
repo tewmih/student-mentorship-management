@@ -22,7 +22,14 @@ const Header = () => {
           {/* Theme toggle icon to the left, separated with more space */}
             <ThemeToggle />
           {/* Notification icon with badge */}
-          <div className="relative">
+          <div className="relative"
+          onClick={() => {
+            navigate("/profile", { 
+              state: { currentPage: "Notification" },
+              replace: true // This replaces the current history entry
+            });
+          }}
+          >
             {/* Replaced react-icons with inline SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +86,7 @@ const Header = () => {
 
           {/* User profile section */}
           <div
-            className="flex items-center space-x-3"
+            className="flex items-center space-x-3 cursor-pointer"
             onClick={() => {
               navigate("/profile");
             }}
@@ -91,7 +98,7 @@ const Header = () => {
               <img
                 src={user.profilePic}
                 alt={user.name}
-                className="h-10 w-10 cursor-pointer mr-5 rounded-full object-cover shadow-sm"
+                className="h-10 w-10  mr-5 rounded-full object-cover shadow-sm"
               />
             </div>
           </div>
