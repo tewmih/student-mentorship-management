@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
 import LoginPopUp from "../pages/Login";
 
-const Header = ({ setShowLogin }) => {
+const Home = ({ setShowLogin }) => {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
@@ -53,4 +53,4 @@ const Header = ({ setShowLogin }) => {
   );
 };
 
-export default Header;
+export default Home;

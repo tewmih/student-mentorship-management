@@ -1,22 +1,26 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 // Main Navbar component
 const Header = () => {
   // Use state to manage the badge counts, so they can be dynamic
   const [notificationCount, setNotificationCount] = useState(2);
   const [messageCount, setMessageCount] = useState(3);
 
+  const navigate = useNavigate();
+
   // A simple user data object for demonstration
   const user = {
     name: "Samantha",
     profilePic: "https://placehold.co/50x50/3498db/ffffff?text=S",
   };
-
   return (
     <div className="fixed w-full z-50 bg-gray-50 font-sans pb-4 antialiased">
-      <nav className="flex items-center justify-end  bg-white py-4 shadow-md max-w-7xl ">
+      <nav className="flex items-center justify-end bg-white py-4 shadow-md max-w-7xl ">
         {/* Right section: icons and user info */}
         <div className="flex items-center space-x-6">
+          {/* Theme toggle icon to the left, separated with more space */}
+            <ThemeToggle />
           {/* Notification icon with badge */}
           <div className="relative">
             {/* Replaced react-icons with inline SVG */}
@@ -67,15 +71,22 @@ const Header = () => {
           </div>
 
           {/* User profile section */}
-          <div className="flex items-center space-x-3">
-            <span className="hidden text-sm font-medium text-gray-700 sm:block">
-              Hello, {user.name}
-            </span>
-            <img
-              src="/profile.jpg"
-              alt={user.name}
-              className="h-10 w-10 cursor-pointer mr-5 rounded-full object-cover shadow-sm"
-            />
+          <div
+            className="flex items-center space-x-3"
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
+            <div className="flex items-center space-x-3 w-full h-full">
+              <span className="hidden text-sm font-medium text-gray-700 sm:block">
+                Hello, {user.name}
+              </span>
+              <img
+                src={user.profilePic}
+                alt={user.name}
+                className="h-10 w-10 cursor-pointer mr-5 rounded-full object-cover shadow-sm"
+              />
+            </div>
           </div>
         </div>
       </nav>

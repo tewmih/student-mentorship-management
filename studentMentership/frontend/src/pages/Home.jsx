@@ -15,7 +15,7 @@ const Home = () => {
     <>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <div>
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <Header setShowLogin={setShowLogin} />
         <div className="h-[100vh]">
           <Stats />
