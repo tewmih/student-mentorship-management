@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
+      {Boolean(localStorage.getItem("token")) && <Header />}
         <Routes>
           <Route path="/" element={<Home />} />
 
