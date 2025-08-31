@@ -1,8 +1,8 @@
 const Stats = () => {
   return (
-    <section className="bg-background  py-12">
+    <section className="bg-background text-foreground border border-border rounded-lg py-12">
       <div className="container flex flex-wrap justify-center gap-12 text-center">
-        <div className="card-hover gradient-border p-6 rounded-lg shadow-sm min-w-[150px]">
+        <div className="card-hover gradient-border p-6 rounded-lg shadow-sm min-w-[150px] bg-background text-foreground border border-border">
           <p className="text-3xl font-bold text-foreground">500+</p>
           <p className="text-muted-foreground text-sm">Active Mentors</p>
         </div>

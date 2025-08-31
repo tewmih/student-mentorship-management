@@ -34,9 +34,9 @@ function MentorApplicationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-xl mx-auto bg-white p-6 shadow rounded-lg space-y-4"
+      className="max-w-xl mx-auto bg-background text-foreground border border-border p-6 shadow rounded-lg space-y-4"
     >
-      <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+      <h2 className="text-2xl font-semibold text-foreground/60 text-center mb-6">
         Mentor Application
       </h2>
 
@@ -57,7 +57,7 @@ function MentorApplicationForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Mentor ID (REQUIRED) */}
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-foreground/60">
             Mentor ID
           </label>
           <input
@@ -72,7 +72,7 @@ function MentorApplicationForm() {
 
         {/* Name (REQUIRED) */}
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-foreground/60">
             Name
           </label>
           <input
@@ -87,7 +87,7 @@ function MentorApplicationForm() {
 
         {/* Age (Optional) */}
         <div>
-          <label className="block text-sm font-medium text-gray-600">Age</label>
+          <label className="block text-sm font-medium text-foreground/60">Age</label>
           <input
             type="number"
             {...register("age")}
@@ -97,7 +97,7 @@ function MentorApplicationForm() {
 
         {/* Location (Optional) */}
         <div>
-          <label className="block text-sm font-medium text-gray-600">
+          <label className="block text-sm font-medium text-foreground/60">
             Location
           </label>
           <input
@@ -110,7 +110,7 @@ function MentorApplicationForm() {
 
       {/* Motivation (REQUIRED) */}
       <div>
-        <label className="block text-sm font-medium text-gray-600">
+        <label className="block text-sm font-medium text-foreground/60">
           Motivation
         </label>
         <textarea
@@ -124,7 +124,7 @@ function MentorApplicationForm() {
 
       {/* Goals (Optional) */}
       <div>
-        <label className="block text-sm font-medium text-gray-600">Goals</label>
+        <label className="block text-sm font-medium text-foreground/60">Goals</label>
         <textarea
           {...register("goals")}
           className="w-full border focus:outline-none px-3 py-2 rounded-md mt-1"
@@ -133,7 +133,7 @@ function MentorApplicationForm() {
 
       {/* Experience (REQUIRED) */}
       <div>
-        <label className="block text-sm font-medium text-gray-600">
+        <label className="block text-sm font-medium text-foreground/60">
           Experience
         </label>
         <textarea
@@ -147,7 +147,7 @@ function MentorApplicationForm() {
 
       {/* Region (REQUIRED) */}
       <div>
-        <label className="block text-sm font-medium text-gray-600">
+        <label className="block text-sm font-medium text-foreground/60">
           Region
         </label>
         <select
@@ -169,10 +169,10 @@ function MentorApplicationForm() {
 
       {/* Personality Traits (Optional) */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-700">Personality</h3>
+        <h3 className="text-lg font-semibold text-foreground/60">Personality</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-600">
+            <label className="block text-sm font-medium text-foreground/60">
               Introvert vs Extrovert (1-100)
             </label>
             <input
@@ -188,12 +188,12 @@ function MentorApplicationForm() {
 
       {/* Technical Skills (Optional) */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-700">
+        <h3 className="text-lg font-semibold text-foreground/60">
           Technical Skills (1-10)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-600">
+            <label className="block text-sm font-medium text-foreground/60">
               Internet Skill
             </label>
             <input
@@ -205,7 +205,7 @@ function MentorApplicationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">
+            <label className="block text-sm font-medium text-foreground/60">
               Social Networks Skill
             </label>
             <input
@@ -223,7 +223,7 @@ function MentorApplicationForm() {
       <button
         type="submit"
         disabled={isSubmitting || isLoading}
-        className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-blue-600 text-foreground px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting || isLoading ? "Submitting..." : "Submit Application"}
       </button>

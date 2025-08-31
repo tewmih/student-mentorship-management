@@ -123,10 +123,10 @@ function Mentor() {
   const pieChartData = processPieChartData(studentsData, "mentor");
 
   return (
-    <div className="flex flex-col sm:flex-row overflow-y-scroll h-screen w-[100%] bg-gray-50">
+    <div className="flex flex-col sm:flex-row overflow-y-scroll h-screen w-[100%] bg-background text-foreground border border-border rounded-lg">
       <div className=" rounded-lg px-5 w-full">
         <div className="min-h-screen">
-          <div className="flex flex-row justify-between h-20 bg-white mb-5 w-auto">
+          <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5 w-auto">
             <StatsCard
               title="Mentors"
               value={totalMentors}
@@ -146,7 +146,7 @@ function Mentor() {
               icon={Users}
             />
           </div>
-          <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
+            <div className="flex flex-col gap-4 mb-5 bg-background text-foreground border border-border sm:flex-row justify-center items-center">
             <DepartmentChart
               data={processedChartData}
               title="AASTU Mentors by Department"
@@ -165,7 +165,7 @@ function Mentor() {
           totalEntries={totalMentors}
           currentPage={1}
           totalPages={Math.ceil(totalMentors / 10)}
-          onSearch={(term) => console.log("Search:", term)}
+          onSearch={  (term) => console.log("Search:", term)}
           onSort={(field) => console.log("Sort by:", field)}
           onPageChange={(page) => console.log("Page:", page)}
         />

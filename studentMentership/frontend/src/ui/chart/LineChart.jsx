@@ -17,10 +17,10 @@ const CustomTooltip = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 rounded-lg  ">
-        <p className="text-sm font-semibold text-gray-800">{`${payload[0].value}% ${valueLabel}`}</p>
+      <div className="bg-card border border-border text-foreground p-3 rounded-lg shadow-lg transition-colors duration-300">
+        <p className="text-sm font-semibold text-foreground">{`${payload[0].value}% ${valueLabel}`}</p>
         {showDate && payload[0].payload.date && (
-          <p className="text-xs text-gray-500">{payload[0].payload.date}</p>
+          <p className="text-xs text-foreground/60">{payload[0].payload.date}</p>
         )}
       </div>
     );
@@ -38,7 +38,7 @@ function LineChart({
   valueLabel = "progress",
   showDate = true,
   className = "",
-  containerClassName = "w-full h-90 text-start  mx-auto  bg-white",
+  containerClassName = "w-full h-90 text-start mx-auto bg-card border border-border rounded-lg p-4 transition-colors duration-300",
 }) {
   const defaultData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
@@ -59,8 +59,8 @@ function LineChart({
   if (!chartData || chartData.length === 0) {
     return (
       <div className={containerClassName}>
-        <h2 className=" font-medium text-gray-800 mb-8">{title}</h2>
-        <div className="flex items-center justify-center h-64 text-gray-500">
+        <h2 className="font-medium text-foreground mb-8 transition-colors duration-300">{title}</h2>
+        <div className="flex items-center justify-center h-64 text-foreground/60 transition-colors duration-300">
           No data available
         </div>
       </div>
@@ -87,7 +87,11 @@ function LineChart({
             dataKey="label"
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 12, fill: "#6B7280", fontWeight: 500 }}
+            tick={{ 
+              fontSize: 12, 
+              fill: "hsl(var(--foreground))", 
+              fontWeight: 500 
+            }}
             dy={10}
             interval={0}
             angle={-45}
@@ -118,7 +122,7 @@ function LineChart({
           />
         </AreaChart>
       </ResponsiveContainer>
-      <p className="pl-18 text-gray-400">
+      <p className="pl-18 text-foreground/60 transition-colors duration-300">
         your mentorship dashboard is a visual journey of growth
       </p>
     </div>

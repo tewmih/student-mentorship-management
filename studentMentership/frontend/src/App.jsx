@@ -11,6 +11,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 
 import Forgot from "./components/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
+import Profile from "./pages/Profile.jsx";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           <Route path="/applicationlist/:id" element={<ApplicationDetail />} />
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </BrowserRouter>

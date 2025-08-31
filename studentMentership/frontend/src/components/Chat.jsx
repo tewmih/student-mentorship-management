@@ -121,11 +121,11 @@ function Chat() {
     ? chatHistory[`user_${[userId, selectedUser.id].sort().join("_")}`] || []
     : [];
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-background text-foreground border border-border rounded-lg p-4">
       {/* -------- SIDEBAR -------- */}
-      <div className="w-1/4 bg-white border-r border-gray-300 flex flex-col">
+      <div className="w-1/4 bg-background text-foreground border-r border-border flex flex-col">
         {/* Logged-in user */}
-        <div className="flex items-center p-4 border-b border-gray-300 bg-gray-50">
+        <div className="flex items-center p-4 border-b border-border bg-background text-foreground">
           <div className="relative">
             <img
               src={`https://i.pravatar.cc/40?u=${userId}`}

@@ -30,13 +30,13 @@ alert("sucesss !")
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="bg-background text-foreground p-8 rounded shadow-md w-full max-w-md border border-border rounded-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
         {/* Student ID */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Student ID</label>
+          <label className="block text-foreground/60 mb-2">Student ID</label>
           <input
             type="text"
             placeholder="Student ID"
@@ -49,7 +49,7 @@ alert("sucesss !")
 
         {/* Password */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Password</label>
+          <label className="block text-foreground/60 mb-2">Password</label>
           <input
             type="password"
             placeholder="Password"
@@ -63,7 +63,7 @@ alert("sucesss !")
         {/* Login Button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-foreground font-semibold py-2 px-4 rounded"
         >
           Login
         </button>

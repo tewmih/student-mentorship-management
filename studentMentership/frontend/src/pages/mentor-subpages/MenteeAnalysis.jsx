@@ -22,9 +22,9 @@ function MenteeAnalysis() {
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
   return (
-    <div className="flex flex-row  bg-gray-50">
+    <div className="flex flex-row  bg-background text-foreground border border-border rounded-lg">
       <div className=" rounded-lg overflow-y-scroll h-screen px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-white mb-5  w-auto">
+        <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5  w-auto">
           <StatsCard
             title="Students"
             value={5423}
@@ -44,7 +44,7 @@ function MenteeAnalysis() {
             icon={Users}
           />
         </div>
-        <div className="flex flex-col gap-4 mb-5 bg-gray-50 sm:flex-row justify-center items-center">
+        <div className="flex flex-col gap-4 mb-5 bg-background text-foreground border border-border sm:flex-row justify-center items-center">
           <DepartmentChart
             data={data}
             title="AASTU Mentee"

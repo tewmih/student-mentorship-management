@@ -39,10 +39,10 @@ function DepartmentChart({ data, title }) {
   });
 
   return (
-    <Card className="bg-white w-[100%] sm:w-[50%] border-[#e7e7e7]">
+    <Card className="bg-background text-foreground border border-border w-[100%] sm:w-[50%]">
       <CardHeader>
-        <CardTitle className=" text-start  text-[#464255]">{title}</CardTitle>
-        <p className=" text-start text-[#464255]">
+        <CardTitle className=" text-start  text-foreground">{title}</CardTitle>
+        <p className=" text-start text-foreground">
           {totalValue.toLocaleString()}
         </p>
       </CardHeader>
@@ -54,7 +54,7 @@ function DepartmentChart({ data, title }) {
 
             return (
               <div key={index} className="flex items-center gap-4">
-                <div className="w-20 text-sm text-[#737373] text-right">
+                <div className="w-20 text-sm text-foreground/60 text-right">
                   {dept.name}
                 </div>
                 <div className="flex-1 relative">
@@ -78,7 +78,7 @@ function DepartmentChart({ data, title }) {
             );
           })}
         </div>
-        <div className="flex justify-between text-xs text-[#737373] sm:ml-23 mt-4">
+        <div className="flex justify-between text-xs text-foreground/60 sm:ml-23 mt-4">
           {uniqueLabels.map((label, index) => (
             <span key={index}>{formatLabel(label)}</span>
           ))}

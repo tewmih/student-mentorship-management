@@ -151,7 +151,7 @@ import ChatButton from "../../ui/Buttonn";
 
 function Chat() {
   return (
-    <div className=" w-[100%] bg-gray-50">
+    <div className=" w-[100%] bg-background text-foreground border border-border rounded-lg">
       <div className="flex flex-col sm:flex-row rounded-lg overflow-y-scroll h-screen px-5 w-full">
         <div className="w-full">
           <ChatComponent />

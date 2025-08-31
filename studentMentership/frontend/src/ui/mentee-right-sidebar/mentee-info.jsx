@@ -13,10 +13,10 @@ const mentor = {
 
 function MentorSidebar() {
   return (
-    <div className="bg-white rounded-xl p-4 w-full sm:h-[98%]  flex flex-col gap-2 text-[13px]">
+    <div className="bg-background text-foreground rounded-xl p-4 w-full sm:h-[98%]  flex flex-col gap-2 text-[13px] border border-border">
       <div className="font-normal text-xs mb-1">My Mentor</div>
-      <div className="border rounded-lg flex items-center justify-between px-3 py-2 mb-2">
-        <span className="text-gray-700 text-sm">
+      <div className="border-border rounded-lg flex items-center justify-between px-3 py-2 mb-2">
+        <span className="text-foreground text-sm">
           Hello, <span className="font-medium">{mentor.name}</span>
         </span>
         <img
@@ -26,7 +26,7 @@ function MentorSidebar() {
         />
       </div>
       <div
-        className="text-[13px] text-gray-800 mb-4"
+        className="text-[13px] text-foreground mb-4"
         style={{ lineHeight: "1.2" }}
       >
         {mentor.intro}
@@ -34,7 +34,7 @@ function MentorSidebar() {
       <div className="mt-2 mb-1 font-normal text-[13px]">Get in touch</div>
       <div className="flex flex-col gap-2">
         {mentor.contacts.map((c, idx) => (
-          <div key={idx} className="text-[13px] text-gray-900">
+          <div key={idx} className="text-[13px] text-foreground">
             {c.value}
           </div>
         ))}
