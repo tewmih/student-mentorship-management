@@ -55,7 +55,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
-          <Route path="/forget" element={<Forgot />} />
+          <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           
           {/* Protected Routes */}
