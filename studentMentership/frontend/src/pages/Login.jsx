@@ -1,28 +1,29 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
-function Login() {
+import { authAPI } from "../api/client.js";
+function Login({setTokenState}) {
   const [studentId, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:4000/api/auth/login", {
-        student_id: studentId,
-        password: password,
-      });
+      const data = await authAPI.login(studentId, password);
 
       localStorage.setItem("role", data.role);
       localStorage.setItem("token", data.token);
       localStorage.setItem("id", data.id);
+      localStorage.setItem("student_id", data.student_id);
 
-alert("sucesss !")
+      setTokenState(data.token);
+
+      // Dispatch custom event to notify App.jsx about auth state change
+      window.dispatchEvent(new Event('authStateChange'));
+
+      toast.success("Success!");
       navigate("/mentee");
     } catch (err) {
-      alert(err.response?.data?.message || err.message || "Login failed");
+      toast.error(err.message || "Login failed");
     }
   };
 

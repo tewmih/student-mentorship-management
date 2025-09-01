@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { authAPI } from "../../api/client.js";
 
 function Sidebar({
   title = "Dashboard",
@@ -6,6 +8,12 @@ function Sidebar({
   activePage,
   setActivePage,
 }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    authAPI.logout();
+    navigate("/login");
+  };
   return (
     <div className="w-40  bg-background text-foreground h-screen flex flex-col justify-between pt-10 border border-border rounded-lg">
       <div>
@@ -26,7 +34,12 @@ function Sidebar({
           ))}
         </ul>
       </div>
-      <button className="mt-4 text-red-500">Logout</button>
+      <button 
+        onClick={handleLogout}
+        className="mt-4 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-2 rounded-md transition-colors duration-200"
+      >
+        Logout
+      </button>
     </div>
   );
 }

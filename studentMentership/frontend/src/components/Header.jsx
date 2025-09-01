@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import { authAPI } from "../api/client.js";
+import { toast } from "sonner";
+
 // Main Navbar component
 const Header = () => {
   // Use state to manage the badge counts, so they can be dynamic
   const [notificationCount, setNotificationCount] = useState(2);
   const [messageCount, setMessageCount] = useState(3);
+  const [user, setUser] = useState({
+    name: "User",
+    profilePic: "https://placehold.co/50x50/3498db/ffffff?text=U",
+  });
 
   const navigate = useNavigate();
 
-  // A simple user data object for demonstration
-  const user = {
-    name: "Samantha",
-    profilePic: "https://placehold.co/50x50/3498db/ffffff?text=S",
-  };
+  // Get user data from localStorage
+  useEffect(() => {
+    const studentId = localStorage.getItem("student_id");
+    const role = localStorage.getItem("role");
+    if (studentId) {
+      setUser({
+        name: studentId,
+        profilePic: "https://placehold.co/50x50/3498db/ffffff?text=" + studentId.charAt(0),
+        role: role
+      });
+    }
+  }, []);
   return (
     <div className="fixed w-full z-50 bg-background text-foreground font-sans pb-4 antialiased mx-auto mb-2">
       <nav className="flex items-center justify-between bg-background text-foreground py-4 shadow-md max-w-7xl border border-border rounded-lg px-6">
@@ -118,22 +132,34 @@ const Header = () => {
           </div>
 
           {/* User profile section */}
-          <div
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={() => {
-              navigate("/profile");
-            }}
-          >
-            <div className="flex items-center space-x-3 w-full h-full">
+          <div className="flex items-center space-x-3">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => {
+                navigate("/profile");
+              }}
+            >
               <span className="hidden text-sm font-medium text-foreground/60 sm:block">
                 Hello, {user.name}
               </span>
               <img
                 src={user.profilePic}
                 alt={user.name}
-                className="h-10 w-10  mr-5 rounded-full object-cover shadow-sm"
+                className="h-10 w-10 mr-3 rounded-full object-cover shadow-sm"
               />
             </div>
+            
+            {/* Logout button */}
+            <button
+              onClick={() => {
+                authAPI.logout();
+                toast.success("Logged out successfully");
+                navigate("/login");
+              }}
+              className="px-3 py-1 text-sm text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-200"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </nav>
