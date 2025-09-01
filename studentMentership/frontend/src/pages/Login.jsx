@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authAPI } from "../api/client.js";
-function Login({setTokenState}) {
+import { toast } from "sonner";
+function Login({ setTokenState }) {
   const [studentId, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Login({setTokenState}) {
       setTokenState(data.token);
 
       // Dispatch custom event to notify App.jsx about auth state change
-      window.dispatchEvent(new Event('authStateChange'));
+      window.dispatchEvent(new Event("authStateChange"));
 
       toast.success("Success!");
       navigate("/mentee");
@@ -71,10 +72,7 @@ function Login({setTokenState}) {
 
         {/* Forgot Password */}
         <div className="text-center mt-4">
-          <Link
-            to="/forgot"
-            className="text-blue-500 hover:underline text-sm"
-          >
+          <Link to="/forgot" className="text-blue-500 hover:underline text-sm">
             Forgot Password?
           </Link>
         </div>
