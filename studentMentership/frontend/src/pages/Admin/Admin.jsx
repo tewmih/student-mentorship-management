@@ -3,7 +3,7 @@ import AASTUStudent from "../../features/Admin/AASTUStudent";
 // import Chat from "../../features/Admin/Chat";
 import Mentee from "../../features/Admin/Mentee";
 import Mentor from "../../features/Admin/Mentor";
-import Sidebar from "../../components/sidebar/Sidebar";
+import Sidebar from "../../components/layout/Sidebar";
 import StudentUnion from "../../features/Admin/StudentUnion";
 function Admin() {
   const navItems = [

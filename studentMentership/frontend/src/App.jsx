@@ -5,13 +5,13 @@ import Login from "./pages/Login.jsx";
 import Mentee from "./pages/Mentee.jsx";
 import MentorPage from "./pages/MentorPage.jsx";
 import StudentUnion from "./pages/StudentUnion/StudentUnion.jsx";
-import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
+import Header from "./components/layout/Header.jsx";
+import Footer from "./components/layout/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
-import Forgot from "./components/Forgot.jsx";
+import Forgot from "./components/auth/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Profile from "./pages/Profile.jsx";
 import { Toaster } from "sonner";
