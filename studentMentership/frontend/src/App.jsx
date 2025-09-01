@@ -14,7 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Forgot from "./components/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Profile from "./pages/Profile.jsx";
-import { Toaster } from "sonner";   
+import { Toaster } from "sonner";
 
 function App() {
   const [tokenState, setTokenState] = useState(localStorage.getItem("token"));
@@ -26,30 +26,30 @@ function App() {
     };
 
     // Listen for storage events (when localStorage changes in other tabs)
-    window.addEventListener('storage', handleStorageChange);
-    
+    window.addEventListener("storage", handleStorageChange);
+
     // Custom event for same-tab updates
-    window.addEventListener('authStateChange', handleStorageChange);
+    window.addEventListener("authStateChange", handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('authStateChange', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("authStateChange", handleStorageChange);
     };
   }, []);
 
   return (
     <>
       <BrowserRouter>
-      <Toaster
-        position="top-right"
-        richColors
-        closeButton
-        theme="dark"
-        offset={80}
-        toastOptions={{
-          style: { color: "#ffffff", background: "#050314" },
-        }}
-      />    
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          theme="dark"
+          offset={0}
+          toastOptions={{
+            style: { color: "#ffffff", background: "#050314" },
+          }}
+        />
 
         {Boolean(tokenState) && <Header />}
         <Routes>
