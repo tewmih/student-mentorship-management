@@ -3,29 +3,42 @@ import Message from "../models/Message.js";
 import Student from "../models/student.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import { Op } from "sequelize";
+import Mentee from "../models/mentee.js";
 
+// ---------------- CREATE MESSAGE ----------------
 // ---------------- CREATE MESSAGE ----------------
 export const createMessage = async (socket, data) => {
   try {
     const senderId = socket.user.id;
     const senderName = socket.user.full_name;
 
+    // Create new message
     const newMessage = await Message.create({
       sender_id: senderId,
       receiver_id: data.receiver_id || null,
       roomId: data.roomId || null,
-      content: data.content, // ✅ fix here
+      content: data.content,
       replyTo: data.replyTo || null,
     });
 
+    // 🔎 Fetch reply target if exists
+    let replyMessage = null;
+    if (data.replyTo) {
+      replyMessage = await Message.findByPk(data.replyTo, {
+        attributes: ["id", "content"],
+      });
+    }
+
+    // ✅ Return enriched message object
     return {
-      _id: newMessage.id,
+      id: newMessage.id,
       sender_id: newMessage.sender_id,
-      username: senderName, // ✅ include for frontend
+      sender: { id: senderId, full_name: senderName }, // include sender info
       receiver_id: newMessage.receiver_id,
       roomId: newMessage.roomId,
-      content: newMessage.content, // ✅ return as "message" for frontend
+      content: newMessage.content,
       replyTo: newMessage.replyTo,
+      replyToMessage: replyMessage, // ✅ attach reply content
       createdAt: newMessage.createdAt,
     };
   } catch (error) {
@@ -40,7 +53,7 @@ export const findMenteesForMentor = async (req, res) => {
     if (req.user.role === "mentor") {
       // If user is a mentor, fetch their mentees
       const mentorId = req.user.student_id;
-      const assignments = await MentorMenteeAssignment.findAll({
+      const assignments = await Mentee.findAll({
         where: { mentor_id: mentorId },
       });
       const mentees = assignments.map((a) => a.mentee_id);
@@ -57,7 +70,7 @@ export const findMenteesForMentor = async (req, res) => {
       // If user is a mentee, find their mentor and all mentees under that mentor
       const menteeId = req.user.student_id;
 
-      const assignment = await MentorMenteeAssignment.findOne({
+      const assignment = await Mentee.findOne({
         where: { mentee_id: menteeId },
       });
 
@@ -66,7 +79,7 @@ export const findMenteesForMentor = async (req, res) => {
       }
 
       const mentorId = assignment.mentor_id;
-      const mentees = await MentorMenteeAssignment.findAll({
+      const mentees = await Mentee.findAll({
         where: { mentor_id: mentorId },
       });
       const menteeDetails = await Student.findAll({

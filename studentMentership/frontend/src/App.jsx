@@ -8,9 +8,9 @@ import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-
 import Forgot from "./components/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
+import Chat from "./components/Chat.jsx";
 
 function App() {
   return (
@@ -28,6 +28,8 @@ function App() {
           <Route path="/applicationlist/:id" element={<ApplicationDetail />} />
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          {/* insert chat */}
+          <Route path="/chat" element={<Chat />} />
 
         </Routes>
         <Footer />

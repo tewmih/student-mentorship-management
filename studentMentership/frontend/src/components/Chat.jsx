@@ -14,7 +14,7 @@ function Chat() {
   const [replyTo, setReplyTo] = useState(null);
   const [chatHistory, setChatHistory] = useState({});
   const [loggedInUser, setLoggedInUser] = useState({});
-  const inputRef = useRef(null); // ✅ added ref for input
+  const inputRef = useRef(null);
   const navigate = useNavigate();
   const userId = parseInt(localStorage.getItem("id"), 10);
   const token = localStorage.getItem("token");
@@ -41,7 +41,7 @@ function Chat() {
 
   // -------- SETUP ROOMS --------
   useEffect(() => {
-    if (mentorId) setRooms([{ id: mentorId, name: mentorId }]);
+    if (mentorId) setRooms([{ id: mentorId, name: `group_${mentorId}` }]);
   }, [mentorId]);
 
   // -------- SOCKET --------
@@ -50,9 +50,11 @@ function Chat() {
     const socketIo = io("http://localhost:4000", { auth: { token } });
     setSocket(socketIo);
 
-    socketIo.on("update_user_status", ({  uId, status }) => {
+    socketIo.on("update_user_status", ({ uId, status }) => {
       setUsers((prev) =>
-        prev.map((user) => (user.student_id === uId ? { ...user, status } : user))
+        prev.map((user) =>
+          user.student_id === uId ? { ...user, status } : user
+        )
       );
     });
 
@@ -68,6 +70,7 @@ function Chat() {
 
     return () => socketIo.disconnect();
   }, [token]);
+
   // -------- LOAD MESSAGES --------
   useEffect(() => {
     if (!socket) return;
@@ -101,6 +104,7 @@ function Chat() {
 
     loadMessages();
   }, [socket, selectedRoom, selectedUser, token, userId]);
+
   // -------- SEND MESSAGE --------
   const sendMessage = () => {
     if (!newMessage.trim() || !socket) return;
@@ -114,12 +118,14 @@ function Chat() {
     setNewMessage("");
     setReplyTo(null);
   };
+
   // -------- DISPLAYED MESSAGES --------
   const displayedMessages = selectedRoom
     ? chatHistory[`room_${selectedRoom.id}`] || []
     : selectedUser
     ? chatHistory[`user_${[userId, selectedUser.id].sort().join("_")}`] || []
     : [];
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* -------- SIDEBAR -------- */}
@@ -191,6 +197,7 @@ function Chat() {
           ))}
         </div>
       </div>
+
       {/* -------- CHAT AREA -------- */}
       <div className="flex-1 flex flex-col">
         <div className="flex-1 p-6 overflow-y-auto">
@@ -209,26 +216,34 @@ function Chat() {
                       : "bg-gray-200 text-gray-800"
                   }`}
                 >
+                  {/* ✅ Reply section */}
                   {msg.replyTo && (
                     <p className="text-sm text-gray-600 border-l-2 border-gray-400 pl-2 mb-1">
                       Replying to:{" "}
-                      {displayedMessages.find((m) => m.id === msg.replyTo)?.content ||
-                        "deleted message"}
+                      {msg.replyToMessage?.content || "deleted message"}
                     </p>
                   )}
+
+                  {/* ✅ Sender Name (handles groups properly) */}
                   <p className="font-semibold">
                     {msg.sender_id === userId
                       ? loggedInUser.full_name
-                      : selectedUser?.full_name}
+                      : msg.sender?.full_name ||
+                        users.find((u) => u.id === msg.sender_id)?.full_name ||
+                        "Unknown"}
                   </p>
+
                   <p>{msg.content}</p>
+
                   <button
                     onClick={() => {
                       setReplyTo(msg);
-                      inputRef.current?.focus(); 
+                      inputRef.current?.focus();
                     }}
                     className={`text-xs mt-1 ${
-                      msg.sender_id === userId ? "text-white/90" : "text-blue-500"
+                      msg.sender_id === userId
+                        ? "text-white/90"
+                        : "text-blue-500"
                     }`}
                   >
                     Reply
@@ -242,7 +257,8 @@ function Chat() {
             </p>
           )}
         </div>
-        {/* Message input */}
+
+        {/* -------- Message input -------- */}
         <div className="p-4 border-t border-gray-300 flex flex-col">
           {replyTo && (
             <div className="text-sm text-gray-600 mb-1">
@@ -257,7 +273,7 @@ function Chat() {
           )}
           <div className="flex">
             <input
-              ref={inputRef} // ✅ attach ref
+              ref={inputRef}
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
