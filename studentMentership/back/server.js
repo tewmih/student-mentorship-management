@@ -1,5 +1,5 @@
 import express from "express";
-import http from "http"; // <-- import http
+import http from "http";
 import sequelize from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -13,12 +13,17 @@ import setupSocket from "./socket.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import attendanceRoutes from "./routes/attendenceRoutes.js";
 import path from "path";
-// import taskRoutes from "./routes/taskRoutes.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const app = express();
+const PORT = process.env.PORT || 4000;
+
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
@@ -52,9 +57,10 @@ setupSocket(server); // <-- attach socket.io to this server
     await sequelize.authenticate();
     console.log("MySQL connection established successfully.");
 
-    server.listen(4000, () => {
-      // <-- use server.listen instead of app.listen
-      console.log("Server is running on port 4000");
+    server.listen(PORT, () => {
+      console.log(`🚀 Server is running on port ${PORT}`);
+      console.log(`🌐 API available at http://localhost:${PORT}`);
+      console.log(`🔒 JWT Secret: ${process.env.JWT_SECRET ? 'Configured' : 'NOT CONFIGURED'}`);
     });
   } catch (error) {
     console.error("Unable to connect to MySQL:", error);

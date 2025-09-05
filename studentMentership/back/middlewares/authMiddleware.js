@@ -12,7 +12,6 @@ const authenticateJWT = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    // attach user info to req.user (similar to Laravel's $request->user())
     req.user = decoded;
     next();
   } catch (err) {

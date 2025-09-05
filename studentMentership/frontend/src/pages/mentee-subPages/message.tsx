@@ -4,9 +4,8 @@ import Chat from '../../components/Chat.jsx'
 
 function Message() {
   return (
-    <div className='w-full h-full'>
-        {/* <ChatComponent /> */}
-        <Chat />
+    <div className='w-full h-full bg-background text-foreground border-border border rounded-lg'>
+        <ChatComponent />
     </div>
   )
 }

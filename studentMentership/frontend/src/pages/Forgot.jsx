@@ -32,12 +32,12 @@ function Forgot() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div className="flex items-center justify-center min-h-screen bg-background text-foreground border border-border rounded-lg">
+      <div className="w-full max-w-md bg-background text-foreground rounded-2xl shadow-lg p-8 border border-border">
         <h2 className="text-2xl font-bold text-center mb-6">
           Forgot Password
         </h2>
-        <p className="text-sm text-gray-600 text-center mb-6">
+        <p className="text-sm text-foreground/60 text-center mb-6">
           Enter your email to receive reset instructions.
         </p>
 
@@ -53,7 +53,7 @@ function Forgot() {
 
           <button
             type="submit"
-            className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+            className="w-full py-2 bg-blue-600 text-foreground font-semibold rounded-lg hover:bg-blue-700 transition"
           >
             Reset Password
           </button>

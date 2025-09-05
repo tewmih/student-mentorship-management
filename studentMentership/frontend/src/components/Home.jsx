@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
 import LoginPopUp from "../pages/Login";
 
-const Header = ({ setShowLogin }) => {
+const Home = ({ setShowLogin }) => {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
@@ -14,14 +14,14 @@ const Header = ({ setShowLogin }) => {
     setShowLogin(true);
   };
   return (
-    <header className=" text-foreground h-[100vh] py-12">
+    <header className=" text-foreground h-[100vh] py-12 border border-border rounded-lg">
       <div className="container flex h-full flex-col md:flex-row justify-between items-center gap-8">
         {/* Left text section */}
         <div className=" text-left  space-y-6">
           <h1 className="text-4xl font-bold leading-tight text-glow">
             Student Mentorship Program Platform
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-foreground/60">
             Connecting freshmen with senior student mentors to create meaningful
             relationships, foster academic growth, and build a supportive
             university community.
@@ -53,4 +53,4 @@ const Header = ({ setShowLogin }) => {
   );
 };
 
-export default Header;
+export default Home;

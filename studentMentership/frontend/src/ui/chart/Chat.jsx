@@ -121,26 +121,26 @@ function Chat() {
     ? chatHistory[`user_${[userId, selectedUser.id].sort().join("_")}`] || []
     : [];
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-background text-foreground border-r">
       {/* -------- SIDEBAR -------- */}
-      <div className="w-1/4 bg-white border-r border-gray-300 flex flex-col">
+      <div className="w-1/4 bg-background text-foreground border-r border-gray-300 flex flex-col">
         {/* Logged-in user */}
-        <div className="flex items-center p-4 border-b border-gray-300 bg-gray-50">
+        <div className="flex items-center p-4 border-b border-gray-300 bg-background text-foreground">
           <div className="relative">
             <img
               src={`https://i.pravatar.cc/40?u=${userId}`}
               alt="me"
               className="w-10 h-10 rounded-full"
             />
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-background text-foreground"></span>
           </div>
           <div className="ml-3">
             <p className="font-medium">{loggedInUser.full_name}</p>
-            <p className="text-sm text-green-500">Online</p>
+            <p className="text-sm  text-green-500 dark:text-green-400">Online</p>
           </div>
         </div>
         {/* Rooms */}
-        <div className="p-2 border-b border-gray-300">
+        <div className="p-2 border-b border-gray-300 ">
           <p className="text-gray-500 mb-1 font-semibold">Groups</p>
           {rooms.map((room) => (
             <div

@@ -13,7 +13,7 @@ function schedule() {
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
   return (
-    <div className="flex flex-col space-x-4 mx-3 sm:flex-row">
+    <div className="flex flex-col space-x-4 mx-3 sm:flex-row bg-background text-foreground border border-border rounded-lg h-screen">
       <CalendarComponent />
       <Task
         tasks={data}

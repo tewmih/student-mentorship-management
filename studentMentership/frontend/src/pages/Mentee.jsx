@@ -1,5 +1,4 @@
 import Sidebar from "../components/sidebar/Sidebar.jsx";
-
 import StatsCard from "../components/barGraph/stats-card.jsx";
 import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";
@@ -9,10 +8,19 @@ import MenteeTask from "./mentee-subPages/task.jsx";
 import MentorSidebar from "../ui/mentee-right-sidebar/mentee-info.jsx";
 import ChatButtons from "../ui/mentee-right-sidebar/chatButtons.jsx";
 import DonutChart from "../ui/chart/DonutChart.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Mentee = () => {
+  const location = useLocation();
   const [activePage, setActivePage] = useState("Analysis");
+
+  // Check for navigation state when component mounts
+  useEffect(() => {
+    if (location.state?.currentPage) {
+      setActivePage(location.state.currentPage);
+    }
+  }, [location.state]);
   return (
     <>
       <div className="flex w-full pt-20">
@@ -26,7 +34,7 @@ const Mentee = () => {
         {/* Main content area (right of sidebar, full height) */}
         <div className="flex-1 flex flex-col m-5">
           {/* StatsCard row - takes full width except sidebar */}
-          <div className="flex flex-row w-full justify-around bg-white">
+          <div className="flex flex-row w-full justify-around bg-background text-foreground">
             <StatsCard
               title="This month sessions"
               value={23}
@@ -49,7 +57,7 @@ const Mentee = () => {
           {/* Main and right sidebar below stats cards */}
           <div className="flex flex-row flex-1 w-full">
             {/* Main Page (middle) */}
-            <div className="flex-1 flex flex-col bg-white-500 m-1">
+              <div className="flex-1 flex flex-col bg-background text-foreground m-1">
               {activePage === "Home" && <Analysis />}
               {activePage === "Message" && <Message />}
               {activePage === "Schedule" && <Schedule />}

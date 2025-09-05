@@ -6,7 +6,7 @@ const Spinner = () => {
     // This container centers the content both horizontally and vertically on the screen
     <div className="flex justify-center items-center h-screen w-full">
       <svg
-        className="animate-spin h-8 w-8 text-gray-400"
+        className="animate-spin h-8 w-8 text-foreground/60"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

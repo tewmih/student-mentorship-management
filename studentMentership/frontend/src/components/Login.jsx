@@ -56,7 +56,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="bg-background text-foreground p-8 rounded shadow-md w-full max-w-md border border-border rounded-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
@@ -98,7 +98,7 @@ function Login() {
 
         {/* Forgot Password */}
         <div className="text-center mt-4">
-          <Link to="/forget" className="text-blue-500 hover:underline text-sm">
+          <Link to="/forgot" className="text-blue-500 hover:underline text-sm">
             Forgot Password?
           </Link>
         </div>

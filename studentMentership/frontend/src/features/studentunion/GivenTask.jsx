@@ -14,10 +14,10 @@ function GiveTask() {
   if (error) return <p>Failed to load student information</p>;
 
   return (
-    <div className="flex sm:flex-row w-[100%] bg-gray-50">
+    <div className="flex sm:flex-row w-[100%] bg-background text-foreground border border-border rounded-lg">
       <div className=" rounded-lg overflow-y-scroll flex flex-col sm:flex-row h-screen w-full px-5 ">
         <div className="flex flex-col w-full mr-5 ">
-          <div className="flex flex-row justify-between h-20 bg-white mb-5 w-auto">
+          <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5 w-auto">
             <StatsCard
               title="Students"
               value={5423}
@@ -41,7 +41,7 @@ function GiveTask() {
             <Task tasks={data} title={"Task List"} actionType={"task"} />
           </div>
         </div>
-        <div className="bg-white mt-5 flex justify-center items-center sm:mt-0">
+        <div className="bg-background text-foreground border border-border mt-5 flex justify-center items-center sm:mt-0">
           <DonutChart />
         </div>
       </div>

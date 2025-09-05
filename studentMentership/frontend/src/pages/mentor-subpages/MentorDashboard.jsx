@@ -26,9 +26,9 @@ const MentorDashboard = () => {
   ];
 
   return (
-    <div className="flex flex-row bg-gray-50">
+    <div className="flex flex-row bg-backgroun text-forground">
       <div className=" rounded-lg  px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-white mb-5  w-auto">
+        <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5  w-auto">
           <StatsCard
             title="Students"
             value={5423}
@@ -48,7 +48,7 @@ const MentorDashboard = () => {
             icon={Users}
           />
         </div>
-        <div className="flex flex-col bg-white sm:flex-row justify-center items-center">
+        <div className="flex flex-col bg-background text-foreground border border-border sm:flex-row justify-center items-center">
           <DonutChart />
           <LineChart
             data={progressData}

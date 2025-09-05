@@ -12,7 +12,7 @@ const SideNavbar = ({ menu }) => {
       }`}
     >
       {/* Toggle button */}
-      <div className="flex items-center justify-between py-4 border-b border-border">
+      <div className="flex items-center justify-between py-4 border-b border-border bg-background text-foreground border border-border">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-muted-foreground hover:text-primary transition-colors"

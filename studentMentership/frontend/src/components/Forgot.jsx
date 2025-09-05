@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 function Forgot() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ function Forgot() {
 
     if (!email) {
       setError("Please enter your email.");
+      toast.error("Please enter your email.");
       return;
     }
 
@@ -22,18 +24,22 @@ function Forgot() {
 
       setMessage(res.data.message || "Check your email for reset instructions.");
       setError("");
+      toast.success("Reset link sent to your email.");
     } catch (err) {
       if (err.response?.status === 400) {
         setError("Email not found.");
+        toast.error("Email not found.");
       }
       setError(err.response?.data?.message || "Failed to send reset link.");
       setMessage("");
+      toast.error("Failed to send reset link.");
     }
   };
 
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div className="flex items-center justify-center min-h-screen bg-background text-foreground border border-border rounded-lg">
+      <div className="w-full max-w-md bg-background text-foreground rounded-2xl shadow-lg p-8 border border-border">
         <h2 className="text-2xl font-bold text-center mb-6">
           Forgot Password
         </h2>
@@ -53,8 +59,9 @@ function Forgot() {
 
           <button
             type="submit"
-            className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
-          >
+            className="w-full py-2 bg-blue-600 text-foreground font-semibold rounded-lg hover:bg-blue-700 transition"
+            onClick={() => handleForgot()}
+        >
             Reset Password
           </button>
         </form>

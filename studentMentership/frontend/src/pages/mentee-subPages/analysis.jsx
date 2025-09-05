@@ -16,7 +16,7 @@ function Analysis() {
         { label: "December", value: 41, date: "Dec 25th, 2020" },
       ];
   return (
-    <div className='w-full h-full flex flex-row gap-4'>
+    <div className='w-full h-full flex flex-row gap-4 bg-background text-foreground border border-border rounded-lg'>
         <div className='w-1/2 h-full'>
         <DonutChart
       percentage={22}

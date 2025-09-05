@@ -1,14 +1,14 @@
 import { useState } from "react";
-import AASTUStudent from "../../features/Studentunion/AASTUStudent";
-import Chat from "../../features/Studentunion/Chat";
-import Mentee from "../../features/Studentunion/Mentee";
-import Mentor from "../../features/Studentunion/Mentor";
-import StudentDashboard from "../../features/Studentunion/StudentDashboard";
-import Task from "../../features/Studentunion/GivenTask";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Schedule from "../../features/Studentunion/Schedule";
+import AASTUStudent from "../../features/studentunion/AASTUStudent.jsx";
+import Chat from "../../features/studentunion/Chat.jsx";
+import Mentee from "../../features/studentunion/Mentee.jsx";
+import Mentor from "../../features/studentunion/Mentor.jsx";
+import StudentDashboard from "../../features/studentunion/StudentDashboard.jsx";
+import Task from "../../features/studentunion/GivenTask.jsx";
+import Sidebar from "../../components/sidebar/Sidebar.jsx";
+import Schedule from "../../features/studentunion/Schedule.jsx";
 
-import ApplicationList from "../../features/studentunion/ApplicationList";
+import ApplicationList from "../../features/studentunion/ApplicationList.jsx";
 
 function StudentUnion() {
   const navItems = [
@@ -60,7 +60,7 @@ function StudentUnion() {
         setActivePage={setActivePage}
         className=""
       />
-      <div className="flex-1  py-2 px-5 overflow-y-auto">
+      <div className="flex-1  py-2 px-5 overflow-y-auto bg-background text-foreground border border-border rounded-lg">
         {renderContent(activePage)}
       </div>
     </div>

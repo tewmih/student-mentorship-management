@@ -25,7 +25,7 @@ const sessions = [
 export default function UpcomingSessions() {
   return (
     <div className="w-300 p-50 ml-40">
-      <div className="border rounded-lg p-4 space-y-4 ">
+        <div className="border rounded-lg p-4 space-y-4 bg-background text-foreground border border-border">
         <h2 className="font-bold">Upcoming Sessions</h2>
         {sessions.map((s, i) => (
           <div
@@ -34,12 +34,12 @@ export default function UpcomingSessions() {
           >
             <div>
               <p className="font-medium">{s.title}</p>
-              <p className="text-sm text-gray-500">{s.time}</p>
-              <p className="text-xs text-gray-400">{s.status}</p>
+              <p className="text-sm  text-foreground/60">{s.time}</p>
+              <p className="text-xs text-foreground/60">{s.status}</p>
             </div>
             <div className="text-right">
               <p className="text-sm font-semibold">{s.type}</p>
-              <button className="mt-1 bg-blue-500 text-white px-3 py-1 rounded-md">
+              <button className="mt-1 bg-blue-500 text-foreground px-3 py-1 rounded-md">
                 Join
               </button>
             </div>

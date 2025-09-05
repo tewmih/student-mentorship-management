@@ -44,7 +44,7 @@ const Task = ({ tasks = [], title, actionType }) => {
   );
 
   return (
-    <div className="bg-white rounded-2xl p-6 w-full max-w-3xl mx-auto">
+    <div className="bg-background text-foreground border border-border rounded-2xl p-6 w-full max-w-3xl mx-auto">
       {/* Header with title, search, and sort controls */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
         <h2 className="">{title}</h2>
