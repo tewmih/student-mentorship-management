@@ -1,5 +1,5 @@
 // controllers/messageController.js
-import Message from "../models/Message.js";
+import Message from "../models/message.js";
 import Student from "../models/student.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import { Op } from "sequelize";

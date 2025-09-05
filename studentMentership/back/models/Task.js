@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import Mentor from "./Mentor.js";
-import Mentee from "./Mentee.js";
+import Mentor from "./mentor.js";
+import Mentee from "./mentee.js";
 const Task = sequelize.define("Task", {
   id: {
     type: DataTypes.INTEGER,
