@@ -57,38 +57,7 @@ function App() {
           <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          
-          {/* Protected Routes */}
-          <Route path="/mentee" element={
-            <ProtectedRoute requiredRole="mentee">
-              <Mentee />
-            </ProtectedRoute>
-          } />
-          <Route path="/mentor" element={
-            <ProtectedRoute requiredRole="mentor">
-              <MentorPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/studentunion" element={
-            <ProtectedRoute requiredRole="student_union">
-              <StudentUnion />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin" element={
-            <ProtectedRoute requiredRole="admin">
-              <Admin />
-            </ProtectedRoute>
-          } />
-          <Route path="/applicationlist/:id" element={
-            <ProtectedRoute requiredRole="student_union">
-              <ApplicationDetail />
-            </ProtectedRoute>
-          } />
-          <Route path="/profile" element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          } />
+
         </Routes>
         <Footer />
       </BrowserRouter>

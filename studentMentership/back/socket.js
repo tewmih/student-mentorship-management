@@ -56,7 +56,7 @@ function setupSocket(server) {
     // Disconnect
     socket.on("disconnect", () => {
       console.log(`User disconnected: ${student_id}`);
-      delete onlineUsers[id];
+      delete onlineUsers[student_id];
       io.emit("update_user_status", { uId: student_id, status: "offline" });
     });
   });

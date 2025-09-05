@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 import Student from "./student.js";
-import mentor from "./mentor.js";
+import Mentor from "./mentor.js";
 
 const MentorApplication = sequelize.define(
   "MentorApplication",
@@ -52,7 +52,7 @@ const MentorApplication = sequelize.define(
   }
 );
 
-MentorApplication.belongsTo(mentor, {
+MentorApplication.belongsTo(Mentor, {
   foreignKey: "mentor_id",
   targetKey: "mentor_id",
   onDelete: "CASCADE",

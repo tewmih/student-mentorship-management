@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 function Chat() {
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState(null);
@@ -19,7 +18,6 @@ function Chat() {
   const userId = parseInt(localStorage.getItem("id"), 10);
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
-
   // -------- FETCH MENTEES --------
   useEffect(() => {
     const fetchMentees = async () => {
