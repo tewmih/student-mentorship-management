@@ -9,7 +9,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+
 
 import Forgot from "./components/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
@@ -54,6 +54,12 @@ function App() {
         {Boolean(tokenState) && <Header />}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/mentee" element={<Mentee />} />
+          <Route path="/mentor" element={<MentorPage />} />
+          <Route path="/studentunion" element={<StudentUnion />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/application-detail" element={<ApplicationDetail />} />
           <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
