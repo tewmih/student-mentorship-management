@@ -2,7 +2,7 @@ import express from "express";
 import { MentorController } from "../controllers/MentorController.js";
 import { SessionController } from "../controllers/SessionController.js";
 import authenticateJWT from "../middlewares/authMiddleware.js";
-import roleMiddleware from "../middlewares/roleMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleWare.js";
 const router = express.Router();
 router.use(authenticateJWT, roleMiddleware("mentor"));
 

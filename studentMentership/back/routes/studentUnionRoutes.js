@@ -2,7 +2,7 @@ import express from "express";
 import { StudentUnionController } from "../controllers/StudentUnionController.js";
 import { PetitionController } from "../controllers/PetitionController.js";
 import authenticateJWT from "../middlewares/authMiddleware.js";
-import roleMiddleware from "../middlewares/roleMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleWare.js";
 const router = express.Router();
 router.use(authenticateJWT);
 

@@ -3,7 +3,7 @@ import { MenteeController } from "../controllers/MenteeController.js";
 import { SessionController } from "../controllers/SessionController.js";
 import { PetitionController } from "../controllers/PetitionController.js";
 import authenticateJWT from "../middlewares/authMiddleware.js";
-import roleMiddleware from "../middlewares/roleMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleWare.js";
 import router from "./studentRoutes.js";
 
 router.use(authenticateJWT, roleMiddleware("mentee"));
