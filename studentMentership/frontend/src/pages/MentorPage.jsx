@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sidebar from "../components/sidebar/Sidebar.jsx";
+import Sidebar from "../components/layout/Sidebar.jsx";
 import MentorDashboard from "./mentor-subpages/MentorDashboard.jsx";
 import Mentee from "./mentor-subpages/Mentee";
 import Messages from "./mentor-subpages/Messages";

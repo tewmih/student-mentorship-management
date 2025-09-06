@@ -5,7 +5,7 @@ import Mentee from "../../features/studentunion/Mentee.jsx";
 import Mentor from "../../features/studentunion/Mentor.jsx";
 import StudentDashboard from "../../features/studentunion/StudentDashboard.jsx";
 import Task from "../../features/studentunion/GivenTask.jsx";
-import Sidebar from "../../components/sidebar/Sidebar.jsx";
+import Sidebar from "../../components/layout/Sidebar.jsx";
 import Schedule from "../../features/studentunion/Schedule.jsx";
 
 import ApplicationList from "../../features/studentunion/ApplicationList.jsx";

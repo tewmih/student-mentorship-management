@@ -1,4 +1,4 @@
-import Sidebar from "../components/sidebar/Sidebar.jsx";
+import Sidebar from "../components/layout/Sidebar.jsx";
 import StatsCard from "../components/barGraph/stats-card.jsx";
 import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";

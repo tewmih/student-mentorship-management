@@ -1,4 +1,4 @@
-import ProfileCard from "./Profile-car.jsx";
+import ProfileCard from "./ProfileCard.jsx";
 
 function MenteeList({ mentees }) {
   return (
@@ -8,7 +8,7 @@ function MenteeList({ mentees }) {
         {mentees.map((mentee) => (
           <ProfileCard
             key={mentee.id}
-            name={mentee.name}
+            name={mentee.name}  
             avatar={mentee.avatar}
           />
         ))}

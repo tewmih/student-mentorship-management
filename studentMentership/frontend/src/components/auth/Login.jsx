@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
-import Spinner from "../ui/Spinner";
-import { login } from "../services/Login";
+import Spinner from "../../ui/Spinner";
+import { login } from "../../services/Login";
 
 function Login() {
   const navigate = useNavigate();

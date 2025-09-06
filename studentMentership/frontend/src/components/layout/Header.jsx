@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ThemeToggle from "./ThemeToggle";
-import { authAPI } from "../api/client.js";
+import ThemeToggle from "../ThemeToggle.jsx";
+import { authAPI } from "../../api/client.js";
 import { toast } from "sonner";
 
 // Main Navbar component
