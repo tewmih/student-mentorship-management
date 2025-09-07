@@ -5,7 +5,6 @@ import authenticateJWT from "../middlewares/authMiddleware.js";
 import roleMiddleware from "../middlewares/roleMiddleWare.js";
 const router = express.Router();
 router.use(authenticateJWT);
-
 // Student Union + Admin routes
 router.use(roleMiddleware(["student_union", "admin"]));
 router.get("/accepted-mentors", StudentUnionController.listAcceptedMentors);
@@ -28,10 +27,7 @@ router.get(
   StudentUnionController.listStudentsWithoutMentor
 );
 router.get("/mentor-applications", StudentUnionController.listApplications);
-router.get(
-  "/mentorsWithoutMentees",
-  StudentUnionController.listMentorsWithoutMentees
-);
+router.get("/availablementors", StudentUnionController.lisavailablementors);
 router.post("/change-mentor", StudentUnionController.changeMentor);
 
 export default router;

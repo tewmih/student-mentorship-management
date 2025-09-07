@@ -286,3 +286,6 @@ dist-ssr/
 # Local development files
 local/
 dev/
+
+# don't track this folder
+untracked/
