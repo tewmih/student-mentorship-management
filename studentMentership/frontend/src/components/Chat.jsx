@@ -20,29 +20,47 @@ function Chat() {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  // -------- FETCH MENTEES --------
+  // -------- FETCH MENTEES / USERS --------
   useEffect(() => {
     const fetchMentees = async () => {
       try {
         const res = await axios.get("http://localhost:4000/api/chat/mentees", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const mentees = res.data.mentees || [];
-        setUsers(mentees.filter((mentee) => mentee.id !== userId));
-        const loggedUser = mentees.find((m) => m.id === userId);
-        setLoggedInUser(loggedUser || {});
-        setMentorId(res.data.mentor.student_id);
+        const { mentees, mentor } = res.data;
+
+        // Determine logged-in user
+        let loggedUser = null;
+        if (role === "mentor") {
+          loggedUser = mentor;
+          setMentorId(mentor.student_id);
+        } else {
+          loggedUser = mentees.find((m) => m.Student.id === userId)?.Student || {};
+          setMentorId(mentor.student_id);
+        }
+
+        setLoggedInUser(loggedUser);
+
+        // Map mentees to their Student info
+        let usersList = mentees.map((m) => m.Student).filter((s) => s.id !== userId);
+
+        // Include mentor if logged-in user is mentee
+        if (role !== "mentor" && mentor) {
+          usersList = [{ ...mentor, role: "mentor" }, ...usersList];
+        }
+
+        setUsers(usersList);
+
+        // Rooms (only mentor as a group for mentee)
+        if (role === "mentee" && mentor) {
+          setRooms([{ id: mentor.student_id, name: `Group - ${mentor.full_name}` }]);
+        }
       } catch (err) {
         console.error("Error fetching mentees:", err);
       }
     };
     fetchMentees();
-  }, [token, userId]);
-
-  // -------- SETUP ROOMS --------
-  useEffect(() => {
-    if (mentorId) setRooms([{ id: mentorId, name: `group_${mentorId}` }]);
-  }, [mentorId]);
+  }, [token, userId, role]);
 
   // -------- SOCKET --------
   useEffect(() => {
@@ -52,9 +70,7 @@ function Chat() {
 
     socketIo.on("update_user_status", ({ uId, status }) => {
       setUsers((prev) =>
-        prev.map((user) =>
-          user.student_id === uId ? { ...user, status } : user
-        )
+        prev.map((user) => (user.student_id === uId ? { ...user, status } : user))
       );
     });
 
@@ -108,11 +124,13 @@ function Chat() {
   // -------- SEND MESSAGE --------
   const sendMessage = () => {
     if (!newMessage.trim() || !socket) return;
+
     const data = {
       content: newMessage,
       receiver_id: selectedUser?.id || null,
       roomId: selectedRoom?.id || null,
       replyTo: replyTo?.id || null,
+      sender_name: loggedInUser.full_name,
     };
     socket.emit("send_message", data);
     setNewMessage("");
@@ -127,11 +145,11 @@ function Chat() {
     : [];
 
   return (
-    <div className="flex h-screen bg-background text-foreground border border-border rounded-lg p-4">
+    <div className="flex h-screen bg-gray-100">
       {/* -------- SIDEBAR -------- */}
-      <div className="w-1/4 bg-background text-foreground border-r border-border flex flex-col">
+      <div className="w-1/4 bg-white border-r border-gray-300 flex flex-col">
         {/* Logged-in user */}
-        <div className="flex items-center p-4 border-b border-border bg-background text-foreground">
+        <div className="flex items-center p-4 border-b border-gray-300 bg-gray-50">
           <div className="relative">
             <img
               src={`https://i.pravatar.cc/40?u=${userId}`}
@@ -141,10 +159,11 @@ function Chat() {
             <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
           </div>
           <div className="ml-3">
-            <p className="font-medium">{loggedInUser.full_name}</p>
+            <p className="font-medium">{loggedInUser.full_name || "Unknown User"}</p>
             <p className="text-sm text-green-500">Online</p>
           </div>
         </div>
+
         {/* Rooms */}
         <div className="p-2 border-b border-gray-300">
           <p className="text-gray-500 mb-1 font-semibold">Groups</p>
@@ -163,38 +182,79 @@ function Chat() {
             </div>
           ))}
         </div>
+
+        {/* Mentor */}
+        {role !== "mentor" && users.some((u) => u.role === "mentor") && (
+          <div className="p-2 border-b border-gray-300">
+            <p className="text-gray-500 mb-1 font-semibold">Mentor</p>
+            {users
+              .filter((u) => u.role === "mentor")
+              .map((mentor) => (
+                <div
+                  key={mentor.student_id}
+                  className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${
+                    selectedUser?.student_id === mentor.student_id ? "bg-gray-200" : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedUser(mentor);
+                    setSelectedRoom(null);
+                  }}
+                >
+                  <div className="relative">
+                    <img
+                      src={`https://i.pravatar.cc/40?u=${mentor.student_id}`}
+                      alt="mentor"
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <span
+                      className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border border-white ${
+                        mentor.status === "online" ? "bg-green-500" : "bg-gray-400"
+                      }`}
+                    ></span>
+                  </div>
+                  <div className="ml-3">
+                    <p className="font-medium">{mentor.full_name}</p>
+                    <p className="text-sm text-gray-500">{mentor.status || "offline"}</p>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+
         {/* Mentees */}
         <div className="flex-1 overflow-y-auto">
           <p className="text-gray-500 mb-1 font-semibold p-2">Mentees</p>
-          {users.map((user) => (
-            <div
-              key={user.id}
-              className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${
-                selectedUser?.id === user.id ? "bg-gray-200" : ""
-              }`}
-              onClick={() => {
-                setSelectedUser(user);
-                setSelectedRoom(null);
-              }}
-            >
-              <div className="relative">
-                <img
-                  src={`https://i.pravatar.cc/40?u=${user.id}`}
-                  alt="profile"
-                  className="w-10 h-10 rounded-full"
-                />
-                <span
-                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border border-white ${
-                    user.status === "online" ? "bg-green-500" : "bg-gray-400"
-                  }`}
-                ></span>
+          {users
+            .filter((u) => u.role !== "mentor")
+            .map((user) => (
+              <div
+                key={user.student_id}
+                className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${
+                  selectedUser?.student_id === user.student_id ? "bg-gray-200" : ""
+                }`}
+                onClick={() => {
+                  setSelectedUser(user);
+                  setSelectedRoom(null);
+                }}
+              >
+                <div className="relative">
+                  <img
+                    src={`https://i.pravatar.cc/40?u=${user.student_id}`}
+                    alt="profile"
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <span
+                    className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border border-white ${
+                      user.status === "online" ? "bg-green-500" : "bg-gray-400"
+                    }`}
+                  ></span>
+                </div>
+                <div className="ml-3">
+                  <p className="font-medium">{user.full_name}</p>
+                  <p className="text-sm text-gray-500">{user.status || "offline"}</p>
+                </div>
               </div>
-              <div className="ml-3">
-                <p className="font-medium">{user.full_name}</p>
-                <p className="text-sm text-gray-500">{user.status}</p>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 
@@ -204,7 +264,7 @@ function Chat() {
           {selectedUser || selectedRoom ? (
             displayedMessages.map((msg) => (
               <div
-                key={msg.id}
+                key={msg.id || msg.id}
                 className={`flex mb-3 ${
                   msg.sender_id === userId ? "justify-end" : "justify-start"
                 }`}
@@ -216,34 +276,26 @@ function Chat() {
                       : "bg-gray-200 text-gray-800"
                   }`}
                 >
-                  {/* ✅ Reply section */}
                   {msg.replyTo && (
                     <p className="text-sm text-gray-600 border-l-2 border-gray-400 pl-2 mb-1">
                       Replying to:{" "}
-                      {msg.replyToMessage?.content || "deleted message"}
+                      {displayedMessages.find((m) => m.id === msg.replyTo)?.content ||
+                        "deleted message"}
                     </p>
                   )}
-
-                  {/* ✅ Sender Name (handles groups properly) */}
                   <p className="font-semibold">
                     {msg.sender_id === userId
                       ? loggedInUser.full_name
-                      : msg.sender?.full_name ||
-                        users.find((u) => u.id === msg.sender_id)?.full_name ||
-                        "Unknown"}
+                      : msg.sender_name || selectedUser?.full_name}
                   </p>
-
                   <p>{msg.content}</p>
-
                   <button
                     onClick={() => {
                       setReplyTo(msg);
                       inputRef.current?.focus();
                     }}
                     className={`text-xs mt-1 ${
-                      msg.sender_id === userId
-                        ? "text-white/90"
-                        : "text-blue-500"
+                      msg.sender_id === userId ? "text-white/90" : "text-blue-500"
                     }`}
                   >
                     Reply
@@ -258,7 +310,7 @@ function Chat() {
           )}
         </div>
 
-        {/* -------- Message input -------- */}
+        {/* Message input */}
         <div className="p-4 border-t border-gray-300 flex flex-col">
           {replyTo && (
             <div className="text-sm text-gray-600 mb-1">
