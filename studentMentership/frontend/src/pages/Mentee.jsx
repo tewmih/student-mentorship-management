@@ -4,10 +4,8 @@ import { Calendar, User, Clock } from "lucide-react";
 import Analysis from "./mentee-subPages/analysis.jsx";
 import Message from "./mentee-subPages/message.jsx";
 import Schedule from "./mentee-subPages/schedule.jsx";
-import MenteeTask from "./mentee-subPages/task.jsx";
 import MentorSidebar from "../ui/mentee-right-sidebar/mentee-info.jsx";
 import ChatButtons from "../ui/mentee-right-sidebar/chatButtons.jsx";
-import DonutChart from "../ui/chart/DonutChart.jsx";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -27,7 +25,7 @@ const Mentee = () => {
         {/* Sidebar (left) - takes full height */}
         <Sidebar
           title="Mentee"
-          navItems={["Analysis", "Message", "Schedule", "MenteeTasks"]}
+          navItems={["Analysis", "Message", "Schedule"]} // "MenteeTasks" is not in the navItems
           activePage={activePage}
           setActivePage={(page) => setActivePage(page)}
         />
@@ -61,9 +59,9 @@ const Mentee = () => {
               {activePage === "Home" && <Analysis />}
               {activePage === "Message" && <Message />}
               {activePage === "Schedule" && <Schedule />}
-              {activePage === "MenteeTasks" && <MenteeTask />}
+              {/* {activePage === "MenteeTasks" && <MenteeTask />} */}
               {/* Default to Home if no match */}
-              {!["Home", "Message", "Schedule", "MenteeTasks"].includes(
+              {!["Home", "Message", "Schedule"].includes(
                 activePage
               ) && <Analysis />}
             </div>
@@ -72,7 +70,7 @@ const Mentee = () => {
               {activePage === "Analysis" && <MentorSidebar />}
               {activePage === "Message" && <ChatButtons />}
               {activePage === "Schedule" && <MentorSidebar />}
-              {activePage === "MenteeTasks" && <DonutChart />}
+              {/* {activePage === "MenteeTasks" && <DonutChart />} */}
             </div>
           </div>
         </div>

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle.jsx";
 import { authAPI } from "../../api/client.js";
 import { toast } from "sonner";
+import { FaUser, FaCog } from "react-icons/fa";
 
 // Main Navbar component
 const Header = () => {
@@ -13,6 +14,8 @@ const Header = () => {
     name: "User",
     profilePic: "https://placehold.co/50x50/3498db/ffffff?text=U",
   });
+  const [dropDown, setDropDown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -23,59 +26,97 @@ const Header = () => {
     if (studentId) {
       setUser({
         name: studentId,
-        profilePic: "https://placehold.co/50x50/3498db/ffffff?text=" + studentId.charAt(0),
-        role: role
+        profilePic:
+          "https://placehold.co/50x50/3498db/ffffff?text=" +
+          studentId.charAt(0),
+        role: role,
       });
     }
   }, []);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if click is on dropdown or its children
+      const dropdownElement = document.querySelector('[data-dropdown="true"]');
+      if (dropdownElement && dropdownElement.contains(event.target)) {
+        return; // Don't close if clicking inside dropdown
+      }
+
+      // Check if click is on profile icon
+      if (dropdownRef.current && dropdownRef.current.contains(event.target)) {
+        return; // Don't close if clicking on profile icon
+      }
+
+      // Close dropdown if clicking outside
+      setDropDown(false);
+    };
+
+    if (dropDown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropDown]);
+
   return (
     <div className="fixed w-full z-50 bg-background text-foreground font-sans pb-4 antialiased mx-auto mb-2">
       <nav className="flex items-center justify-between bg-background text-foreground py-4 shadow-md max-w-7xl border border-border rounded-lg px-6">
         {/* Left section: Logo and navigation links */}
         <div className="flex items-center space-x-8">
           {/* Logo */}
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/")}>
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">S</span>
+              <span className="text-primary-foreground font-bold text-lg">
+                S
+              </span>
             </div>
-            <span className="text-xl font-bold text-foreground">StudentMentorship</span>
+            <span className="text-xl font-bold text-foreground">
+              StudentMentorship
+            </span>
           </div>
-          
+
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
-            <button 
+            <button
               onClick={() => navigate("/mentee")}
               className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
             >
               Dashboard
             </button>
-            <button 
+            <button
               onClick={() => navigate("/mentor")}
               className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
             >
               Mentor
             </button>
-            <button 
+            <button
               onClick={() => navigate("/studentunion")}
               className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
             >
-            Union
+              Union
             </button>
           </div>
         </div>
-        
+
         {/* Right section: icons and user info */}
         <div className="flex items-center space-x-6">
           {/* Theme toggle icon to the left, separated with more space */}
-            <ThemeToggle />
+          <ThemeToggle />
           {/* Notification icon with badge */}
-          <div className="relative"
-          onClick={() => {
-            navigate("/profile", { 
-              state: { currentPage: "Notification" },
-              replace: true // This replaces the current history entry
-            });
-          }}
+          <div
+            className="relative"
+            onClick={() => {
+              navigate("/profile", {
+                state: { currentPage: "Notification" },
+                replace: true, // This replaces the current history entry
+              });
+            }}
           >
             {/* Replaced react-icons with inline SVG */}
             <svg
@@ -101,13 +142,14 @@ const Header = () => {
           </div>
 
           {/* Message icon with badge */}
-          <div className="relative cursor-pointer"
-          onClick={() => {
-            navigate("/mentee", { 
-              state: { currentPage: "Message" },
-              replace: true // This replaces the current history entry
-            });
-          }}
+          <div
+            className="relative cursor-pointer"
+            onClick={() => {
+              navigate("/mentee", {
+                state: { currentPage: "Message" },
+                replace: true, // This replaces the current history entry
+              });
+            }}
           >
             {/* Replaced react-icons with inline SVG */}
             <svg
@@ -132,39 +174,102 @@ const Header = () => {
           </div>
 
           {/* User profile section */}
-          <div className="flex items-center space-x-3">
-            <div
-              className="flex items-center space-x-3 cursor-pointer"
-              onClick={() => {
-                navigate("/profile");
-              }}
-            >
-              <span className="hidden text-sm font-medium text-foreground/60 sm:block">
+          <div
+            className="flex items-center space-x-3 cursor-pointer relative"
+            onClick={() => setDropDown(!dropDown)}
+            ref={dropdownRef}
+          >
+            <div className="flex flex-col items-center space-x-3 cursor-pointer">
+              {/* <span className="hidden text-sm font-medium text-foreground/60 sm:block">
                 Hello, {user.name}
-              </span>
-              <img
-                src={user.profilePic}
-                alt={user.name}
-                className="h-10 w-10 mr-3 rounded-full object-cover shadow-sm"
-              />
+              </span> */}
+              <FaUser className="h-7 w-7 mr-3 rounded-full object-cover shadow-sm" />
             </div>
-            
-            {/* Logout button */}
-            <button
-              onClick={() => {
-                authAPI.logout();
-                toast.success("Logged out successfully");
-                navigate("/login");
-              }}
-              className="px-3 py-1 text-sm text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-200"
-            >
-              Logout
-            </button>
           </div>
         </div>
       </nav>
+
+      {/* Dropdown positioned completely outside the navbar */}
+      {dropDown && <DropDown setDropDown={setDropDown} />}
     </div>
   );
 };
 
 export default Header;
+
+function DropDown({ setDropDown }) {
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+    setDropDown(false);
+  };
+
+  const handleSettingsClick = () => {
+    navigate("/profile", {
+      state: { currentPage: "Settings" },
+    });
+    setDropDown(false);
+  };
+
+  const handleLogoutClick = () => {
+    authAPI.logout();
+    toast.success("Logged out successfully");
+    setDropDown(false);
+    navigate("/login");
+  };
+
+  return (
+    <div
+      className="fixed top-16 right-6 bg-background text-foreground p-2 rounded-lg shadow-lg border border-border min-w-[160px] z-50"
+      data-dropdown="true"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex flex-col space-y-1">
+        {/* Profile Option */}
+        <button
+          onClick={handleProfileClick}
+          className="flex items-center space-x-3 px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors duration-200 w-full text-left cursor-pointer"
+        >
+          <FaUser className="h-4 w-4" />
+          <span>Profile</span>
+        </button>
+
+        {/* Settings Option */}
+        <button
+          onClick={handleSettingsClick}
+          className="flex items-center space-x-3 px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors duration-200 w-full text-left cursor-pointer"
+        >
+          <FaCog className="h-4 w-4" />
+          <span>Settings</span>
+        </button>
+
+        {/* Divider */}
+        <div className="border-t border-border my-1"></div>
+
+        {/* Logout Option */}
+        <button
+          onClick={handleLogoutClick}
+          className="flex items-center space-x-3 px-3 py-2 text-sm text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors duration-200 w-full text-left"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path>
+            <polyline points="16,17 21,12 16,7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  );
+}
