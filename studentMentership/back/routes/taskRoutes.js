@@ -5,19 +5,22 @@ import {
   getTasksByMentee,
   updateTask,
   deleteTask,
+  updateTaskStatus,
+  requestCompletion,
 } from "../controllers/taskController.js";
 import authenticateJWT from "../middlewares/authMiddleware.js";
-import roleMiddleware from "../middlewares/authMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleware.js";
 const router = express.Router();
-// Mentor assigns a task
 router.use(authenticateJWT);
 router.use(roleMiddleware(["mentor", "mentee"]));
-router.get("/", getTasks);
-router.get("/mentee/:menteeId", getTasksByMentee);
+router.get("/myown", getTasksByMentee);
+router.put("/update-status/:assignmentId", updateTaskStatus);
+router.post("/request-completion/:assignmentId", requestCompletion);
+// only for mentor
 router.use(roleMiddleware("mentor"));
-router.post("/", createTask);
-// Update a task (status, dueDate, description)
-router.put("/:id", updateTask);
-// Delete a task
+router.post("/create", createTask);
+router.get("/", getTasks);
+router.put("/update/:id", updateTask);
 router.delete("/:id", deleteTask);
+
 export default router;

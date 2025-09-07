@@ -1,7 +1,7 @@
 import MentorshipSession from "../models/session.js";
 import SessionAttendance from "./../models/sessionAttendance.js";
-import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import Student from "../models/student.js";
+import Mentee from "../models/mentee.js";
 // Mentor schedules a new mentorship session
 async function createSession(req, res) {
   try {
@@ -32,7 +32,7 @@ async function listMySessions(req, res) {
   try {
     const mentee_id = req.user.student_id; // From JWT middleware
     // Find mentor for this mentee from MentorMenteeAssignment
-    const assignment = await MentorMenteeAssignment.findOne({
+    const assignment = await Mentee.findOne({
       where: { mentee_id },
     });
     if (!assignment) {

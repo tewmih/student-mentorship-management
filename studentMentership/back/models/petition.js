@@ -1,7 +1,9 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import Student from "./student.js";
 import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
+import Mentee from "./mentee.js";
+import Mentor from "./mentor.js";
+
 const Petition = sequelize.define(
   "Petition",
   {
@@ -18,19 +20,21 @@ const Petition = sequelize.define(
       type: DataTypes.STRING(20),
       allowNull: false,
       references: {
-        model: MentorMenteeAssignment,
+        model: Mentee,
         key: "mentee_id",
       },
       onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
     current_mentor_id: {
       type: DataTypes.STRING(20),
       allowNull: false,
       references: {
-        model: MentorMenteeAssignment,
+        model: Mentor,
         key: "mentor_id",
       },
       onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
     reason: {
       type: DataTypes.TEXT,
@@ -51,16 +55,17 @@ const Petition = sequelize.define(
   }
 );
 
-// Associations
-Petition.belongsTo(Student, {
+// 🔗 Associations
+Petition.belongsTo(Mentee, {
   as: "mentee",
   foreignKey: "mentee_id",
-  targetKey: "student_id",
+  targetKey: "mentee_id",
 });
-Petition.belongsTo(Student, {
-  as: "current_mentor",
+
+Petition.belongsTo(Mentor, {
+  as: "currentMentor",
   foreignKey: "current_mentor_id",
-  targetKey: "student_id",
+  targetKey: "mentor_id",
 });
 
 export default Petition;

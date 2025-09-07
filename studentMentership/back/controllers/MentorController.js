@@ -1,16 +1,16 @@
 import Session from "../models/session.js";
 import Student from "../models/student.js";
-import MentorMenteeAssignment from "../models/mentorMenteeAssignment.js";
 import Mentor from "../models/mentor.js";
 import MentorApplication from "../models/mentorApplication.js";
 import { Op } from "sequelize";
+import Mentee from "../models/mentee.js";
 
 // List mentees assigned to the logged-in mentor
 async function listMentees(req, res) {
   try {
     const mentorId = req.user.student_id; // From JWT middleware
 
-    const assignments = await MentorMenteeAssignment.findAll({
+    const assignments = await Mentee.findAll({
       where: { mentor_id: mentorId },
     });
 
