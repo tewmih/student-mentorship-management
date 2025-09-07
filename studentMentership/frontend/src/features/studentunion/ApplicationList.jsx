@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ApplicationItem from "./ApplicationItem";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchApplication } from "../../services/SIMS";
 import Spinner from "../../ui/Spinner";
 
@@ -10,13 +10,14 @@ function ApplicationList() {
   const itemsPerPage = 8;
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["studentData"],
     queryFn: fetchApplication,
   });
-  // for debugging purpose
-  console.log(data)
+
+  console.log(data);
   const { applications, mentors } = data || {};
 
   if (isLoading) return <Spinner />;
@@ -30,13 +31,21 @@ function ApplicationList() {
     );
   }
 
+  // Handle status change after accept/reject
+  const handleStatusChange = (applicationId, newStatus) => {
+    // Invalidate and refetch the data
+    queryClient.invalidateQueries({ queryKey: ["studentData"] });
+  };
+
   // Filtering based on search term
-  const filteredData = mentors.filter(
-    (item) =>
-      String(item.full_name)?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      String(item.id)?.toLowerCase().includes(searchTerm.toLowerCase())
-      // String(item.status)?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData =
+    mentors?.filter(
+      (item) =>
+        String(item.full_name)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        String(item.id)?.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
 
   // Sorting
   const sortedData = [...filteredData].sort((a, b) => {
@@ -72,18 +81,20 @@ function ApplicationList() {
   return (
     <div className="p-8 font-sans">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Students List</h1>
-        <p className="text-sm text-green-500 font-semibold">Active students</p>
+        <h1 className="text-2xl font-bold">Mentor Applications</h1>
+        <p className="text-sm text-green-500 font-semibold">
+          Pending applications
+        </p>
       </div>
       <div className="flex justify-between items-center mb-6">
         <div className="relative w-1/3">
           <input
             type="text"
-            placeholder="Search"  
+            placeholder="Search"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // Reset to first page on new search
+              setCurrentPage(1);
             }}
             className="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring focus:border-blue-300"
           />
@@ -114,7 +125,7 @@ function ApplicationList() {
           </select>
         </div>
       </div>
-      <div className="bg-white rounded-lg  overflow-hidden">
+      <div className="bg-white rounded-lg overflow-hidden">
         <ul className="divide-y divide-gray-200">
           <li className="flex items-center px-6 py-3 bg-gray-50 text-xs font-medium text-gray-500 uppercase tracking-wider">
             <div
@@ -124,21 +135,26 @@ function ApplicationList() {
               Id
             </div>
             <div
-              class Name="w-1/6 cursor-pointer"
+              className="w-1/6 cursor-pointer"
               onClick={() => handleSort("name")}
             >
-              Student name
+              Mentor name
             </div>
-
             <div
               className="w-1/6 text-right cursor-pointer"
               onClick={() => handleSort("status")}
             >
               Status
             </div>
+            <div className="w-1/6 text-right">Action</div>
+            <div className="w-1/6 text-right">Action</div>
           </li>
           {currentItems.map((item) => (
-            <ApplicationItem item={item} key={item.id} />
+            <ApplicationItem
+              item={item}
+              key={item.id}
+              onStatusChange={handleStatusChange}
+            />
           ))}
         </ul>
       </div>

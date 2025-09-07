@@ -5,7 +5,7 @@ import Mentee from "./mentor-subpages/Mentee";
 import Messages from "./mentor-subpages/Messages";
 import Task from "./mentor-subpages/GivenTask.jsx";
 import Schedule from "./mentor-subpages/Schedule.jsx";
-import MentorApplicationForm from "../features/studentunion/Application.jsx";
+import MentorApplicationForm from "../features/mentor/Application.jsx";
 
 // Placeholder until you create real components
 const PlaceholderPage = ({ pageName }) => <div>{pageName} Page</div>;

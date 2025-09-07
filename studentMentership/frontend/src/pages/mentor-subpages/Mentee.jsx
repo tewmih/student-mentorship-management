@@ -9,6 +9,7 @@ import Spinner from "../../ui/Spinner";
 
 // This function processes the raw student data to calculate department counts.
 const processMenteeDataForChart = (mentees) => {
+  console.log("mentees: ", mentees);
   const departmentCounts = new Map();
   const chartData = [];
   const departmentColors = {
@@ -133,12 +134,19 @@ function Mentee() {
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
-  const {mentees}=studentsData;
-console.log(mentees);
-  // Filter the fetched student data for mentees only once.
-  // const menteeData = studentsData.filter(
-  //   (student) => student.role === "mentee"
-  // );
+
+  // Add safety check for mentees
+  const mentees = studentsData?.mentees || [];
+  console.log(mentees);
+
+  // Early return if no mentees data
+  if (!mentees || mentees.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-foreground/60">No mentees found</div>
+      </div>
+    );
+  }
 
   const processedChartData = processMenteeDataForChart(mentees);
   const formattedMentees = filterAndFormatMentees(mentees);

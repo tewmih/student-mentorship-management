@@ -22,7 +22,7 @@ function Login({ setTokenState }) {
       window.dispatchEvent(new Event("authStateChange"));
 
       toast.success("Success!");
-      navigate("/mentee");
+      navigate("/mentor");
     } catch (err) {
       toast.error(err.message || "Login failed");
     }

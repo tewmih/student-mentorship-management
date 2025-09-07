@@ -22,7 +22,7 @@ function Chat() {
   useEffect(() => {
     const fetchMentees = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/chat/mentees", {
+        const res = await axios.get("http://localhost:5000/api/chat/mentees", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const mentees = res.data.mentees || [];
@@ -45,7 +45,7 @@ function Chat() {
   // -------- SOCKET --------
   useEffect(() => {
     if (!token) return;
-    const socketIo = io("http://localhost:4000", { auth: { token } });
+    const socketIo = io("http://localhost:5000", { auth: { token } });
     setSocket(socketIo);
 
     socketIo.on("update_user_status", ({ uId, status }) => {
@@ -77,7 +77,7 @@ function Chat() {
         if (selectedRoom) {
           socket.emit("join_room", selectedRoom.id);
           const res = await axios.get(
-            `http://localhost:4000/api/chat/messages?roomId=${selectedRoom.id}`,
+            `http://localhost:5000/api/chat/messages?roomId=${selectedRoom.id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setChatHistory((prev) => ({
@@ -88,7 +88,7 @@ function Chat() {
 
         if (selectedUser) {
           const res = await axios.get(
-            `http://localhost:4000/api/chat/messages?user1=${userId}&user2=${selectedUser.id}`,
+            `http://localhost:5000/api/chat/messages?student1=${userId}&student2=${selectedUser.id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const key = `user_${[userId, selectedUser.id].sort().join("_")}`;
@@ -136,7 +136,9 @@ function Chat() {
           </div>
           <div className="ml-3">
             <p className="font-medium">{loggedInUser.full_name}</p>
-            <p className="text-sm  text-green-500 dark:text-green-400">Online</p>
+            <p className="text-sm  text-green-500 dark:text-green-400">
+              Online
+            </p>
           </div>
         </div>
         {/* Rooms */}

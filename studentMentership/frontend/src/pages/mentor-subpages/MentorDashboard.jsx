@@ -3,13 +3,64 @@ import { Users } from "lucide-react";
 import DonutChart from "../../ui/chart/DonutChart";
 import LineChart from "../../ui/chart/LineChart";
 import MenteeList from "../../components/My-mentee";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const MentorDashboard = () => {
-  const menteesData = [
-    { id: "1", name: "Alice", avatar: "/avatars/alice.png" },
-    { id: "2", name: "Bob", avatar: "/avatars/bob.png" },
-    { id: "3", name: "Charlie", avatar: "/avatars/charlie.png" },
-  ];
+  const [menteesData, setMenteesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch mentees data from backend
+  useEffect(() => {
+    const fetchMentees = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("No authentication token found");
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get(
+          "http://localhost:5000/api/mentor/mentees",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("result: ",response.data.mentees);
+        if (response.data.mentees) {
+          // Transform the API response to match the expected format
+          const transformedMentees = response.data.mentees.map((mentee) => ({
+            id: mentee.id.toString(),
+            name: mentee.full_name,
+            avatar:
+              mentee.profile_photo_url ||
+              `https://ui-avatars.com/api/?name=${mentee.full_name}&background=random`,
+            student_id: mentee.student_id,
+            email: mentee.email,
+            department: mentee.department,
+            year: mentee.year,
+            status: mentee.status,
+            bio: mentee.bio,
+            about: mentee.about,
+          }));
+          setMenteesData(transformedMentees);
+        } else {
+          setMenteesData([]);
+        }
+      } catch (err) {
+        console.error("Error fetching mentees:", err);
+        setError(err.response?.data?.message || "Failed to fetch mentees");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMentees();
+  }, []);
 
   const progressData = [
     { label: "February", value: 72, date: "Feb 14th, 2020" },
@@ -25,26 +76,55 @@ const MentorDashboard = () => {
     { label: "December", value: 41, date: "Dec 25th, 2020" },
   ];
 
+  if (loading) {
+    return (
+      <div className="flex flex-row bg-background text-foreground">
+        <div className="rounded-lg px-5 w-full">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-foreground/60">Loading mentees...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-row bg-background text-foreground">
+        <div className="rounded-lg px-5 w-full">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-red-500 text-center">
+              <div className="text-lg font-medium">Error</div>
+              <div className="text-sm mt-2">{error}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-row bg-backgroun text-forground">
-      <div className=" rounded-lg  px-5 w-full">
-        <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5  w-auto">
+    <div className="flex flex-row bg-background text-foreground">
+      <div className="rounded-lg px-5 w-full">
+        <div className="flex flex-row justify-between h-20 bg-background text-foreground border border-border mb-5 w-auto">
           <StatsCard
-            title="Students"
-            value={5423}
-            subtitle="2025"
+            title="Total Mentees"
+            value={menteesData.length}
+            subtitle="Assigned"
             icon={Users}
           />
           <StatsCard
-            title="Students"
-            value={5423}
-            subtitle="2025"
+            title="Active Mentees"
+            value={
+              menteesData.filter((mentee) => mentee.status === "active").length
+            }
+            subtitle="Currently Active"
             icon={Users}
           />
           <StatsCard
-            title="Students"
-            value={5423}
-            subtitle="2025"
+            title="Departments"
+            value={new Set(menteesData.map((mentee) => mentee.department)).size}
+            subtitle="Different Fields"
             icon={Users}
           />
         </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import ChatComponent from '../../ui/chart/Chat'
+import ChatComponent from '../../components/Chat.jsx'
 import Chat from '../../components/Chat.jsx'
 
 function Message() {
