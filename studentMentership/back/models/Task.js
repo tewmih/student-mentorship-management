@@ -12,10 +12,6 @@ const Task = sequelize.define("Task", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  status: {
-    type: DataTypes.ENUM("pending", "in-progress", "completed"),
-    defaultValue: "pending",
-  },
   dueDate: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -24,11 +20,16 @@ const Task = sequelize.define("Task", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  mentor_id: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    references: {
+      model: Mentor,
+      key: "mentor_id",
+    },
+  },
 });
 
-Mentor.hasMany(Task, { foreignKey: "mentor_id" });
+Mentor.hasMany(Task, { foreignKey: "mentor_id", targetKey: "mentor_id" });
 Task.belongsTo(Mentor, { foreignKey: "mentor_id", targetKey: "mentor_id" });
-Mentee.hasMany(Task, { foreignKey: "mentee_id" });
-Task.belongsTo(Mentee, { foreignKey: "mentee_id", targetKey: "mentee_id" });
-
 export default Task;

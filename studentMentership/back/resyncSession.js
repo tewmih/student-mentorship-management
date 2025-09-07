@@ -1,7 +1,8 @@
 import sequelize from "./config/db.js";
 // import MentorshipSession from "./models/session.js";
 // import SessionAttendance from "./models/sessionAttendance.js";
-import Task from "../modles/task.js";
+import Petition from "./models/petition.js";
+
 import Mentee from "./models/mentee.js";
 import Message from "./models/Message.js";
 async function resyncSession() {
@@ -10,11 +11,11 @@ async function resyncSession() {
     console.log("Database connected");
 
     // // Drop only this table
-    // await Mentee.drop();
+    await Petition.drop();
     // console.log("Mentee table dropped");
     // Recreate the table
-    await Task.sync({ force: true });
-    console.log("Mentee table re-synced successfully");
+    await Petition.sync({ force: true });
+    console.log("Petition table re-synced successfully");
     process.exit(0);
   } catch (err) {
     console.error("Error:", err);
