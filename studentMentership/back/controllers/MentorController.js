@@ -30,11 +30,9 @@ async function listMentees(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
-//
 
 async function submitApplication(req, res) {
   // first check mentor hasn't assigned
-  console.log("whgvvdjscjscdvcjsdvc");
   const existingMentor = await Mentor.findOne({
     where: { mentor_id: req.user.student_id, mentee_assigned: true },
   });
@@ -44,20 +42,35 @@ async function submitApplication(req, res) {
 
   try {
     const student = req.user; // extracted from JWT
-    const { motivation, experience, region } = req.body;
+    const { motivation, experience, region, year, department } = req.body;
 
-    // Validation
-    if (!motivation || !region) {
+    // 1. Validate applicant is at least second year
+    if (!year || year < 2) {
       return res
         .status(400)
-        .json({ message: "Motivation and region are required" });
+        .json({ message: "Only students from 2nd year and above can apply as mentors" });
     }
-    //  inserting into mentor table
+
+    // 2. Fetch year and department from request body (already done above)
+    // Validation for required fields
+    if (!motivation || !region || !department) {
+      return res
+        .status(400)
+        .json({ message: "Motivation, region, year, and department are required" });
+    }
+
+    // Update student's year and department if provided
+    await Student.update(
+      { year, department },
+      { where: { student_id: student.student_id } }
+    );
+
+    // inserting into mentor table
     const mentor = await Mentor.create({
       mentor_id: student.student_id,
     });
-    console.log("Mentor created:", mentor);
-    // Create mentor application
+    
+    // 3. Add application to student union's application list (MentorApplication table)
     const application = await MentorApplication.create({
       mentor_id: student.student_id, // get from JWT
       motivation,
@@ -66,7 +79,7 @@ async function submitApplication(req, res) {
     });
 
     return res.status(201).json({
-      message: "Application submitted successfully",
+      message: "Application submitted successfully and added to student union review list",
       application,
     });
   } catch (error) {
@@ -76,6 +89,7 @@ async function submitApplication(req, res) {
       .json({ message: "Server error", error: error.message });
   }
 }
+
 export const MentorController = {
   listMentees,
   submitApplication,

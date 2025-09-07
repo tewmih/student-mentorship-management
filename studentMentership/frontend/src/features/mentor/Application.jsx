@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { submitApplication } from "../../services/SIMS";
-import { useMutation, QueryClient } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 function MentorApplicationForm() {
   const [message, setMessage] = useState(null);
@@ -15,6 +13,21 @@ function MentorApplicationForm() {
     reset,
   } = useForm();
 
+  // Direct API call function with hardcoded endpoint
+  const submitApplication = async (data) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/mentor/application",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log("response of application:", response);
+    return response.data;
+  };
+
   const { mutate, isLoading } = useMutation({
     mutationFn: submitApplication,
     onSuccess: () => {
@@ -24,8 +37,14 @@ function MentorApplicationForm() {
       });
       reset();
     },
-    onError: () => {
-      setMessage({ type: "error", text: "Failed to submit application ❌" });
+    onError: (error) => {
+      console.error("Application submission error:", error);
+      setMessage({
+        type: "error",
+        text: `Failed to submit application: ${
+          error.response?.data?.message || error.message
+        } ${error.response?.data?.error}`,
+      });
     },
   });
 
