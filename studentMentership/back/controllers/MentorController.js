@@ -15,9 +15,7 @@ async function listMentees(req, res) {
     });
     if (assignments.length === 0) {
       return res.status(404).json({ message: "No mentees assigned" });
-    }
-
-    // extract mentee IDs
+    } // extract mentee IDs
     const menteeIds = assignments.map((a) => a.mentee_id);
 
     const mentees = await Student.findAll({

@@ -10,6 +10,7 @@ async function listApplications(req, res) {
   try {
     const applications = await MentorApplication.findAll({
       order: [["createdAt", "DESC"]],
+
       include: [
         {
           model: Mentor,
@@ -289,7 +290,20 @@ async function lisavailablementors(req, res) {
     // Filter mentors based on mentee_assigned or current mentee count
     const availableMentors = [];
 
-    for (const mentor of mentors) {
+    // Check if application status is approved
+    // Get all approved mentor applications
+    const approvedMentorApplications = await MentorApplication.findAll({
+      where: { status: "approved" },
+      attributes: ["mentor_id"],
+    });
+    const approvedMentorIds = approvedMentorApplications.map(
+      (app) => app.mentor_id
+    );
+    // Only consider mentors whose applications are approved
+    const filteredMentors = mentors.filter((mentor) =>
+      approvedMentorIds.includes(mentor.mentor_id)
+    );
+    for (const mentor of filteredMentors) {
       const menteeCount = await Mentee.count({
         where: { mentor_id: mentor.mentor_id },
       });
