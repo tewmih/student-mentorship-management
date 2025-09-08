@@ -18,12 +18,12 @@ function ApplicationList() {
   });
 
   console.log(data);
-  const { applications, mentors } = data || {};
+  const { applications } = data || {};
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;
 
-  if (!data || data.length === 0) {
+  if (!applications || applications.length === 0) {
     return (
       <div className="flex items-center justify-center h-full p-8 text-xl font-semibold text-gray-500">
         There are no applications yet.
@@ -37,11 +37,11 @@ function ApplicationList() {
     queryClient.invalidateQueries({ queryKey: ["studentData"] });
   };
 
-  // Filtering based on search term
+  // Filtering based on search term - now using applications instead of mentors
   const filteredData =
-    mentors?.filter(
+    applications?.filter(
       (item) =>
-        String(item.full_name)
+        String(item.Mentor?.Student?.full_name)
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         String(item.id)?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -125,20 +125,26 @@ function ApplicationList() {
           </select>
         </div>
       </div>
-      <div className="bg-white rounded-lg overflow-hidden">
+      <div className="bg-background rounded-lg overflow-hidden">
         <ul className="divide-y divide-gray-200">
-          <li className="flex items-center px-6 py-3 bg-gray-50 text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <li className="flex items-center px-6 py-3 bg-background text-foreground font-medium uppercase tracking-wider">
             <div
               className="w-1/6 cursor-pointer"
-              onClick={() => handleSort("id")}
+              onClick={() => handleSort("mentor_id")}
             >
-              Id
+              Mentor ID
             </div>
             <div
-              className="w-1/6 cursor-pointer"
-              onClick={() => handleSort("name")}
+              className="w-1/4 cursor-pointer"
+              onClick={() => handleSort("motivation")}
             >
-              Mentor name
+              Motivation
+            </div>
+            <div
+              className="w-1/4 cursor-pointer"
+              onClick={() => handleSort("experience")}
+            >
+              Experience
             </div>
             <div
               className="w-1/6 text-right cursor-pointer"
@@ -146,7 +152,6 @@ function ApplicationList() {
             >
               Status
             </div>
-            <div className="w-1/6 text-right">Action</div>
             <div className="w-1/6 text-right">Action</div>
           </li>
           {currentItems.map((item) => (
