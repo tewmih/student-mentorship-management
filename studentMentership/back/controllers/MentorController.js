@@ -65,11 +65,20 @@ async function submitApplication(req, res) {
       { where: { student_id: student.student_id } }
     );
 
-    // inserting into mentor table
-    const mentor = await Mentor.create({
-      mentor_id: student.student_id,
+    // Instead of always creating a new mentor, check if one exists first
+    const existingMentor = await Mentor.findOne({
+      where: { mentor_id: student.student_id },
     });
-    
+
+    let mentor;
+    if (!existingMentor) {
+      mentor = await Mentor.create({
+        mentor_id: student.student_id,
+      });
+    } else {
+      mentor = existingMentor;
+    }
+
     // 3. Add application to student union's application list (MentorApplication table)
     const application = await MentorApplication.create({
       mentor_id: student.student_id, // get from JWT

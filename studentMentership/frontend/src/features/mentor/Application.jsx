@@ -13,6 +13,22 @@ function MentorApplicationForm() {
     reset,
   } = useForm();
 
+  // Function to get student ID from JWT token
+  const getStudentIdFromToken = () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return "No token found";
+      
+      // Decode JWT token (simple base64 decode of payload)
+      const payload = token.split('.')[1];
+      const decoded = JSON.parse(atob(payload));
+      return decoded.student_id || "ID not found in token";
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return "Error reading token";
+    }
+  };
+
   // Direct API call function with hardcoded endpoint
   const submitApplication = async (data) => {
     const response = await axios.post(
@@ -83,40 +99,18 @@ function MentorApplicationForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">
-                Mentor ID <span className="text-red-500">*</span>
+                Student ID <span className="text-blue-500 text-xs">(Auto-filled from your login)</span>
               </label>
               <input
                 type="text"
-                {...register("mentor_id", {
-                  required: "Mentor ID is required",
-                })}
-                className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                placeholder="Enter your student ID"
+                value={getStudentIdFromToken()}
+                readOnly
+                className="w-full border border-border bg-gray-100 text-gray-600 px-4 py-3 rounded-lg cursor-not-allowed"
+                placeholder="Your student ID will appear here"
               />
-              {errors.mentor_id && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.mentor_id.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-foreground mb-2">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                {...register("name", {
-                  required: "Full name is required",
-                })}
-                className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                placeholder="Enter your full name"
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.name.message}
-                </p>
-              )}
+              <p className="text-xs text-gray-500 mt-1">
+                This ID is automatically taken from your login session
+              </p>
             </div>
 
             <div>
