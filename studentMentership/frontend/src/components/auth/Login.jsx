@@ -33,7 +33,7 @@ function Login() {
           navigate("/admin");
           break;
         case "student_union":
-          navigate("/studentunion");
+          navigate("/student-union");
           break;
         default:
           navigate("/");

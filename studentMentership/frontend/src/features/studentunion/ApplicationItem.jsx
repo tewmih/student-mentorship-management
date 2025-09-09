@@ -77,7 +77,7 @@ function ApplicationItem({ item, onStatusChange }) {
   };
 
   return (
-    <NavLink to={`/applicationlist/${item.id}`} className="w-full">
+    <NavLink to={`/application-detail/${item.id}`} className="w-full">
       <li className="flex w-full items-center px-6 py-4 hover:bg-background text-foreground border border-border transition-colors">
         <div className="w-1/6 text-foreground/60 truncate">
           {item.mentor_id}

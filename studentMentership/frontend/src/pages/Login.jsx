@@ -22,7 +22,12 @@ function Login({ setTokenState }) {
       window.dispatchEvent(new Event("authStateChange"));
 
       toast.success("Success!");
-      navigate("/mentor");
+      // Fix: Use "/student-union" (with dash) for navigation
+      if (data.role === "student_union") {
+        navigate("/student-union");
+      } else {
+        navigate(`/${data.role}`);
+      }
     } catch (err) {
       toast.error(err.message || "Login failed");
     }

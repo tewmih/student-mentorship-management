@@ -80,28 +80,6 @@ const Header = () => {
               StudentMentorship
             </span>
           </div>
-
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-6">
-            <button
-              onClick={() => navigate("/mentee")}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
-            >
-              Dashboard
-            </button>
-            <button
-              onClick={() => navigate("/mentor")}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
-            >
-              Mentor
-            </button>
-            <button
-              onClick={() => navigate("/studentunion")}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
-            >
-              Union
-            </button>
-          </div>
         </div>
 
         {/* Right section: icons and user info */}

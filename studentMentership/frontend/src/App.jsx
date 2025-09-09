@@ -56,13 +56,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/mentee" element={<Mentee />} />
           <Route path="/mentor" element={<MentorPage />} />
-          <Route path="/studentunion" element={<StudentUnion />} />
+          <Route path="/student-union" element={<StudentUnion />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/application-detail" element={<ApplicationDetail />} />
           <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/application-detail" element={<ApplicationDetail />} />
 
         </Routes>
         <Footer />
