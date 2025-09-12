@@ -22,7 +22,7 @@ function ApplicationItem({ item, onStatusChange }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:5000/api/student-union/mentor-applications/${item.id}/approve`,
+        `http://localhost:4000/api/student-union/mentor-applications/${item.id}/approve`,
         {},
         {
           headers: {
@@ -54,7 +54,7 @@ function ApplicationItem({ item, onStatusChange }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:5000/api/student-union/mentor-applications/${item.id}/reject`,
+        `http://localhost:4000/api/student-union/mentor-applications/${item.id}/reject`,
         {},
         {
           headers: {

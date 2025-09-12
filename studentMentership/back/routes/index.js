@@ -1,0 +1,22 @@
+import studentRoutes from "./studentRoutes.js";
+import authRoutes from "./authRoutes.js";
+import profileRoutes from "./profileRoutes.js";
+import menteeRoutes from "./menteeRoutes.js";
+import mentorRoutes from "./mentorRoutes.js";
+import studentUnionRoutes from "./studentUnionRoutes.js";
+import adminRoutes from "./adminRoutes.js";
+import chatRoutes from "./chatRoutes.js";
+import attendanceRoutes from "./attendenceRoutes.js";
+import express from "express";
+const router = express.Router();
+router.use("/node", studentRoutes);
+router.use("/auth", authRoutes);
+router.use("/profile", profileRoutes);
+router.use("/mentee", menteeRoutes);
+router.use("/mentor", mentorRoutes);
+router.use("/student-union", studentUnionRoutes);
+router.use("/admin", adminRoutes);
+router.use("/chat", chatRoutes);
+router.use("/attendance", attendanceRoutes);
+
+export default router;

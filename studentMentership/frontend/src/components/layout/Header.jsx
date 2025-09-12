@@ -123,7 +123,7 @@ const Header = () => {
           <div
             className="relative cursor-pointer"
             onClick={() => {
-              navigate("/mentee", {
+              navigate("/conversations", {
                 state: { currentPage: "Message" },
                 replace: true, // This replaces the current history entry
               });

@@ -32,7 +32,7 @@ function MentorApplicationForm() {
   // Direct API call function with hardcoded endpoint
   const submitApplication = async (data) => {
     const response = await axios.post(
-      "http://localhost:5000/api/mentor/application",
+      "http://localhost:4000/api/mentor/application",
       data,
       {
         headers: {

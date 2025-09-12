@@ -4,18 +4,18 @@ import sequelize from "./config/db.js";
 import Petition from "./models/petition.js";
 
 import Mentee from "./models/mentee.js";
-import Message from "./models/Message.js";
+import Message from "./models/message.js";
 async function resyncSession() {
   try {
     await sequelize.authenticate();
     console.log("Database connected");
 
     // // Drop only this table
-    await Petition.drop();
+    await Message.drop();
     // console.log("Mentee table dropped");
     // Recreate the table
-    await Petition.sync({ force: true });
-    console.log("Petition table re-synced successfully");
+    await Message.sync({ force: true });
+    console.log("Message table re-synced successfully");
     process.exit(0);
   } catch (err) {
     console.error("Error:", err);

@@ -9,12 +9,12 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-
-
 import Forgot from "./pages/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Profile from "./pages/Profile.jsx";
 import { Toaster } from "sonner";
+import Conversations from "./components/Conversations.jsx";
+
 
 function App() {
   const [tokenState, setTokenState] = useState(localStorage.getItem("token"));
@@ -64,7 +64,7 @@ function App() {
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/application-detail" element={<ApplicationDetail />} />
-
+          <Route path="/conversations" element={<Conversations />} />
         </Routes>
         <Footer />
       </BrowserRouter>
