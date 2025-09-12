@@ -6,7 +6,7 @@ const API_SESSIONS_URL = import.meta.env.VITE_API_SESSIONS_URL;
 const API_APPLICATIONS_URL = import.meta.env.VITE_API_APPLICATIONS_URL;
 
 const STUDENT_UNION_APPLICATIONS_URL = import.meta.env.VITE_API_STUDENT_UNION_APPLICATIONS_URL;
-const MENTEES_URL = import.meta.env.VITE_API_MENTEES_URL;
+const MENTEE_MENTOR_URL = import.meta.env.VITE_API_MENTEES_URL;
 
 export const fetchStudentData = async () => {
   const { data } = await axios.get(API_DEPARTMENTS_URL,{
@@ -21,7 +21,11 @@ export const fetchTasks = async () => {
   return data;
 };
 export const fetchSessions = async () => {
-  const { data } = await axios.get(API_SESSIONS_URL);
+  const { data } = await axios.get(API_SESSIONS_URL, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 };
 
@@ -48,7 +52,16 @@ export const fetchApplicationDetails = async () => {
 };
 
 export const fetchMentees = async () => {
-  const { data } = await axios.get(MENTEES_URL,{
+  const { data } = await axios.get(process.env.VITE_API_MENTOR_MENTEES_URL,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return data;
+};  
+
+export const fetchMentor = async () => {
+  const { data } = await axios.get(process.env.VITE_API_MENTOR_MENTEES_URL,{
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

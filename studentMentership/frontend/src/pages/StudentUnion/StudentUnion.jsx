@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AASTUStudent from "../../features/studentunion/AASTUStudent.jsx";
 import Chat from "../../features/studentunion/Chat.jsx";
 import Mentee from "../../features/studentunion/Mentee.jsx";
@@ -7,10 +7,12 @@ import StudentDashboard from "../../features/studentunion/StudentDashboard.jsx";
 import Task from "../../features/studentunion/GivenTask.jsx";
 import Sidebar from "../../components/layout/Sidebar.jsx";
 import Schedule from "../../features/studentunion/Schedule.jsx";
-
 import ApplicationList from "../../features/studentunion/ApplicationList.jsx";
+import { useLocation } from "react-router-dom";
 
 function StudentUnion() {
+  const location = useLocation();
+  console.log(location);
   const navItems = [
     "Dashboard",
     "AASTU Student",
@@ -24,7 +26,11 @@ function StudentUnion() {
   ];
 
   const [activePage, setActivePage] = useState("Dashboard");
-
+  useEffect(() => {
+    if (location.state?.currentPage) {
+      setActivePage(location.state.currentPage);
+    }
+  }, [location.state]);
   const renderContent = () => {
     switch (activePage) {
       case "Dashboard":

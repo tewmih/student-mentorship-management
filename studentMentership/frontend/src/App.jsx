@@ -9,7 +9,7 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-
+import Settings from "./pages/settings/Settings.jsx";
 
 import Forgot from "./pages/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
@@ -59,6 +59,7 @@ function App() {
           <Route path="/student-union" element={<StudentUnion />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/application-detail" element={<ApplicationDetail />} />
           <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
           <Route path="/forgot" element={<Forgot />} />

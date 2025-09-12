@@ -123,8 +123,8 @@ const Header = () => {
           <div
             className="relative cursor-pointer"
             onClick={() => {
-              navigate("/mentee", {
-                state: { currentPage: "Message" },
+              navigate(`/${localStorage.getItem("role") == "student_union" ? "student-union" : localStorage.getItem("role")}`, {
+                state: { currentPage: "Messages" },
                 replace: true, // This replaces the current history entry
               });
             }}
@@ -184,9 +184,7 @@ function DropDown({ setDropDown }) {
   };
 
   const handleSettingsClick = () => {
-    navigate("/profile", {
-      state: { currentPage: "Settings" },
-    });
+    navigate("/settings");
     setDropDown(false);
   };
 

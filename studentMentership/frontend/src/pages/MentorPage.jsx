@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/layout/Sidebar.jsx";
 import MentorDashboard from "./mentor-subpages/MentorDashboard.jsx";
 import Mentee from "./mentor-subpages/Mentee";
@@ -6,12 +6,16 @@ import Messages from "./mentor-subpages/Messages";
 import Task from "./mentor-subpages/GivenTask.jsx";
 import Schedule from "./mentor-subpages/Schedule.jsx";
 import MentorApplicationForm from "../features/mentor/Application.jsx";
+import { useLocation } from "react-router-dom";
 
 // Placeholder until you create real components
 const PlaceholderPage = ({ pageName }) => <div>{pageName} Page</div>;
 const StudentDashboard = () => <div>Student Dashboard</div>;
 
 function MentorPage() {
+  const [activePage, setActivePage] = useState("Dashboard");
+  const location = useLocation();
+  console.log(location);
   const navItems = [
     "Dashboard",
     "My Mentee",
@@ -21,8 +25,12 @@ function MentorPage() {
     "Messages",
     "Settings",
   ];
-
-  const [activePage, setActivePage] = useState("Dashboard");
+   // Check for navigation state when component mounts
+   useEffect(() => {
+    if (location.state?.currentPage) {
+      setActivePage(location.state.currentPage);
+    }
+  }, [location.state]);
 
   const renderContent = () => {
     switch (activePage) {
