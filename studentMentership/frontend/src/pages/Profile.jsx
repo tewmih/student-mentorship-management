@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { profileAPI, authAPI } from "../api/client.js";
+import { MdModeEdit } from "react-icons/md";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -13,6 +14,7 @@ const Profile = () => {
     experience: "",
   });
   const [editMessage, setEditMessage] = useState("");
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
   const navigate = useNavigate();
 
@@ -49,13 +51,31 @@ const Profile = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Here you would call an API to update the profile
-      // await profileAPI.updateProfile(editData);
+      setEditMessage("Updating profile...");
+
+      // Prepare the data to send
+      const updateData = {};
+      if (editingSection === "about") {
+        updateData.about = editData.about;
+      } else if (editingSection === "bio") {
+        updateData.bio = editData.bio;
+      } else if (editingSection === "experience") {
+        updateData.experience = editData.experience;
+      }
+
+      // Call the API to update the profile
+      await profileAPI.updateProfile(updateData);
+
       setEditMessage("Profile updated successfully!");
       setEditingSection(null);
+
       // Reload profile to get updated data
-      loadProfile();
+      await loadProfile();
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setEditMessage(""), 3000);
     } catch (err) {
+      console.error("Profile update error:", err);
       setEditMessage("Error updating profile: " + err.message);
     }
   };
@@ -74,6 +94,37 @@ const Profile = () => {
       bio: profile.bio || "",
       experience: profile.experience || "",
     });
+  };
+
+  const handlePhotoUpload = async (photoType) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        setUploadingPhoto(true);
+        setEditMessage(`Uploading ${photoType}...`);
+
+        const files = {};
+        files[photoType] = file;
+
+        await profileAPI.updateProfile({}, files);
+
+        setEditMessage(`${photoType} updated successfully!`);
+        await loadProfile();
+
+        setTimeout(() => setEditMessage(""), 3000);
+      } catch (err) {
+        console.error("Photo upload error:", err);
+        setEditMessage(`Error uploading ${photoType}: ${err.message}`);
+      } finally {
+        setUploadingPhoto(false);
+      }
+    };
+    input.click();
   };
 
   // Helper function to display null/empty values
@@ -107,6 +158,22 @@ const Profile = () => {
       </div>
     );
   }
+  function DummyProfileIcon(props) {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={props.width || 144}
+        height={props.height || 128}
+        viewBox="0 0 36 32"
+        {...props}
+      >
+        <path
+          fill="#403e3e"
+          d="M.5 31.983a.503.503 0 0 0 .612-.354c1.03-3.843 5.216-4.839 7.718-5.435c.627-.149 1.122-.267 1.444-.406c2.85-1.237 3.779-3.227 4.057-4.679a.5.5 0 0 0-.165-.473c-1.484-1.281-2.736-3.204-3.526-5.416a.5.5 0 0 0-.103-.171c-1.045-1.136-1.645-2.337-1.645-3.294c0-.559.211-.934.686-1.217a.5.5 0 0 0 .243-.408C10.042 5.036 13.67 1.026 18.12 1l.107.007c4.472.062 8.077 4.158 8.206 9.324a.5.5 0 0 0 .178.369c.313.265.459.601.459 1.057c0 .801-.427 1.786-1.201 2.772a.5.5 0 0 0-.084.158c-.8 2.536-2.236 4.775-3.938 6.145a.5.5 0 0 0-.178.483c.278 1.451 1.207 3.44 4.057 4.679c.337.146.86.26 1.523.403c2.477.536 6.622 1.435 7.639 5.232a.5.5 0 0 0 .966-.26c-1.175-4.387-5.871-5.404-8.393-5.95c-.585-.127-1.09-.236-1.336-.344c-1.86-.808-3.006-2.039-3.411-3.665c1.727-1.483 3.172-3.771 3.998-6.337c.877-1.14 1.359-2.314 1.359-3.317c0-.669-.216-1.227-.644-1.663C27.189 4.489 23.19.076 18.227.005l-.149-.002c-4.873.026-8.889 4.323-9.24 9.83c-.626.46-.944 1.105-.944 1.924c0 1.183.669 2.598 1.84 3.896c.809 2.223 2.063 4.176 3.556 5.543c-.403 1.632-1.55 2.867-3.414 3.676c-.241.105-.721.22-1.277.352c-2.541.604-7.269 1.729-8.453 6.147a.5.5 0 0 0 .354.612"
+        />
+      </svg>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20 bg-background text-foreground">
@@ -115,20 +182,23 @@ const Profile = () => {
           {/* Header with Profile Icon */}
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">Profile</h1>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 group">
               {profile.profile_photo_url ? (
                 <img
                   src={profile.profile_photo_url}
                   alt="Profile"
-                  className="w-20 h-20 rounded-full object-cover border-2 border-border"
+                  className="w-36 h-32 rounded-full object-cover border-2 border-border"
                 />
               ) : (
-                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-border">
-                  <span className="text-lg text-gray-500">
-                    {profile.full_name?.charAt(0) || "?"}
-                  </span>
-                </div>
+                <span className="w-28 h-30 rounded-full bg-gray-200 flex items-center justify-center border-2 border-border overflow-hidden">
+                  <DummyProfileIcon width={144} height={128} />
+                </span>
               )}
+              <MdModeEdit
+                className="w-8 h-8 relative top-10 right-20 text-primary-foreground bg-primary rounded-full p-1 hover:bg-primary/90 cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100"
+                onClick={() => handlePhotoUpload("profile_photo")}
+                disabled={uploadingPhoto}
+              />
             </div>
           </div>
 
@@ -136,22 +206,6 @@ const Profile = () => {
             <div className="space-y-8">
               {/* Profile Header */}
               <div className="flex flex-col md:flex-row gap-6 items-start">
-                {/* <div className="flex-shrink-0">
-                  {profile.profile_photo_url ? (
-                    <img
-                      src={profile.profile_photo_url}
-                      alt="Profile"
-                      className="w-32 h-32 rounded-full object-cover border-4 border-border"
-                    />
-                  ) : (
-                    <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center border-4 border-border">
-                      <span className="text-4xl text-gray-500">
-                        {profile.full_name?.charAt(0) || "?"}
-                      </span>
-                    </div>
-                  )}
-                </div> */}
-
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold mb-2">
                     {profile.full_name}
