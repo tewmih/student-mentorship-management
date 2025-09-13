@@ -7,6 +7,7 @@ import studentUnionRoutes from "./studentUnionRoutes.js";
 import adminRoutes from "./adminRoutes.js";
 import chatRoutes from "./chatRoutes.js";
 import attendanceRoutes from "./attendenceRoutes.js";
+import fileRoutes from "./fileRoutes.js";
 import express from "express";
 const router = express.Router();
 router.use("/node", studentRoutes);
@@ -18,5 +19,6 @@ router.use("/student-union", studentUnionRoutes);
 router.use("/admin", adminRoutes);
 router.use("/chat", chatRoutes);
 router.use("/attendance", attendanceRoutes);
+router.use("/files", fileRoutes);
 
 export default router;

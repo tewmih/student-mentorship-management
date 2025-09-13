@@ -2,7 +2,7 @@ import express from "express";
 import http from "http";
 import sequelize from "./config/db.js";
 import cors from "cors";
-import setupSocket from "./socket.js";
+import { setupSocket } from "./socket.js";
 import path from "path";
 import dotenv from "dotenv";
 import routes from "./routes/index.js";

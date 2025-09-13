@@ -34,7 +34,7 @@ function Chat() {
   const fileInputRef = useRef(null);
 
   // const { user } = useAuth();
-  const currentUser = localStorage.getItem("id");
+  const currentUser = localStorage.getItem("student_id");
 
 
   const scrollToBottom = (smooth = true) => {
@@ -54,6 +54,7 @@ function Chat() {
           },
         });
         setChatUser(data);
+        console.log("Fetched chat user:", data);
       } catch (err) {
         console.error("Error loading chat user:", err);
       }
@@ -250,12 +251,12 @@ function Chat() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <img
-                src={`http://localhost:4000${chatUser.avatar || "/uploads/default.png"}`}
-                alt={chatUser.name}
+                src={`http://localhost:4000${chatUser.profile_photo || "/uploads/default.png"}`}
+                alt={chatUser.full_name || "user"}
                 className="w-10 h-10 rounded-full object-cover"
               />
               <div className="flex flex-col">
-                <span className="font-semibold">{chatUser.name}</span>
+                <span className="font-semibold">{chatUser.full_name || "User"}</span>
                 {isOnline ? (
                   <span className="text-xs text-green-500">Online</span>
                 ) : (
@@ -264,7 +265,7 @@ function Chat() {
               </div>
             </div>
             {isTyping && (
-              <span className="text-xs text-gray-500">{chatUser.name} is typing...</span>
+              <span className="text-xs text-gray-500">{chatUser.full_name} is typing...</span>
             )}
           </div>
         )}
@@ -303,8 +304,7 @@ function Chat() {
                 e.preventDefault();
                 setContextMenu({ x: e.pageX, y: e.pageY, message: msg });
               }}
-              className={`flex ${mine ? "justify-end" : "justify-start"} relative`}
-            >
+              className={`flex ${mine ? "justify-end" : "justify-start"} relative mt-20`}>
               <div className={`${bubbleBase} ${bubbleColors}`}>
                 {replyPreview && (
                   <div

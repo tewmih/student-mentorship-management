@@ -66,8 +66,16 @@ const Message = sequelize.define(
 );
 
 // 🔗 Associations
-Message.belongsTo(Student, { as: "sender", foreignKey: "sender_id" });
-Message.belongsTo(Student, { as: "receiver", foreignKey: "receiver_id" });
+Message.belongsTo(Student, {
+  as: "sender",
+  foreignKey: "sender_id",
+  targetKey: "student_id",
+});
+Message.belongsTo(Student, {
+  as: "receiver",
+  foreignKey: "receiver_id",
+  targetKey: "student_id",
+});
 Message.belongsTo(Message, { as: "reply", foreignKey: "replyTo" });
 
 export default Message;

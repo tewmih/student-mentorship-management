@@ -135,7 +135,7 @@ export const getInbox = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-    const currentUserId = req.user.id;
+    const currentUserId = req.user.student_id;
 
     // 1. Get all messages where current user is sender or receiver
     const messages = await Message.findAll({
@@ -202,43 +202,62 @@ export const getInbox = async (req, res) => {
     });
   }
 };
+export const markMessagesRead = async (req, res) => {
+  const { userId } = req.params;
+  const currentUserId = req.user.id;
+
+  try {
+    await Message.update(
+      { isRead: true },
+      {
+        where: {
+          sender_id: userId,
+          receiver_id: currentUserId,
+          isRead: false,
+        },
+      }
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error marking messages as read", error: err.message });
+  }
+};
 
 // Get conversation between two users
 export const getConversation = async (req, res) => {
   try {
     const { userId } = req.params; // the other person
-    const currentUserId = req.user.id;
+    const currentUserId = req.user.student_id;
 
-    const messages = await Message.find({
-      $or: [
-        { sender: currentUserId, receiver: userId },
-        { sender: userId, receiver: currentUserId },
+    const messages = await Message.findAll({
+      where: {
+        [Op.or]: [
+          { sender_id: currentUserId, receiver_id: userId },
+          { sender_id: userId, receiver_id: currentUserId },
+        ],
+      },
+      order: [["createdAt", "ASC"]],
+      include: [
+        {
+          model: Student,
+          as: "sender",
+          attributes: ["full_name", "profile_photo"],
+        },
+        {
+          model: Student,
+          as: "receiver",
+          attributes: ["full_name", "profile_photo"],
+        },
       ],
-    })
-      .sort({ createdAt: 1 }) // oldest → newest
-      .populate("sender", "name avatar")
-      .populate("receiver", "name avatar");
+    });
 
     res.json(messages);
   } catch (err) {
     res
       .status(500)
       .json({ message: "Error fetching conversation", error: err.message });
-  }
-};
-
-export const markMessagesRead = async (req, res) => {
-  const { userId } = req.params;
-  const currentUserId = req.user.id;
-
-  try {
-    await Message.updateMany(
-      { sender: userId, receiver: currentUserId, isRead: false },
-      { $set: { isRead: true } }
-    );
-
-    res.json({ success: true });
-  } catch (err) {
-    res.status(500).json({ message: "Error marking messages as read" });
   }
 };
