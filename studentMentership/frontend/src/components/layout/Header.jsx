@@ -184,9 +184,7 @@ function DropDown({ setDropDown }) {
   };
 
   const handleSettingsClick = () => {
-    navigate("/profile", {
-      state: { currentPage: "Settings" },
-    });
+    navigate("/settings");
     setDropDown(false);
   };
 

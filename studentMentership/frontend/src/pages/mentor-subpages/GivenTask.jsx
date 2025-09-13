@@ -1,7 +1,7 @@
 import Task from "../../ui/Task";
 import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "../../services/SIMS";
+import { fetchTasks } from "../../api/client.js";
 import { Users } from "lucide-react";
 import DonutChart from "../../ui/chart/DonutChart";
 import Spinner from "../../ui/Spinner";

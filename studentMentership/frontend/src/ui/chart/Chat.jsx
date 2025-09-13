@@ -22,7 +22,7 @@ function Chat() {
   useEffect(() => {
     const fetchMentees = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/chat/mentees", {
+        const res = await axios.get("http://localhost:4000/api/chat/mentees", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const mentees = res.data.mentees || [];

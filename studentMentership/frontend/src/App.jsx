@@ -9,9 +9,11 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ApplicationDetail from "./features/studentunion/ApplicationDetail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import Settings from "./pages/settings/Settings.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Profile from "./pages/Profile.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Toaster } from "sonner";
 import Conversations from "./components/Conversations.jsx";
 import { ChartBar, ChartLine, ChartPie } from "lucide-react";
@@ -53,19 +55,69 @@ function App() {
 
         {Boolean(tokenState) && <Header />}
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/mentee" element={<Mentee />} />
-          <Route path="/mentor" element={<MentorPage />} />
-          <Route path="/student-union" element={<StudentUnion />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/application-detail" element={<ApplicationDetail />} />
           <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/application-detail" element={<ApplicationDetail />} />
-          <Route path="/conversations" element={<Conversations />} />
-          <Route path="/conversations/:id" element={<ChartArea />} />
+          
+          {/* Protected routes with role-based access */}
+          <Route 
+            path="/mentee" 
+            element={
+              <ProtectedRoute requiredRole="mentee">
+                <Mentee />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/mentor" 
+            element={
+              <ProtectedRoute requiredRole="mentor">
+                <MentorPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student-union" 
+            element={
+              <ProtectedRoute requiredRole="student_union">
+                <StudentUnion />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <Admin />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/settings" 
+            element={
+              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+                <Settings />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/application-detail" 
+            element={
+              <ProtectedRoute allowedRoles={["student_union", "admin"]}>
+                <ApplicationDetail />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
         <Footer />
       </BrowserRouter>

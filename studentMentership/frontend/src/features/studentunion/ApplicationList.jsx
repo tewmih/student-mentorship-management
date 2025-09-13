@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ApplicationItem from "./ApplicationItem";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchApplication } from "../../services/SIMS";
+import { fetchApplication } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 
 function ApplicationList() {
