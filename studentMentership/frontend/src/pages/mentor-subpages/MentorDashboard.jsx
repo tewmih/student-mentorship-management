@@ -23,7 +23,7 @@ const MentorDashboard = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:5000/api/mentor/mentees",
+          "http://localhost:4000/api/mentor/mentees",
           {
             headers: {
               Authorization: `Bearer ${token}`,
