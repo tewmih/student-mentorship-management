@@ -1,6 +1,7 @@
 import Task from "../models/Task.js";
 import TaskAssignment from "../models/TaskAssignment.js";
 import Mentee from "../models/mentee.js";
+import { sendNotificationToUsers } from "../socket.js";
 
 // ✅ Create Task and assign to mentees
 export const createTask = async (req, res) => {
@@ -23,6 +24,21 @@ export const createTask = async (req, res) => {
         status: "pending",
       }));
       await TaskAssignment.bulkCreate(assignments);
+      
+      // 3. Send notifications to assigned mentees
+      try {
+        await sendNotificationToUsers(mentees, {
+          type: "task_assigned",
+          title: "New Task Assigned",
+          message: `You have been assigned a new task: ${task}`,
+          relatedData: { taskId: newTask.id, mentorId },
+          actionUrl: `/mentee/tasks`,
+          priority: "medium"
+        });
+      } catch (notificationError) {
+        console.error("Error sending task assignment notifications:", notificationError);
+        // Don't fail the task creation if notifications fail
+      }
     }
     res
       .status(201)

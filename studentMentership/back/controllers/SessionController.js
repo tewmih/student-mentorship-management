@@ -2,6 +2,7 @@ import MentorshipSession from "../models/session.js";
 import SessionAttendance from "./../models/sessionAttendance.js";
 import Student from "../models/student.js";
 import Mentee from "../models/mentee.js";
+import { sendNotificationToUsers } from "../socket.js";
 // Mentor schedules a new mentorship session
 async function createSession(req, res) {
   try {

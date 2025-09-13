@@ -1,21 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle.jsx";
+import NotificationCenter from "../NotificationCenter.jsx";
 import { authAPI } from "../../api/client.js";
+import { useNotifications } from "../../hooks/useNotifications.js";
 import { toast } from "sonner";
 import { FaUser, FaCog } from "react-icons/fa";
 
 // Main Navbar component
 const Header = () => {
   // Use state to manage the badge counts, so they can be dynamic
-  const [notificationCount, setNotificationCount] = useState(2);
   const [messageCount, setMessageCount] = useState(3);
   const [user, setUser] = useState({
     name: "User",
     profilePic: "https://placehold.co/50x50/3498db/ffffff?text=U",
   });
   const [dropDown, setDropDown] = useState(false);
+  const [showNotificationCenter, setShowNotificationCenter] = useState(false);
   const dropdownRef = useRef(null);
+  
+  // Use the notification hook
+  const { unreadCount } = useNotifications();
 
   const navigate = useNavigate();
 
@@ -88,12 +93,7 @@ const Header = () => {
           {/* Notification icon with badge */}
           <div
             className="relative"
-            onClick={() => {
-              navigate("/profile", {
-                state: { currentPage: "Notification" },
-                replace: true, // This replaces the current history entry
-              });
-            }}
+            onClick={() => setShowNotificationCenter(true)}
           >
             {/* Replaced react-icons with inline SVG */}
             <svg
@@ -111,9 +111,9 @@ const Header = () => {
               <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 01-3.46 0"></path>
             </svg>
-            {notificationCount > 0 && (
+            {unreadCount > 0 && (
               <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">
-                {notificationCount}
+                {unreadCount}
               </span>
             )}
           </div>
@@ -181,6 +181,12 @@ const Header = () => {
 
       {/* Dropdown positioned completely outside the navbar */}
       {dropDown && <DropDown setDropDown={setDropDown} />}
+      
+      {/* Notification Center */}
+      <NotificationCenter 
+        isOpen={showNotificationCenter} 
+        onClose={() => setShowNotificationCenter(false)} 
+      />
     </div>
   );
 };

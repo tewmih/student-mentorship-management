@@ -3,6 +3,7 @@ import Student from "../models/student.js";
 import { Op } from "sequelize";
 import Mentee from "../models/mentee.js";
 import Mentor from "../models/mentor.js";
+import { sendNotificationToUser } from "../socket.js";
 
 async function listPetitions(req, res) {
   try {
@@ -139,6 +140,27 @@ async function resolvePetition(req, res) {
     }
 
     await petition.save();
+
+    // Send notification to the mentee about petition resolution
+    try {
+      const mentee = await Student.findOne({
+        where: { student_id: petition.mentee_id }
+      });
+      
+      if (mentee) {
+        await sendNotificationToUser(mentee.id, {
+          type: action === "approved" ? "petition_approved" : "petition_rejected",
+          title: `Petition ${action === "approved" ? "Approved" : "Rejected"}`,
+          message: `Your petition "${petition.title}" has been ${action}`,
+          relatedData: { petitionId: petition.id },
+          actionUrl: `/mentee/petitions`,
+          priority: action === "approved" ? "high" : "medium"
+        });
+      }
+    } catch (notificationError) {
+      console.error("Error sending petition resolution notification:", notificationError);
+      // Don't fail the petition resolution if notifications fail
+    }
 
     return res.json({
       message: `Petition ${action} successfully`,

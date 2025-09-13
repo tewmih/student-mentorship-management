@@ -2,9 +2,28 @@ import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import Message from "./models/message.js";
 import Student from "./models/student.js";
+import Notification from "./models/notification.js";
 
 let io;
 const onlineUsers = new Map();
+
+// Helper function to create notifications
+const createNotification = async (notificationData) => {
+  try {
+    const notification = await Notification.create(notificationData);
+    
+    // Emit real-time notification to the user
+    const userSocketId = onlineUsers.get(notificationData.user_id.toString());
+    if (userSocketId) {
+      io.to(userSocketId).emit("newNotification", notification);
+    }
+    
+    return notification;
+  } catch (error) {
+    console.error("Error creating notification:", error);
+    throw error;
+  }
+};
 
 export const setupSocket = (server) => {
   io = new Server(server, {
@@ -81,6 +100,17 @@ export const setupSocket = (server) => {
 
           io.to(receiver).emit("newMessage", message);
           io.to(userId).emit("newMessage", message);
+          
+          // Create notification for new message
+          await createNotification({
+            user_id: receiver,
+            type: "message",
+            title: "New Message",
+            message: `You received a new message from ${message.sender.full_name}`,
+            relatedData: { messageId: message.id, senderId: userId },
+            actionUrl: `/chat/${userId}`,
+            priority: "medium"
+          });
         } catch (err) {
           console.error("Error sending message:", err.message);
         }
@@ -120,6 +150,33 @@ export const setupSocket = (server) => {
       io.to(sender).emit("messagesRead", { reader: userId });
     });
 
+    // --- Notification events
+    socket.on("markNotificationRead", async ({ notificationId }) => {
+      try {
+        const notification = await Notification.findOne({
+          where: { id: notificationId, user_id: userId },
+        });
+        
+        if (notification) {
+          await notification.update({ isRead: true, readAt: new Date() });
+          socket.emit("notificationUpdated", notification);
+        }
+      } catch (error) {
+        console.error("Error marking notification as read:", error);
+      }
+    });
+
+    socket.on("getUnreadCount", async () => {
+      try {
+        const unreadCount = await Notification.count({
+          where: { user_id: userId, isRead: false },
+        });
+        socket.emit("unreadCount", unreadCount);
+      } catch (error) {
+        console.error("Error getting unread count:", error);
+      }
+    });
+
     // --- Disconnect
     socket.on("disconnect", () => {
       onlineUsers.delete(userId);
@@ -134,4 +191,45 @@ export const setupSocket = (server) => {
 export const getIO = () => {
   if (!io) throw new Error("Socket.io not initialized!");
   return io;
+};
+
+// Function to send notification to a specific user
+export const sendNotificationToUser = async (userId, notificationData) => {
+  try {
+    const notification = await createNotification({
+      ...notificationData,
+      user_id: userId,
+    });
+    
+    // Emit to the user if they're online
+    const userSocketId = onlineUsers.get(userId.toString());
+    if (userSocketId) {
+      io.to(userSocketId).emit("newNotification", notification);
+    }
+    
+    return notification;
+  } catch (error) {
+    console.error("Error sending notification to user:", error);
+    throw error;
+  }
+};
+
+// Function to send notification to multiple users
+export const sendNotificationToUsers = async (userIds, notificationData) => {
+  try {
+    const notifications = [];
+    
+    for (const userId of userIds) {
+      const notification = await createNotification({
+        ...notificationData,
+        user_id: userId,
+      });
+      notifications.push(notification);
+    }
+    
+    return notifications;
+  } catch (error) {
+    console.error("Error sending notifications to users:", error);
+    throw error;
+  }
 };

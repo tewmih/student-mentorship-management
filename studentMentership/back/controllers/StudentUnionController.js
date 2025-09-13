@@ -5,6 +5,7 @@ import Sequelize, { where } from "sequelize";
 import Mentee from "../models/mentee.js";
 import Mentor from "../models/mentor.js";
 import { Op } from "sequelize";
+import { sendNotificationToUsers } from "../socket.js";
 // List all mentor applications
 async function listApplications(req, res) {
   try {
@@ -263,6 +264,22 @@ async function assignMentor(req, res) {
       }
 
       await transaction.commit();
+      
+      // Send notifications to assigned mentees
+      try {
+        await sendNotificationToUsers(mentee_ids, {
+          type: "mentor_assigned",
+          title: "Mentor Assigned",
+          message: `You have been assigned a new mentor`,
+          relatedData: { mentorId },
+          actionUrl: `/mentee/mentor`,
+          priority: "high"
+        });
+      } catch (notificationError) {
+        console.error("Error sending mentor assignment notifications:", notificationError);
+        // Don't fail the assignment if notifications fail
+      }
+      
       return res.json({ message: "Mentor assigned successfully" });
     } catch (err) {
       await transaction.rollback();
