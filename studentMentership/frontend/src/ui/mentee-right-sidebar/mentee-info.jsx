@@ -17,7 +17,7 @@ function MentorSidebar() {
         }
 
         const response = await axios.get(
-          "http://localhost:5000/api/mentee/mentor",
+          "http://localhost:4000/api/mentee/mentor",
           {
             headers: {
               Authorization: `Bearer ${token}`,
