@@ -1,32 +1,43 @@
-// import React from "react";
-// import { Navigate } from "react-router-dom";
-// import { authAPI } from "../api/client.js";
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { authAPI } from "../api/client.js";
 
-// const ProtectedRoute = ({ children, requiredRole = null }) => {
-//   const isAuthenticated = authAPI.isAuthenticated();
-//   const userRole = authAPI.getRole();
+const ProtectedRoute = ({ children, requiredRole = null, allowedRoles = null }) => {
+  const isAuthenticated = authAPI.isAuthenticated();
+  const userRole = authAPI.getRole();
 
-//   if (!isAuthenticated) {
-//     return <Navigate to="/login" replace />;
-//   }
+  // If not authenticated, redirect to login
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-//   if (requiredRole && userRole !== requiredRole) {
-//     // Redirect to appropriate page based on role
-//     switch (userRole) {
-//       case "mentee":
-//         return <Navigate to="/mentee" replace />;
-//       case "mentor":
-//         return <Navigate to="/mentor" replace />;
-//       case "student_union":
-//         return <Navigate to="/studentunion" replace />;
-//       case "admin":
-//         return <Navigate to="/admin" replace />;
-//       default:
-//         return <Navigate to="/mentee" replace />;
-//     }
-//   }
+  // If specific role is required
+  if (requiredRole && userRole !== requiredRole) {
+    return <Navigate to={`/${getDefaultRouteForRole(userRole)}`} replace />;
+  }
 
-//   return children;
-// };
+  // If multiple roles are allowed
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return <Navigate to={`/${getDefaultRouteForRole(userRole)}`} replace />;
+  }
 
-// export default ProtectedRoute;
+  return children;
+};
+
+// Helper function to get default route for each role
+const getDefaultRouteForRole = (role) => {
+  switch (role) {
+    case "mentee":
+      return "mentee";
+    case "mentor":
+      return "mentor";
+    case "student_union":
+      return "student-union";
+    case "admin":
+      return "admin";
+    default:
+      return "mentee";
+  }
+};
+
+export default ProtectedRoute;
