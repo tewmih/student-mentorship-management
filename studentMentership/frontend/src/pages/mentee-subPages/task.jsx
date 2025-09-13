@@ -1,5 +1,5 @@
 import Task from "../../ui/Task";
-import { fetchTasks } from "../../api/client.js";
+import { taskAPI } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 import { useQuery } from "@tanstack/react-query";
 
@@ -44,7 +44,7 @@ import { useQuery } from "@tanstack/react-query";
 function MenteeTask() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["task"],
-    queryFn: fetchTasks,
+    queryFn: taskAPI.getTasks,
   });
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;

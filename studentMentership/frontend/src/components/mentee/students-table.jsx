@@ -11,7 +11,7 @@ import StatsCard from "../../components/barGraph/stats-card";
 import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../../api/client.js";
+import { studentUnionAPI } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 
 export function StudentsTable({ title, subtitle, students }) {
@@ -404,7 +404,7 @@ function AASTUStudent() {
     error,
   } = useQuery({
     queryKey: ["studentData"],
-    queryFn: fetchStudentData,
+    queryFn: studentUnionAPI.getStudents,
   });
 
   if (isLoading) return <Spinner />;

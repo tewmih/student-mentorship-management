@@ -171,81 +171,18 @@ export const studentUnionAPI = {
       data,
     }),
   getUsers: () => api("/api/student-union/users"),
+  getStudents: () => api("/api/student-union/students"), // was fetchStudentData
+  getApplications: () => api("/api/student-union/applications"), // was fetchApplication
 };
 
-// ==================== SIMS API (Legacy Functions) ====================
-// These functions maintain compatibility with existing SIMS.jsx usage
-
-// Environment variables for SIMS endpoints
-const API_DEPARTMENTS_URL = import.meta.env.VITE_API_DEPARTMENTS_URL;
-const VITE_API_TASKS_URL = import.meta.env.VITE_API_TASKS_URL;
-const API_SESSIONS_URL = import.meta.env.VITE_API_SESSIONS_URL;
-const API_APPLICATIONS_URL = import.meta.env.VITE_API_APPLICATIONS_URL;
-const STUDENT_UNION_APPLICATIONS_URL = import.meta.env
-  .VITE_API_STUDENT_UNION_APPLICATIONS_URL;
-const MENTEE_MENTOR_URL = import.meta.env.VITE_API_MENTEES_URL;
-
-export const fetchStudentData = async () => {
-  const response = await axios.get(API_DEPARTMENTS_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  return response.data;
-};
-
-export const fetchTasks = async () => {
-  const response = await axios.get(VITE_API_TASKS_URL);
-  return response.data;
-};
-
-export const fetchSessions = async () => {
-  const response = await axios.get(API_SESSIONS_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  return response.data;
-};
-
-export const submitApplication = async (data) => {
-  await axios.post(API_APPLICATIONS_URL, data, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-};
-
-export const fetchApplication = async () => {
-  const response = await axios.get(STUDENT_UNION_APPLICATIONS_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  return response.data;
-};
-
-export const fetchApplicationDetails = async () => {
-  const response = await axios.get(API_APPLICATIONS_URL);
-  return response.data;
-};
-
-export const fetchMentees = async () => {
-  const response = await axios.get(process.env.VITE_API_MENTOR_MENTEES_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  return response.data;
-};
-
-export const fetchMentor = async () => {
-  const response = await axios.get(process.env.VITE_API_MENTOR_MENTEES_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  return response.data;
+// ==================== APPLICATION API ====================
+export const applicationAPI = {
+  submitApplication: (data) =>
+    api("/api/mentor/application", {
+      method: "POST",
+      data,
+    }),
+  getApplicationDetails: () => api("/api/mentor/application"),
 };
 
 // ==================== ADMIN API ====================

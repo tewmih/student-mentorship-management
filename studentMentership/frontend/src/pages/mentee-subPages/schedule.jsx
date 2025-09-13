@@ -2,12 +2,12 @@ import CalendarComponent from "../../ui/Calendar";
 import Task from "../../ui/Task";
 import Spinner from "../../ui/Spinner";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSessions } from "../../api/client.js";
+import { sessionAPI } from "../../api/client.js";
 
 function schedule() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["session"],
-    queryFn: fetchSessions,
+    queryFn: sessionAPI.getSessions,
   });
   console.log(data);
   if (isLoading) return <Spinner />;

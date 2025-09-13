@@ -1,7 +1,7 @@
 import DepartmentChart from "../../components/barGraph/Department-chart";
 import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMentees } from "../../api/client.js";
+import { mentorAPI } from "../../api/client.js";
 import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 import { StudentsTable } from "../../components/mentee/students-table";
@@ -129,7 +129,7 @@ function Mentee() {
     error,
   } = useQuery({
     queryKey: ["studentData"],
-    queryFn: fetchMentees,
+    queryFn: mentorAPI.getMentees,
   });
 
   if (isLoading) return <Spinner />;
