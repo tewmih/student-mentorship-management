@@ -133,6 +133,12 @@ const Header = () => {
                   replace: true, // This replaces the current history entry
                 }
               );
+
+              navigate("/conversations", {
+                state: { currentPage: "Message" },
+                replace: true, // This replaces the current history entry
+              });
+
             }}
           >
             {/* Replaced react-icons with inline SVG */}

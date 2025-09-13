@@ -15,7 +15,12 @@ import Admin from "./pages/Admin/Admin.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Toaster } from "sonner";
+
 import Navbar from "./components/layout/Navbar.jsx";
+
+import Conversations from "./components/Conversations.jsx";
+import { ChartBar, ChartLine, ChartPie } from "lucide-react";
+import ChartArea from "./pages/ChatArea.jsx";
 
 function App() {
   const [tokenState, setTokenState] = useState(localStorage.getItem("token"));
@@ -123,6 +128,24 @@ function App() {
                 <ApplicationDetail />
               </ProtectedRoute>
             }
+          />
+          {/* adding conversation routes */}
+          <Route 
+            path="/conversations" 
+            element={
+              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+                <Conversations />
+              </ProtectedRoute>
+            } 
+          />
+          {/* adding chat routes */}
+          <Route 
+            path="/conversations/:id" 
+            element={
+              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+                <ChartArea />
+              </ProtectedRoute>
+            } 
           />
         </Routes>
         <Footer />

@@ -10,7 +10,9 @@ function Login({ setTokenState }) {
     e.preventDefault();
     try {
       const data = await authAPI.login(studentId, password);
-
+// for debugging
+      console.log("Login response data:", data);
+      // Save token and role to localStorage
       localStorage.setItem("role", data.role);
       localStorage.setItem("token", data.token);
       localStorage.setItem("id", data.id);

@@ -1,22 +1,28 @@
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
-import { createMessage } from "./controllers/MessageController.js";
+import Message from "./models/message.js";
+import Student from "./models/student.js";
 
-const onlineUsers = {}; // store online users globally
+let io;
+const onlineUsers = new Map();
 
-function setupSocket(server) {
-  const io = new Server(server, {
-    cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] },
+export const setupSocket = (server) => {
+  io = new Server(server, {
+    cors: {
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST"],
+      credentials: true,
+    },
   });
 
-  // Socket authentication
+  // --- Socket authentication
   io.use((socket, next) => {
     const token = socket.handshake.auth?.token;
     if (!token) return next(new Error("Authentication error"));
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      socket.user = decoded;
+      const payload = jwt.verify(token, process.env.JWT_SECRET);
+      socket.userId = payload.id;
       next();
     } catch (err) {
       next(new Error("Authentication error"));
@@ -24,44 +30,108 @@ function setupSocket(server) {
   });
 
   io.on("connection", (socket) => {
-    const { id, student_id } = socket.user;
-    console.log(id, student_id);
-    console.log(`User connected: ${student_id}`);
+    const userId = socket.userId;
+    console.log("User connected:", userId, "Socket ID:", socket.id);
 
-    onlineUsers[student_id] = socket.student_id;
-    io.emit("update_user_status", { uId: student_id, status: "online" });
+    // --- Add to online users
+    socket.join(userId);
+    onlineUsers.set(userId, socket.id);
 
-    // Join a room
-    socket.on("join_room", (roomId) => {
-      socket.join(roomId);
-      console.log(`${socket.user.student_id} joined room ${roomId}`);
+    // Notify everyone about online users
+    socket.emit("onlineUsers", Array.from(onlineUsers.keys()));
+    socket.broadcast.emit("userOnline", { userId });
+
+    // --- Typing events
+    socket.on("typing", ({ receiver }) => {
+      io.to(receiver).emit("typing", { sender: userId });
     });
 
-    // ---------------- SEND MESSAGE ----------------
-    socket.on("send_message", async (data) => {
-      const newMessage = await createMessage(socket, data);
-      if (!newMessage) return;
+    socket.on("stopTyping", ({ receiver }) => {
+      io.to(receiver).emit("stopTyping", { sender: userId });
+    });
 
-      if (data.roomId) {
-        io.to(data.roomId).emit("receive_message", newMessage);
-      } else {
-        const receiverSocketId = onlineUsers[data.receiver_id];
-        // if (receiverSocketId) {
-        //   io.to(receiverSocketId).emit("receive_message", newMessage);
-        // }
-        io.emit("receive_message", newMessage);
+    // --- Send message
+    socket.on(
+      "sendMessage",
+      async ({ receiver, content, replyTo, attachments }) => {
+        try {
+          const created = await Message.create({
+            sender_id: userId,
+            receiver_id: receiver,
+            content,
+            replyTo,
+            attachments,
+          });
+
+          const message = await Message.findOne({
+            where: { id: created.id },
+            include: [
+              {
+                model: Student,
+                as: "sender",
+                attributes: ["full_name", "profile_photo_url"],
+              },
+              {
+                model: Student,
+                as: "receiver",
+                attributes: ["full_name", "profile_photo_url"],
+              },
+            ],
+          });
+
+          io.to(receiver).emit("newMessage", message);
+          io.to(userId).emit("newMessage", message);
+        } catch (err) {
+          console.error("Error sending message:", err.message);
+        }
+      }
+    );
+
+    // --- React to message
+    socket.on("reactMessage", async ({ messageId, emoji }) => {
+      try {
+        const msg = await Message.findByPk(messageId);
+        if (!msg) return;
+
+        let reactions = msg.reactions || [];
+        const existing = reactions.find((r) => r.user === userId);
+
+        if (existing) {
+          if (existing.emoji === emoji) {
+            reactions = reactions.filter((r) => r.user !== userId); // remove
+          } else {
+            existing.emoji = emoji; // update
+          }
+        } else {
+          reactions.push({ user: userId, emoji }); // add
+        }
+
+        await msg.update({ reactions });
+
+        io.to(msg.receiver_id.toString()).emit("messageUpdated", msg);
+        io.to(msg.sender_id.toString()).emit("messageUpdated", msg);
+      } catch (err) {
+        console.error("Error reacting to message:", err.message);
       }
     });
 
-    // Disconnect
+    // --- Mark messages as read
+    socket.on("markRead", ({ sender }) => {
+      io.to(sender).emit("messagesRead", { reader: userId });
+    });
+
+    // --- Disconnect
     socket.on("disconnect", () => {
-      console.log(`User disconnected: ${student_id}`);
-      delete onlineUsers[student_id];
-      io.emit("update_user_status", { uId: student_id, status: "offline" });
+      onlineUsers.delete(userId);
+      io.emit("userOffline", { userId });
+      console.log("User disconnected:", userId);
     });
   });
 
   return io;
-}
+};
 
-export default setupSocket;
+export const getIO = () => {
+  if (!io) throw new Error("Socket.io not initialized!");
+  return io;
+};

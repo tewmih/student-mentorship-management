@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { mentorAPI } from "../../api/client.js";
 
 function MentorApplicationForm() {
   const [message, setMessage] = useState(null);
@@ -29,19 +29,11 @@ function MentorApplicationForm() {
     }
   };
 
-  // Direct API call function with hardcoded endpoint
+  // Use the unified API client
   const submitApplication = async (data) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/mentor/application",
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await mentorAPI.submitApplication(data);
     console.log("response of application:", response);
-    return response.data;
+    return response;
   };
 
   const { mutate, isLoading } = useMutation({
@@ -71,38 +63,38 @@ function MentorApplicationForm() {
   return (
     <div className="min-h-screen bg-background text-foreground py-8">
       <div className="max-w-2xl mx-auto px-4">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
           className="bg-background text-foreground border border-border rounded-lg shadow-lg p-8 space-y-6"
-        >
+    >
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-foreground mb-2">
-              Mentor Application
-            </h2>
+        Mentor Application
+      </h2>
             <p className="text-foreground/60">
               Apply to become a mentor and help guide fellow students
             </p>
           </div>
 
-          {message && (
-            <div
+      {message && (
+        <div
               className={`px-4 py-3 rounded-lg text-sm font-medium text-center ${
-                message.type === "success"
+            message.type === "success"
                   ? "bg-green-100 text-green-800 border border-green-200"
                   : "bg-red-100 text-red-800 border border-red-200"
-              }`}
-            >
-              {message.text}
-            </div>
-          )}
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
+        <div>
               <label className="block text-sm font-semibold text-foreground mb-2">
                 Student ID <span className="text-blue-500 text-xs">(Auto-filled from your login)</span>
-              </label>
-              <input
-                type="text"
+          </label>
+          <input
+            type="text"
                 value={getStudentIdFromToken()}
                 readOnly
                 className="w-full border border-border bg-gray-100 text-gray-600 px-4 py-3 rounded-lg cursor-not-allowed"
@@ -149,13 +141,13 @@ function MentorApplicationForm() {
                 <p className="text-red-500 text-sm mt-1">
                   {errors.department.message}
                 </p>
-              )}
-            </div>
+          )}
+        </div>
 
-            <div>
+        <div>
               <label className="block text-sm font-semibold text-foreground mb-2">
                 Academic Year <span className="text-red-500">*</span>
-              </label>
+          </label>
               <select
                 {...register("year", {
                   required: "Academic year is required",
@@ -174,15 +166,15 @@ function MentorApplicationForm() {
                 <p className="text-red-500 text-sm mt-1">
                   {errors.year.message}
                 </p>
-              )}
-            </div>
-          </div>
+          )}
+        </div>
+      </div>
 
-          <div>
+      <div>
             <label className="block text-sm font-semibold text-foreground mb-2">
               Motivation <span className="text-red-500">*</span>
-            </label>
-            <textarea
+        </label>
+        <textarea
               {...register("motivation", {
                 required: "Motivation is required",
                 minLength: {
@@ -193,19 +185,19 @@ function MentorApplicationForm() {
               rows={4}
               className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
               placeholder="Explain why you want to become a mentor and how you can help other students..."
-            />
-            {errors.motivation && (
+        />
+        {errors.motivation && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.motivation.message}
               </p>
-            )}
-          </div>
+        )}
+      </div>
 
-          <div>
+      <div>
             <label className="block text-sm font-semibold text-foreground mb-2">
               Experience <span className="text-red-500">*</span>
-            </label>
-            <textarea
+        </label>
+        <textarea
               {...register("experience", {
                 required: "Experience is required",
                 minLength: {
@@ -216,30 +208,30 @@ function MentorApplicationForm() {
               rows={4}
               className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
               placeholder="Describe your relevant experience, achievements, and skills that make you a good mentor..."
-            />
-            {errors.experience && (
+        />
+        {errors.experience && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.experience.message}
               </p>
-            )}
-          </div>
+        )}
+      </div>
 
-          <div>
+      <div>
             <label className="block text-sm font-semibold text-foreground mb-2">
               Region <span className="text-red-500">*</span>
-            </label>
-            <select
+        </label>
+        <select
               {...register("region", {
                 required: "Region is required",
               })}
               className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             >
               <option value="">Select your region</option>
-              <option value="Tigray">Tigray</option>
+          <option value="Tigray">Tigray</option>
               <option value="Afar">Afar</option>
-              <option value="Amhara">Amhara</option>
-              <option value="Oromia">Oromia</option>
-              <option value="Somali">Somali</option>
+          <option value="Amhara">Amhara</option>
+          <option value="Oromia">Oromia</option>
+          <option value="Somali">Somali</option>
               <option value="Benishangul-Gumuz">Benishangul-Gumuz</option>
               <option value="Gambela">Gambela</option>
               <option value="Harari">Harari</option>
@@ -255,73 +247,73 @@ function MentorApplicationForm() {
               </option>
               <option value="Addis Ababa">Addis Ababa</option>
               <option value="Dire Dawa">Dire Dawa</option>
-            </select>
-            {errors.region && (
+        </select>
+        {errors.region && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.region.message}
               </p>
-            )}
-          </div>
+        )}
+      </div>
 
           <div className="space-y-6">
             <h3 className="text-xl font-semibold text-foreground border-b border-border pb-2">
               Technical Skills Assessment
-            </h3>
+        </h3>
             <p className="text-sm text-foreground/60">
               Rate your technical skills from 1 (beginner) to 10 (expert)
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+          <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">
                   Internet & Web Skills
-                </label>
-                <input
-                  type="number"
+            </label>
+            <input
+              type="number"
                   {...register("technical_internet", {
                     min: { value: 1, message: "Minimum rating is 1" },
                     max: { value: 10, message: "Maximum rating is 10" },
                   })}
                   className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  min="1"
-                  max="10"
+              min="1"
+              max="10"
                   placeholder="Rate 1-10"
-                />
+            />
                 {errors.technical_internet && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.technical_internet.message}
                   </p>
                 )}
-              </div>
+          </div>
 
-              <div>
+          <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">
                   Social Media & Communication
-                </label>
-                <input
-                  type="number"
+            </label>
+            <input
+              type="number"
                   {...register("technical_social_networks", {
                     min: { value: 1, message: "Minimum rating is 1" },
                     max: { value: 10, message: "Maximum rating is 10" },
                   })}
                   className="w-full border border-border bg-background text-foreground px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  min="1"
-                  max="10"
+              min="1"
+              max="10"
                   placeholder="Rate 1-10"
-                />
+            />
                 {errors.technical_social_networks && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.technical_social_networks.message}
                   </p>
                 )}
-              </div>
-            </div>
           </div>
+        </div>
+      </div>
 
           <div className="pt-6">
-            <button
-              type="submit"
-              disabled={isSubmitting || isLoading}
+      <button
+        type="submit"
+        disabled={isSubmitting || isLoading}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               {isSubmitting || isLoading ? (
@@ -351,9 +343,9 @@ function MentorApplicationForm() {
               ) : (
                 "Submit Application"
               )}
-            </button>
+      </button>
           </div>
-        </form>
+    </form>
       </div>
     </div>
   );

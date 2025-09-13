@@ -119,3 +119,40 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+export const getProfiles = async (req, res) => {
+  console.log("Profile End point hit!");
+  try {
+    const { id } = req.params;
+    console.log("Student type:", typeof id);
+
+    // Using student_id to find the student
+    const result = await Student.findOne({
+      where: { student_id: id },
+    });
+
+    if (!result) return res.status(404).json({ message: "Student not found" });
+
+    return res.json({
+      email: result.email,
+      year: result.year,
+      student_id: result.student_id,
+      full_name: result.full_name,
+      department: result.department,
+      profile_photo: result.profile_photo,
+      cover_photo: result.cover_photo,
+      bio: result.bio,
+      experience: result.experience,
+      about: result.about,
+      role: result.role,
+      profile_photo_url: result.profile_photo
+        ? `${req.protocol}://${req.get("host")}/uploads/${result.profile_photo}`
+        : null,
+      cover_photo_url: result.cover_photo
+        ? `${req.protocol}://${req.get("host")}/uploads/${result.cover_photo}`
+        : null,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
