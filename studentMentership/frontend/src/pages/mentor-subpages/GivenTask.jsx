@@ -1,14 +1,14 @@
 import Task from "../../ui/Task";
 import StatsCard from "../../components/barGraph/stats-card";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "../../services/SIMS";
+import { taskAPI } from "../../api/client.js";
 import { Users } from "lucide-react";
 import DonutChart from "../../ui/chart/DonutChart";
 import Spinner from "../../ui/Spinner";
 function GiveTask() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["task"],
-    queryFn: fetchTasks,
+    queryFn: taskAPI.getTasks,
   });
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load student information</p>;

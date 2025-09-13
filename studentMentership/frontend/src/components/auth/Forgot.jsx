@@ -64,6 +64,9 @@ function Forgot() {
         >
             Reset Password
           </button>
+          toast.success("Reset link sent to your email.");
+          // redirect to login page
+          window.location.href = "/login";
         </form>
 
         {error && <p className="mt-4 text-sm text-red-600">{error}</p>}

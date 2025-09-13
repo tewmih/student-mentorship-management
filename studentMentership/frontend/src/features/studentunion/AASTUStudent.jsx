@@ -4,7 +4,7 @@ import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 import { StudentsTable } from "../../components/mentee/students-table";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../../services/SIMS";
+import { studentUnionAPI } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 
 // This function processes the raw student data to calculate department counts
@@ -131,7 +131,7 @@ function AASTUStudent() {
     error,
   } = useQuery({
     queryKey: ["studentData"],
-    queryFn: fetchStudentData,
+    queryFn: studentUnionAPI.getStudents,
   });
 
   if (isLoading) return <Spinner />;

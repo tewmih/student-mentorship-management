@@ -19,14 +19,13 @@ function MentorPage() {
   const navItems = [
     "Dashboard",
     "My Mentee",
-    "Task",
+
     "Schedule",
     "Application",
     "Messages",
-    "Settings",
   ];
-   // Check for navigation state when component mounts
-   useEffect(() => {
+  // Check for navigation state when component mounts
+  useEffect(() => {
     if (location.state?.currentPage) {
       setActivePage(location.state.currentPage);
     }
@@ -38,18 +37,14 @@ function MentorPage() {
         return <MentorDashboard />;
       case "My Mentee":
         return <Mentee />;
-      case "Task":
-        return <Task />;
+
       case "Schedule": // fixed case
         return <Schedule />;
       case "Application": // fixed case
         return <MentorApplicationForm />;
       case "Messages":
         return <Messages />;
-      case "Settings":
-        return <PlaceholderPage pageName="Settings" />;
-      case "Logout":
-        return <PlaceholderPage pageName="Logout" />;
+
       default:
         return <StudentDashboard />;
     }

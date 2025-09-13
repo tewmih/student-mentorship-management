@@ -168,7 +168,6 @@ function Security() {
               className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
               Sign Out All Devices
-              toast.success("Signed out from all devices");
             </button>
           </div>
         </div>
