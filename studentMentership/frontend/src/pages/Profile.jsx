@@ -14,6 +14,7 @@ const Profile = () => {
     experience: "",
   });
   const [editMessage, setEditMessage] = useState("");
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,13 +51,31 @@ const Profile = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Here you would call an API to update the profile
-      // await profileAPI.updateProfile(editData);
+      setEditMessage("Updating profile...");
+
+      // Prepare the data to send
+      const updateData = {};
+      if (editingSection === "about") {
+        updateData.about = editData.about;
+      } else if (editingSection === "bio") {
+        updateData.bio = editData.bio;
+      } else if (editingSection === "experience") {
+        updateData.experience = editData.experience;
+      }
+
+      // Call the API to update the profile
+      await profileAPI.updateProfile(updateData);
+
       setEditMessage("Profile updated successfully!");
       setEditingSection(null);
+
       // Reload profile to get updated data
-      loadProfile();
+      await loadProfile();
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setEditMessage(""), 3000);
     } catch (err) {
+      console.error("Profile update error:", err);
       setEditMessage("Error updating profile: " + err.message);
     }
   };
@@ -75,6 +94,37 @@ const Profile = () => {
       bio: profile.bio || "",
       experience: profile.experience || "",
     });
+  };
+
+  const handlePhotoUpload = async (photoType) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        setUploadingPhoto(true);
+        setEditMessage(`Uploading ${photoType}...`);
+
+        const files = {};
+        files[photoType] = file;
+
+        await profileAPI.updateProfile({}, files);
+
+        setEditMessage(`${photoType} updated successfully!`);
+        await loadProfile();
+
+        setTimeout(() => setEditMessage(""), 3000);
+      } catch (err) {
+        console.error("Photo upload error:", err);
+        setEditMessage(`Error uploading ${photoType}: ${err.message}`);
+      } finally {
+        setUploadingPhoto(false);
+      }
+    };
+    input.click();
   };
 
   // Helper function to display null/empty values
@@ -132,7 +182,7 @@ const Profile = () => {
           {/* Header with Profile Icon */}
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">Profile</h1>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 group">
               {profile.profile_photo_url ? (
                 <img
                   src={profile.profile_photo_url}
@@ -140,19 +190,15 @@ const Profile = () => {
                   className="w-36 h-32 rounded-full object-cover border-2 border-border"
                 />
               ) : (
-                <span className="w-36 h-32 rounded-full bg-gray-200 flex items-center justify-center border-2 border-border overflow-hidden">
+                <span className="w-28 h-30 rounded-full bg-gray-200 flex items-center justify-center border-2 border-border overflow-hidden">
                   <DummyProfileIcon width={144} height={128} />
                 </span>
               )}
-              {/* {profile.profile_photo_url ? (
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-border">
-                  <span className="text-lg text-gray-500">
-                    {profile.full_name?.charAt(0) || "?"}
-                  </span>
-                </div>
-              )} */}
-              <MdModeEdit />
+              <MdModeEdit
+                className="w-8 h-8 relative top-10 right-20 text-primary-foreground bg-primary rounded-full p-1 hover:bg-primary/90 cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100"
+                onClick={() => handlePhotoUpload("profile_photo")}
+                disabled={uploadingPhoto}
+              />
             </div>
           </div>
 
@@ -160,22 +206,6 @@ const Profile = () => {
             <div className="space-y-8">
               {/* Profile Header */}
               <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="flex-shrink-0">
-                  {profile.profile_photo_url ? (
-                    <img
-                      src={profile.profile_photo_url}
-                      alt="Profile"
-                      className="w-32 h-32 rounded-full object-cover border-4 border-border"
-                    />
-                  ) : (
-                    <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center border-4 border-border">
-                      <span className="text-4xl text-gray-500">
-                        {profile.full_name?.charAt(0) || "?"}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold mb-2">
                     {profile.full_name}
