@@ -98,6 +98,7 @@ const resetPassword = async (req, res) => {
 };
 
 async function login(req, res) {
+  console.log("Login request received:", req.body);
   const { student_id, password } = req.body;
   // Validation
   if (!student_id || typeof student_id !== "string") {

@@ -18,6 +18,37 @@ function MentorApplicationForm() {
     reset,
   } = useForm();
 
+  // Function to get student ID from JWT token
+  const getStudentIdFromToken = () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return "No token found";
+      
+      // Decode JWT token (simple base64 decode of payload)
+      const payload = token.split('.')[1];
+      const decoded = JSON.parse(atob(payload));
+      return decoded.student_id || "ID not found in token";
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return "Error reading token";
+    }
+  };
+
+  // Direct API call function with hardcoded endpoint
+  const submitApplication = async (data) => {
+    const response = await axios.post(
+      "http://localhost:4000/api/mentor/application",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log("response of application:", response);
+    return response.data;
+  };
+
   const { mutate, isLoading } = useMutation({
     mutationFn: submitApplication,
     onSuccess: () => {

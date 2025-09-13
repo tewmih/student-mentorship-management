@@ -123,8 +123,8 @@ const Header = () => {
           <div
             className="relative cursor-pointer"
             onClick={() => {
-              navigate(`/${localStorage.getItem("role") == "student_union" ? "student-union" : localStorage.getItem("role")}`, {
-                state: { currentPage: "Messages" },
+              navigate("/conversations", {
+                state: { currentPage: "Message" },
                 replace: true, // This replaces the current history entry
               });
             }}

@@ -3,7 +3,7 @@ import Message from "../models/message.js";
 import Student from "../models/student.js";
 import { Op } from "sequelize";
 import Mentee from "../models/mentee.js";
-
+import mongoose from "mongoose";
 // ---------------- CREATE MESSAGE ----------------
 export const createMessage = async (socket, data) => {
   try {
@@ -126,5 +126,138 @@ export const findMenteesForMentor = async (req, res) => {
   } catch (error) {
     console.error("Error finding mentees/mentor:", error);
     return res.status(500).json({ message: "Server error" });
+  }
+};
+export const getInbox = async (req, res) => {
+  console.log("Inbox endpoint hit");
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const currentUserId = req.user.student_id;
+
+    // 1. Get all messages where current user is sender or receiver
+    const messages = await Message.findAll({
+      where: {
+        [Op.or]: [{ sender_id: currentUserId }, { receiver_id: currentUserId }],
+      },
+      include: [
+        {
+          model: Student,
+          as: "sender",
+          attributes: ["student_id", "full_name", "profile_photo"],
+        },
+        {
+          model: Student,
+          as: "receiver",
+          attributes: ["student_id", "full_name", "profile_photo"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    // 2. Group messages by the "other user"
+    const conversations = {};
+    for (const msg of messages) {
+      const otherUser =
+        msg.sender_id === currentUserId ? msg.receiver : msg.sender;
+
+      if (!otherUser) continue;
+
+      if (!conversations[otherUser.student_id]) {
+        conversations[otherUser.student_id] = {
+          _id: otherUser.student_id,
+          user: {
+            _id: otherUser.student_id,
+            name: otherUser.full_name,
+            avatar: otherUser.avatar,
+          },
+          lastMessage: {
+            content: msg.content,
+            createdAt: msg.createdAt,
+          },
+          unreadCount: 0,
+        };
+      }
+
+      // Count unread messages where current user is receiver
+      if (msg.receiver_id === currentUserId && !msg.isRead) {
+        conversations[otherUser.student_id].unreadCount += 1;
+      }
+    }
+
+    // 3. Sort by lastMessage.createdAt (newest first)
+    const sorted = Object.values(conversations).sort(
+      (a, b) =>
+        new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt)
+    );
+
+    res.json(sorted);
+  } catch (err) {
+    console.error("Inbox error:", err);
+    res.status(500).json({
+      message: "Error fetching inbox",
+      error: err.message,
+    });
+  }
+};
+export const markMessagesRead = async (req, res) => {
+  const { userId } = req.params;
+  const currentUserId = req.user.id;
+
+  try {
+    await Message.update(
+      { isRead: true },
+      {
+        where: {
+          sender_id: userId,
+          receiver_id: currentUserId,
+          isRead: false,
+        },
+      }
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error marking messages as read", error: err.message });
+  }
+};
+
+// Get conversation between two users
+export const getConversation = async (req, res) => {
+  try {
+    const { userId } = req.params; // the other person
+    const currentUserId = req.user.student_id;
+
+    const messages = await Message.findAll({
+      where: {
+        [Op.or]: [
+          { sender_id: currentUserId, receiver_id: userId },
+          { sender_id: userId, receiver_id: currentUserId },
+        ],
+      },
+      order: [["createdAt", "ASC"]],
+      include: [
+        {
+          model: Student,
+          as: "sender",
+          attributes: ["full_name", "profile_photo"],
+        },
+        {
+          model: Student,
+          as: "receiver",
+          attributes: ["full_name", "profile_photo"],
+        },
+      ],
+    });
+
+    res.json(messages);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching conversation", error: err.message });
   }
 };
