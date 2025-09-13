@@ -2,7 +2,7 @@ import CalendarComponent from "../../ui/Calendar";
 import Task from "../../ui/Task";
 import Spinner from "../../ui/Spinner";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSessions } from "../../services/SIMS";
+import { fetchSessions } from "../../api/client.js";
 
 function schedule() {
   const { data, isLoading, error } = useQuery({

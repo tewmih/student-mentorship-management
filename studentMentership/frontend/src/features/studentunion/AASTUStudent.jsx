@@ -4,7 +4,7 @@ import { Users } from "lucide-react";
 import PieChartComponent from "../../ui/chart/PieChartComponent";
 import { StudentsTable } from "../../components/mentee/students-table";
 import { useQuery } from "@tanstack/react-query";
-import { fetchStudentData } from "../../services/SIMS";
+import { fetchStudentData } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 
 // This function processes the raw student data to calculate department counts

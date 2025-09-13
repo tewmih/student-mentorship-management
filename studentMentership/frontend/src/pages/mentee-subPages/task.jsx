@@ -1,5 +1,5 @@
 import Task from "../../ui/Task";
-import { fetchTasks } from "../../services/SIMS";
+import { fetchTasks } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 import { useQuery } from "@tanstack/react-query";
 

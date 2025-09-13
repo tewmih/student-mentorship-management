@@ -1,6 +1,6 @@
 import CalendarComponent from "../../ui/Calendar";
 import Task from "../../ui/Task";
-import { fetchSessions } from "../../services/SIMS";
+import { fetchSessions } from "../../api/client.js";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../ui/Spinner";
 
