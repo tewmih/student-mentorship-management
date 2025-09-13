@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"; // Import useParams
-import { fetchApplicationDetails } from "../../services/SIMS";
+import { fetchApplicationDetails } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 
 function ApplicationDetail() {
