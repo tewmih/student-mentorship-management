@@ -118,6 +118,24 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          {/* adding conversation routes */}
+          <Route 
+            path="/conversations" 
+            element={
+              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+                <Conversations />
+              </ProtectedRoute>
+            } 
+          />
+          {/* adding chat routes */}
+          <Route 
+            path="/conversations/:id" 
+            element={
+              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+                <ChartArea />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
         <Footer />
       </BrowserRouter>
