@@ -62,7 +62,7 @@ const Header = () => {
   }, [dropDown]);
 
   return (
-    <div className="fixed w-full z-50 bg-background text-foreground font-sans pb-4 antialiased mx-auto mb-2">
+    <div className="fixed w-full  z-50 bg-background text-foreground font-sans pb-4 antialiased mx-auto mb-2">
       <div className="flex items-center justify-between bg-background text-foreground py-4 shadow-md max-w-7xl border border-border px-6">
         {/* Left section: Logo and navigation links */}
         <NavLink className="flex items-center space-x-8" to="/">

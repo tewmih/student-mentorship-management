@@ -5,7 +5,7 @@ const NavItem = ["AboutUs", "Contact"];
 
 export default function Navbar() {
   return (
-    <div className="flex fixed z-100 items-center justify-between h-15 bg-gray-50 w-[100%] shadow-sm px-6 ">
+    <div className="flex fixed z-100 items-center justify-between h-20 bg-gray-50 w-[100%] shadow-sm px-6 ">
       {/* Left: Logo */}
       <NavLink to="/" className="focus:outline-none">
         <img src="/Logo.png" alt="student mentor logo" className="h-12 w-12" />
