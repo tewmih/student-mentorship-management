@@ -45,7 +45,7 @@ function Chat() {
   // -------- SOCKET --------
   useEffect(() => {
     if (!token) return;
-    const socketIo = io("http://localhost:5000", { auth: { token } });
+    const socketIo = io("http://localhost:4000", { auth: { token } });
     setSocket(socketIo);
 
     socketIo.on("update_user_status", ({ uId, status }) => {
@@ -77,7 +77,7 @@ function Chat() {
         if (selectedRoom) {
           socket.emit("join_room", selectedRoom.id);
           const res = await axios.get(
-            `http://localhost:5000/api/chat/messages?roomId=${selectedRoom.id}`,
+            `http://localhost:4000/api/chat/messages?roomId=${selectedRoom.id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setChatHistory((prev) => ({
@@ -88,7 +88,7 @@ function Chat() {
 
         if (selectedUser) {
           const res = await axios.get(
-            `http://localhost:5000/api/chat/messages?student1=${userId}&student2=${selectedUser.id}`,
+            `http://localhost:4000/api/chat/messages?student1=${userId}&student2=${selectedUser.id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const key = `user_${[userId, selectedUser.id].sort().join("_")}`;

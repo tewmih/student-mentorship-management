@@ -202,3 +202,43 @@ export const getInbox = async (req, res) => {
     });
   }
 };
+
+// Get conversation between two users
+export const getConversation = async (req, res) => {
+  try {
+    const { userId } = req.params; // the other person
+    const currentUserId = req.user.id;
+
+    const messages = await Message.find({
+      $or: [
+        { sender: currentUserId, receiver: userId },
+        { sender: userId, receiver: currentUserId },
+      ],
+    })
+      .sort({ createdAt: 1 }) // oldest → newest
+      .populate("sender", "name avatar")
+      .populate("receiver", "name avatar");
+
+    res.json(messages);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching conversation", error: err.message });
+  }
+};
+
+export const markMessagesRead = async (req, res) => {
+  const { userId } = req.params;
+  const currentUserId = req.user.id;
+
+  try {
+    await Message.updateMany(
+      { sender: userId, receiver: currentUserId, isRead: false },
+      { $set: { isRead: true } }
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Error marking messages as read" });
+  }
+};

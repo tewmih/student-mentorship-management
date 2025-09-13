@@ -45,7 +45,7 @@ function Conversations() {
   }, [user?._id]);
 
   const openChat = (id) => {
-    navigate(`/chat/${id}`);
+    navigate(`/conversations/${id}`);
   };
 
   return (
