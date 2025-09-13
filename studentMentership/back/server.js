@@ -18,7 +18,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(
@@ -60,7 +60,11 @@ setupSocket(server); // <-- attach socket.io to this server
     server.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`🌐 API available at http://localhost:${PORT}`);
-      console.log(`🔒 JWT Secret: ${process.env.JWT_SECRET ? 'Configured' : 'NOT CONFIGURED'}`);
+      console.log(
+        `🔒 JWT Secret: ${
+          process.env.JWT_SECRET ? "Configured" : "NOT CONFIGURED"
+        }`
+      );
     });
   } catch (error) {
     console.error("Unable to connect to MySQL:", error);

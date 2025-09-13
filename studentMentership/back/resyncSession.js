@@ -4,7 +4,7 @@ import sequelize from "./config/db.js";
 import Petition from "./models/petition.js";
 
 import Mentee from "./models/mentee.js";
-import Message from "./models/Message.js";
+import Message from "./models/message.js";
 async function resyncSession() {
   try {
     await sequelize.authenticate();
