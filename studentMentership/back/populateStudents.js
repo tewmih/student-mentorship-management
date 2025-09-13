@@ -4,7 +4,7 @@ import Student from "./models/student.js";
 // Sample Ethiopian names and data
 const ethiopianStudents = [
   {
-    student_id: "ETS0001/25",
+    student_id: "ETS0001/14",
     full_name: "Abebe Kebede",
     username: "abebe.kebede",
     email: "abebe.kebede@aastu.edu.et",
@@ -15,7 +15,7 @@ const ethiopianStudents = [
     bio: "Passionate about software development and artificial intelligence."
   },
   {
-    student_id: "ETS0002/25",
+    student_id: "ETS0002/14",
     full_name: "Kebede Tesfaye",
     username: "kebede.tesfaye",
     email: "kebede.tesfaye@aastu.edu.et",
@@ -26,7 +26,7 @@ const ethiopianStudents = [
     bio: "Interested in web development and database management."
   },
   {
-    student_id: "ETS0003/25",
+    student_id: "ETS0003/14",
     full_name: "Tigist Alemayehu",
     username: "tigist.alemayehu",
     email: "tigist.alemayehu@aastu.edu.et",
@@ -37,7 +37,7 @@ const ethiopianStudents = [
     bio: "Focused on mobile app development and user experience design."
   },
   {
-    student_id: "ETS0004/25",
+    student_id: "ETS0004/14",
     full_name: "Meron Getachew",
     username: "meron.getachew",
     email: "meron.getachew@aastu.edu.et",
@@ -48,7 +48,7 @@ const ethiopianStudents = [
     bio: "Enthusiastic about machine learning and data science."
   },
   {
-    student_id: "ETS0005/25",
+    student_id: "ETS0005/14",
     full_name: "Yonas Assefa",
     username: "yonas.assefa",
     email: "yonas.assefa@aastu.edu.et",
@@ -59,7 +59,7 @@ const ethiopianStudents = [
     bio: "Senior student with experience in full-stack development."
   },
   {
-    student_id: "ETS0006/25",
+    student_id: "ETS0006/14",
     full_name: "Selamawit Gebremedhin",
     username: "selamawit.gebremedhin",
     email: "selamawit.gebremedhin@aastu.edu.et",
@@ -70,7 +70,7 @@ const ethiopianStudents = [
     bio: "Passionate about cybersecurity and network administration."
   },
   {
-    student_id: "ETS0007/25",
+    student_id: "ETS0007/14",
     full_name: "Dawit Hailu",
     username: "dawit.hailu",
     email: "dawit.hailu@aastu.edu.et",
@@ -81,7 +81,7 @@ const ethiopianStudents = [
     bio: "Experienced in cloud computing and DevOps practices."
   },
   {
-    student_id: "ETS0008/25",
+    student_id: "ETS0008/14",
     full_name: "Hirut Worku",
     username: "hirut.worku",
     email: "hirut.worku@aastu.edu.et",
@@ -92,7 +92,7 @@ const ethiopianStudents = [
     bio: "Active in student leadership and community development."
   },
   {
-    student_id: "ETS0009/25",
+    student_id: "ETS0009/14",
     full_name: "Bereket Tadesse",
     username: "bereket.tadesse",
     email: "bereket.tadesse@aastu.edu.et",
@@ -103,7 +103,7 @@ const ethiopianStudents = [
     bio: "Interested in game development and computer graphics."
   },
   {
-    student_id: "ETS0010/25",
+    student_id: "ETS0010/14",
     full_name: "Alemayehu Tsegaye",
     username: "alemayehu.tsegaye",
     email: "alemayehu.tsegaye@aastu.edu.et",

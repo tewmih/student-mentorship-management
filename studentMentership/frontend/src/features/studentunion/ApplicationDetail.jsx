@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"; // Import useParams
-import { fetchApplicationDetails } from "../../api/client.js";
+import { applicationAPI } from "../../api/client.js";
 import Spinner from "../../ui/Spinner";
 
 function ApplicationDetail() {
@@ -11,7 +11,7 @@ function ApplicationDetail() {
   // 2. Fetch all applications
   const { data, isLoading, error } = useQuery({
     queryKey: ["applications"],
-    queryFn: fetchApplicationDetails,
+    queryFn: applicationAPI.getApplicationDetails,
   });
 
   if (isLoading) return <Spinner />;

@@ -1,18 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import {
-  ArrowLeft,
-  Send,
-  Check,
-  CheckCheck,
-  Paperclip,
-  X,
-} from "lucide-react";
+import { ArrowLeft, Send, Check, CheckCheck, Paperclip, X } from "lucide-react";
 // import { profileAPI } from "../services/userService.js";
-import {profileAPI} from "../api/client.js";
-import socket from "./client.js";
+import { profileAPI } from "../api/client.js";
+import Socket from "./client.js";
 // import { useAuth } from "../contexts/AuthContext.jsx";
-import { getConversation, markMessagesRead,uploadFile} from "./services.js";
+import { getConversation, markMessagesRead, uploadFile } from "./services.js";
 import axios from "axios";
 // import {uploadFile} from "../services/messageService.js"
 
@@ -36,7 +29,6 @@ function Chat() {
   // const { user } = useAuth();
   const currentUser = localStorage.getItem("student_id");
 
-
   const scrollToBottom = (smooth = true) => {
     messagesEndRef.current?.scrollIntoView({
       behavior: smooth ? "smooth" : "auto",
@@ -44,15 +36,18 @@ function Chat() {
     });
   };
 
-  // --- Fetch chat partner 
+  // --- Fetch chat partner
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/api/profile/${id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const { data } = await axios.get(
+          `http://localhost:4000/api/profile/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setChatUser(data);
         console.log("Fetched chat user:", data);
       } catch (err) {
@@ -71,7 +66,7 @@ function Chat() {
 
         await markMessagesRead(id);
         if (currentUser?._id) {
-          socket.emit("markRead", { sender: id, receiver: currentUser });
+          Socket.emit("markRead", { sender: id, receiver: currentUser });
         }
         requestAnimationFrame(() => scrollToBottom(false));
       } catch (err) {
@@ -86,28 +81,33 @@ function Chat() {
   useEffect(() => {
     if (!currentUser) return;
 
-    socket.emit("join", currentUser._id);
+    Socket.emit("join", currentUser._id);
 
-    socket.on("onlineUsers", (users) => setIsOnline(users.includes(id)));
-    socket.on("userOnline", ({ userId }) => userId === id && setIsOnline(true));
-    socket.on("userOffline", ({ userId }) => userId === id && setIsOnline(false));
+    Socket.on("onlineUsers", (users) => setIsOnline(users.includes(id)));
+    Socket.on("userOnline", ({ userId }) => userId === id && setIsOnline(true));
+    Socket.on(
+      "userOffline",
+      ({ userId }) => userId === id && setIsOnline(false)
+    );
 
-    socket.on("typing", ({ sender }) => sender === id && setIsTyping(true));
-    socket.on("stopTyping", ({ sender }) => sender === id && setIsTyping(false));
+    Socket.on("typing", ({ sender }) => sender === id && setIsTyping(true));
+    Socket.on(
+      "stopTyping",
+      ({ sender }) => sender === id && setIsTyping(false)
+    );
 
-    
-    socket.on("newMessage", (msg) => {
+    Socket.on("newMessage", (msg) => {
       if (
         (msg.sender._id === id && msg.receiver._id === currentUser._id) ||
         (msg.sender._id === currentUser._id && msg.receiver._id === id)
       ) {
         setMessages((prev) => [...prev, msg]);
         if (msg.sender._id === id) {
-          socket.emit("markRead", { sender: id, receiver: currentUser._id });
+          Socket.emit("markRead", { sender: id, receiver: currentUser._id });
         }
       }
     });
-    socket.on("messagesRead", ({ reader }) => {
+    Socket.on("messagesRead", ({ reader }) => {
       if (reader === id) {
         setMessages((prev) =>
           prev.map((m) =>
@@ -117,19 +117,21 @@ function Chat() {
       }
     });
 
-    socket.on("messageUpdated", (updated) => {
-      setMessages((prev) => prev.map((m) => (m._id === updated._id ? updated : m)));
+    Socket.on("messageUpdated", (updated) => {
+      setMessages((prev) =>
+        prev.map((m) => (m._id === updated._id ? updated : m))
+      );
     });
 
     return () => {
-      socket.off("onlineUsers");
-      socket.off("userOnline");
-      socket.off("userOffline");
-      socket.off("typing");
-      socket.off("stopTyping");
-      socket.off("newMessage");
-      socket.off("messagesRead");
-      socket.off("messageUpdated");
+      Socket.off("onlineUsers");
+      Socket.off("userOnline");
+      Socket.off("userOffline");
+      Socket.off("typing");
+      Socket.off("stopTyping");
+      Socket.off("newMessage");
+      Socket.off("messagesRead");
+      Socket.off("messageUpdated");
     };
   }, [id, currentUser]);
 
@@ -154,7 +156,10 @@ function Chat() {
   };
 
   const formatTime = (dateStr) =>
-    new Date(dateStr).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    new Date(dateStr).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
   const summarizeReactions = (reactions = []) =>
     Object.entries(
@@ -186,7 +191,6 @@ function Chat() {
     return uploaded;
   };
 
-        
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
@@ -204,7 +208,7 @@ function Chat() {
 
   const handleReact = (messageId, emoji) => {
     if (!currentUser) return;
-    socket.emit("reactMessage", { messageId, userId: currentUser._id, emoji });
+    Socket.emit("reactMessage", { messageId, userId: currentUser._id, emoji });
     setContextMenu(null);
   };
 
@@ -212,11 +216,11 @@ function Chat() {
   const handleTyping = (e) => {
     setInput(e.target.value);
     if (!currentUser) return;
-    socket.emit("typing", { sender: currentUser._id, receiver: id });
+    Socket.emit("typing", { sender: currentUser._id, receiver: id });
 
     clearTimeout(window.typingTimeout);
     window.typingTimeout = setTimeout(() => {
-      socket.emit("stopTyping", { sender: currentUser._id, receiver: id });
+      Socket.emit("stopTyping", { sender: currentUser._id, receiver: id });
     }, 1200);
   };
 
@@ -226,7 +230,7 @@ function Chat() {
     const hasFiles = attachments.length > 0;
     if (!hasText && !hasFiles) return;
 
-    socket.emit("sendMessage", {
+    Socket.emit("sendMessage", {
       sender: currentUser._id,
       receiver: id,
       content: input.trim(),
@@ -236,7 +240,7 @@ function Chat() {
     setInput("");
     setReplyingTo(null);
     setAttachments([]);
-    socket.emit("stopTyping", { sender: currentUser._id, receiver: id });
+    Socket.emit("stopTyping", { sender: currentUser._id, receiver: id });
   };
 
   // --- Render
@@ -251,12 +255,16 @@ function Chat() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <img
-                src={`http://localhost:4000${chatUser.profile_photo || "/uploads/default.png"}`}
+                src={`http://localhost:4000${
+                  chatUser.profile_photo || "/uploads/default.png"
+                }`}
                 alt={chatUser.full_name || "user"}
                 className="w-10 h-10 rounded-full object-cover"
               />
               <div className="flex flex-col">
-                <span className="font-semibold">{chatUser.full_name || "User"}</span>
+                <span className="font-semibold">
+                  {chatUser.full_name || "User"}
+                </span>
                 {isOnline ? (
                   <span className="text-xs text-green-500">Online</span>
                 ) : (
@@ -265,7 +273,9 @@ function Chat() {
               </div>
             </div>
             {isTyping && (
-              <span className="text-xs text-gray-500">{chatUser.full_name} is typing...</span>
+              <span className="text-xs text-gray-500">
+                {chatUser.full_name} is typing...
+              </span>
             )}
           </div>
         )}
@@ -304,7 +314,10 @@ function Chat() {
                 e.preventDefault();
                 setContextMenu({ x: e.pageX, y: e.pageY, message: msg });
               }}
-              className={`flex ${mine ? "justify-end" : "justify-start"} relative mt-20`}>
+              className={`flex ${
+                mine ? "justify-end" : "justify-start"
+              } relative mt-20`}
+            >
               <div className={`${bubbleBase} ${bubbleColors}`}>
                 {replyPreview && (
                   <div
@@ -329,7 +342,8 @@ function Chat() {
                         ? a.url
                         : `http://localhost:4000${a.url || ""}`;
                       const looksImage =
-                        isImageUrlOrType(a.type) || isImageUrlOrType(a.url || "");
+                        isImageUrlOrType(a.type) ||
+                        isImageUrlOrType(a.url || "");
                       return (
                         <div key={i} className="rounded-lg overflow-hidden">
                           {looksImage ? (
@@ -425,7 +439,9 @@ function Chat() {
           <div className="text-sm truncate">
             Replying to:{" "}
             <span className="font-medium">
-              {replyingTo.content ? replyingTo.content.slice(0, 140) : "message"}
+              {replyingTo.content
+                ? replyingTo.content.slice(0, 140)
+                : "message"}
             </span>
           </div>
           <button
@@ -445,7 +461,11 @@ function Chat() {
             <div key={i} className="relative">
               {isImageUrlOrType(a.type) || isImageUrlOrType(a.url) ? (
                 <img
-                  src={a.url.startsWith("http") ? a.url : `http://localhost:4000${a.url}`}
+                  src={
+                    a.url.startsWith("http")
+                      ? a.url
+                      : `http://localhost:4000${a.url}`
+                  }
                   alt={a.name || "attachment"}
                   className="w-14 h-14 rounded-lg object-cover"
                 />

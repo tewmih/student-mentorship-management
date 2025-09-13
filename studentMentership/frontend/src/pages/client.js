@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-const socket = io("http://localhost:4000", {
+const Socket = io("http://localhost:4000", {
   // // withCredentials: true,
   // headers: {
   //   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -9,4 +9,4 @@ const socket = io("http://localhost:4000", {
   },
 });
 
-export default socket;
+export default Socket;
