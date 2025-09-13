@@ -134,4 +134,3 @@ export const studentUnionAPI = {
 export const profileAPI = {
   getProfile: () => api('/api/profile/'),
 };
-
