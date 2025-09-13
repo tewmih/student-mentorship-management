@@ -15,6 +15,7 @@ import Admin from "./pages/Admin/Admin.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Toaster } from "sonner";
+import Navbar from "./components/layout/Navbar.jsx";
 
 function App() {
   const [tokenState, setTokenState] = useState(localStorage.getItem("token"));
@@ -51,70 +52,77 @@ function App() {
           }}
         />
 
-        {Boolean(tokenState) && <Header />}
+        {Boolean(tokenState) ? <Header /> : <Navbar />}
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login setTokenState={setTokenState}/>} />
+          <Route
+            path="/login"
+            element={<Login setTokenState={setTokenState} />}
+          />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          
+
           {/* Protected routes with role-based access */}
-          <Route 
-            path="/mentee" 
+          <Route
+            path="/mentee"
             element={
               <ProtectedRoute requiredRole="mentee">
                 <Mentee />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/mentor" 
+          <Route
+            path="/mentor"
             element={
               <ProtectedRoute requiredRole="mentor">
                 <MentorPage />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/student-union" 
+          <Route
+            path="/student-union"
             element={
               <ProtectedRoute requiredRole="student_union">
                 <StudentUnion />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/admin" 
+          <Route
+            path="/admin"
             element={
               <ProtectedRoute requiredRole="admin">
                 <Admin />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/profile" 
+          <Route
+            path="/profile"
             element={
-              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+              <ProtectedRoute
+                allowedRoles={["mentee", "mentor", "student_union", "admin"]}
+              >
                 <Profile />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/settings" 
+          <Route
+            path="/settings"
             element={
-              <ProtectedRoute allowedRoles={["mentee", "mentor", "student_union", "admin"]}>
+              <ProtectedRoute
+                allowedRoles={["mentee", "mentor", "student_union", "admin"]}
+              >
                 <Settings />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/application-detail" 
+          <Route
+            path="/application-detail"
             element={
               <ProtectedRoute allowedRoles={["student_union", "admin"]}>
                 <ApplicationDetail />
               </ProtectedRoute>
-            } 
+            }
           />
         </Routes>
         <Footer />

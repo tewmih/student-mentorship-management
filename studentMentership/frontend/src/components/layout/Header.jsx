@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle.jsx";
 import { authAPI } from "../../api/client.js";
 import { toast } from "sonner";
@@ -63,23 +63,22 @@ const Header = () => {
 
   return (
     <div className="fixed w-full z-50 bg-background text-foreground font-sans pb-4 antialiased mx-auto mb-2">
-      <nav className="flex items-center justify-between bg-background text-foreground py-4 shadow-md max-w-7xl border border-border rounded-lg px-6">
+      <div className="flex items-center justify-between bg-background text-foreground py-4 shadow-md max-w-7xl border border-border px-6">
         {/* Left section: Logo and navigation links */}
-        <div className="flex items-center space-x-8">
-          {/* Logo */}
-          <div
-            className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">
-                S
-              </span>
-            </div>
-            <span className="text-xl font-bold text-foreground">
-              StudentMentorship
-            </span>
-          </div>
+        <NavLink className="flex items-center space-x-8" to="/">
+          <img
+            src="/Logo.png"
+            alt="student mentorship logo"
+            className="h-12 w-12"
+          />
+        </NavLink>
+        <div className="flex flex-row space-x-6">
+          <button className="hover:text-purple-600 cursor-pointer select-none">
+            AboutUs
+          </button>
+          <button className="hover:text-purple-600 cursor-pointer select-none">
+            Contact
+          </button>
         </div>
 
         {/* Right section: icons and user info */}
@@ -123,10 +122,17 @@ const Header = () => {
           <div
             className="relative cursor-pointer"
             onClick={() => {
-              navigate(`/${localStorage.getItem("role") == "student_union" ? "student-union" : localStorage.getItem("role")}`, {
-                state: { currentPage: "Messages" },
-                replace: true, // This replaces the current history entry
-              });
+              navigate(
+                `/${
+                  localStorage.getItem("role") == "student_union"
+                    ? "student-union"
+                    : localStorage.getItem("role")
+                }`,
+                {
+                  state: { currentPage: "Messages" },
+                  replace: true, // This replaces the current history entry
+                }
+              );
             }}
           >
             {/* Replaced react-icons with inline SVG */}
@@ -165,7 +171,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Dropdown positioned completely outside the navbar */}
       {dropDown && <DropDown setDropDown={setDropDown} />}
